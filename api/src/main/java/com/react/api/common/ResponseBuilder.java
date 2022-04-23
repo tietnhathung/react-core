@@ -1,6 +1,6 @@
-package com.example.demo.common;
+package com.react.api.common;
 
-import com.example.demo.types.ApiData;
+import com.react.api.types.ApiData;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

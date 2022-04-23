@@ -1,10 +1,9 @@
-package com.example.demo.controller;
+package com.react.api.controller;
 
-import com.example.demo.common.ResponseBuilder;
-import com.example.demo.model.Account;
-import com.example.demo.model.Line;
-import com.example.demo.repository.LineRepository;
-import com.example.demo.types.ApiData;
+import com.react.api.common.ResponseBuilder;
+import com.react.api.model.Line;
+import com.react.api.repository.LineRepository;
+import com.react.api.types.ApiData;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

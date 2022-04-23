@@ -1,19 +1,16 @@
-package com.example.demo.controller;
+package com.react.api.controller;
 
-import com.example.demo.common.ResponseBuilder;
-import com.example.demo.model.Account;
-import com.example.demo.repository.AccountRepository;
+import com.react.api.common.ResponseBuilder;
+import com.react.api.model.Account;
+import com.react.api.repository.AccountRepository;
 
-import com.example.demo.types.ApiData;
+import com.react.api.types.ApiData;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.AbstractMap;
 import java.util.List;
-import java.util.Map;
 
 
 @RestController

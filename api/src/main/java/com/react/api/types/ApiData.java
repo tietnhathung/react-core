@@ -1,6 +1,4 @@
-package com.example.demo.types;
-
-import java.util.Map;
+package com.react.api.types;
 
 public class ApiData {
     private int httpStatus;
