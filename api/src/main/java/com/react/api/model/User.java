@@ -14,8 +14,8 @@ import java.util.Objects;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@Table(name = "IOT_Accounts")
-public class Account {
+@Table(name = "User")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
@@ -25,19 +25,9 @@ public class Account {
     @Column(name = "AccessTokenApp", length = 4000)
     private String accessTokenApp;
 
-    @Column(name = "DefaultMonitorId")
-    private Integer defaultMonitorId;
-
-    @Column(name = "DeleteAt")
-    private Instant deleteAt;
-
-    @Column(name = "DevicePlcAlias")
-    private String devicePlcAlias;
-
     @Column(name = "FullName")
     private String fullName;
 
-    @JsonIgnore
     @Column(name = "Password")
     private String password;
 
@@ -53,25 +43,10 @@ public class Account {
     @Column(name = "CreatedBy")
     private Integer createdBy;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "IOT_UserLine", joinColumns = {@JoinColumn(name = "UserId")}, inverseJoinColumns = {@JoinColumn(name = "LineId")})
-    private List<Line> lines;
-
-    @Override
-    @Transient
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Account account = (Account) o;
-        return id != null && Objects.equals(id, account.id);
-    }
-
     @Override
     @Transient
     public int hashCode() {
         return getClass().hashCode();
     }
-
 
 }

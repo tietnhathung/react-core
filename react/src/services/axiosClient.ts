@@ -3,6 +3,7 @@ import {TApiResult} from "../types/TApiResult";
 import {TApiResponse} from "../types/IApiResponse";
 
 enum StatusCode {
+    BadRequest = 400,
     Unauthorized = 401,
     Forbidden = 403,
     TooManyRequests = 429,
@@ -95,22 +96,41 @@ class Http {
     private static handleError(errors: any) {
         const {response, message} = errors;
         if (response) {
-            const {status} = response;
+            const {status,data} = response;
             switch (status) {
+                case StatusCode.BadRequest: {
+                    const {content} = data;
+                    if (content){
+                        return Promise.reject(content);
+                    }
+                    break;
+                }
                 case StatusCode.InternalServerError: {
-                    // Handle InternalServerError
+                    const {content} = data;
+                    if (content){
+                        return Promise.reject(content);
+                    }
                     break;
                 }
                 case StatusCode.Forbidden: {
-                    // Handle Forbidden
+                    const {content} = data;
+                    if (content){
+                        return Promise.reject(content);
+                    }
                     break;
                 }
                 case StatusCode.Unauthorized: {
-                    // Handle Unauthorized
+                    const {content} = data;
+                    if (content){
+                        return Promise.reject(content);
+                    }
                     break;
                 }
                 case StatusCode.TooManyRequests: {
-                    // Handle TooManyRequests
+                    const {content} = data;
+                    if (content){
+                        return Promise.reject(content);
+                    }
                     break;
                 }
             }

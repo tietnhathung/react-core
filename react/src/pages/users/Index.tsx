@@ -3,6 +3,7 @@ import {getUsers} from "../../services/userFetchServices";
 import {IUser} from "../../types/entities/IUser";
 import {Button, Card, Col, Row, Table} from 'react-bootstrap';
 import FaIcon from "../../components/FaIcon";
+import { Link } from 'react-router-dom';
 
 interface IHookUseUser {
     state: {
@@ -39,7 +40,10 @@ const Index: React.FC = props => {
             <Col md={12}>
                 <Card>
                     <Card.Header>
-                        <strong>Table</strong><span className="small ms-1">user</span>
+                        <Card.Title>
+                            User <Link className="btn btn-sm btn-primary" to="/user/create"><i className="fas fa-plus"></i> Add</Link>
+                        </Card.Title>
+
                     </Card.Header>
                     <Card.Body>
                         <Table striped bordered hover>
@@ -49,7 +53,7 @@ const Index: React.FC = props => {
                                 <th>First Name</th>
                                 <th>UserName</th>
                                 <th>Status</th>
-                                <th className="w-200-px">Function</th>
+                                <th className="w-300-px">Function</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -61,13 +65,13 @@ const Index: React.FC = props => {
                                     <td>{user.status?"Active" :"NonActive"}</td>
                                     <td className="text-center">
                                         <Button className="me-2" variant="primary"  size="sm">
-                                            <FaIcon icon="far fa-search" />
+                                            <FaIcon icon="far fa-search" /> Show
                                         </Button>
                                         <Button className="me-2 text-white" variant="success"  size="sm">
-                                            <FaIcon icon="far fa-edit" />
+                                            <FaIcon icon="far fa-pen" /> Edit
                                         </Button>
                                         <Button className="me-2 text-white" variant="danger"  size="sm">
-                                            <FaIcon icon="far fa-trash-alt" />
+                                            <FaIcon icon="far fa-trash-alt" /> Delete
                                         </Button>
                                     </td>
                                 </tr>

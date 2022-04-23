@@ -2,9 +2,8 @@ export interface IUser{
     id: number;
     fullName: string;
     username: string;
+    password: string;
     status: boolean;
-    defaultMonitorId: number;
-    devicePlcAlias: string;
     createdBy: number;
     createdAt: string;
 }

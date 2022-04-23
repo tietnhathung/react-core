@@ -1,15 +1,21 @@
-
 spring:
   datasource:
-    url: jdbc:sqlserver://192.168.31.221;databaseName=IRS_Assembly1
-    username: irs_ass1
-    password: wo3fuv3PhPHMe3
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+#    url: jdbc:sqlserver://192.168.31.221;databaseName=IRS_Assembly1
+    url: jdbc:mysql://localhost:3306/react-core
+    username: root
+    password:
+#    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    driver-class-name: com.mysql.jdbc.Driver
+
   jpa:
     open-in-view: false
     show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
     hibernate:
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: update
 

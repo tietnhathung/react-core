@@ -11,4 +11,23 @@ public class ResponseBuilder {
         apiData.setContent(data);
         return ResponseEntity.ok().body(apiData);
     }
+    public static ResponseEntity<ApiData> found(Exception errors){
+        ApiData apiData = new ApiData();
+        apiData.setHttpStatus(HttpStatus.FOUND.value());
+        apiData.setContent(errors);
+        return new ResponseEntity<>(apiData,HttpStatus.FOUND);
+    }
+    public static ResponseEntity<ApiData> build(Object data,HttpStatus status){
+        ApiData apiData = new ApiData();
+        apiData.setHttpStatus(status.value());
+        apiData.setContent(data);
+        return new ResponseEntity<>(apiData,status);
+    }
+
+    public static ResponseEntity<Object> buildObject(Object data,HttpStatus status){
+        ApiData apiData = new ApiData();
+        apiData.setHttpStatus(status.value());
+        apiData.setContent(data);
+        return new ResponseEntity<>(apiData,status);
+    }
 }

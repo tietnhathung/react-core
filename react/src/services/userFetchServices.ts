@@ -1,18 +1,16 @@
 import {TApiResult} from "../types/TApiResult";
 import http from "./axiosClient";
 import userConstants from "../constants/userConstants";
+import {IUser} from "../types/entities/IUser";
 
 export const getUsers = async ( params?: any): Promise<TApiResult> => {
     return await http.get(userConstants.api.get,{params: params});
 }
-export const createUsers = async (data: any): Promise<TApiResult> => {
-    try {
-        let apiData = await http.post(userConstants.api.post,data);
-        return {status:true,data: apiData, error: {}};
-    } catch (error) {
-        return {status:false,data: {}, error: error};
-    }
+
+export const createUsers = async (data: IUser): Promise<TApiResult> => {
+    return await http.post(userConstants.api.post,data);
 }
+
 export const updateUsers = async (id:number,data: any): Promise<TApiResult> => {
     try {
         let apiData = await http.put(userConstants.api.put.replace("{id}",id.toString()),data);

@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import './styles/App.scss';
+import './assets/styles/App.scss';
 import "./assets/fonts/fontawesome/css/all.min.css"
 
 import {HashRouter, Route, Routes } from 'react-router-dom';

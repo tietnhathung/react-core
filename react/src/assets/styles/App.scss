@@ -4,7 +4,7 @@ $enable-ltr: true; /* stylelint-disable-line scss/dollar-variable-default */
 $enable-rtl: true; /* stylelint-disable-line scss/dollar-variable-default */
 
 // Import styles
-@import "@coreui/coreui/scss/coreui";
+@import "../../../node_modules/@coreui/coreui/scss/coreui";
 @import "layout";
 
 // Prism.js
