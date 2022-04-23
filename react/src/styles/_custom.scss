@@ -1,0 +1,27 @@
+// Here you can add other styles
+.spinner-border{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
+.spinner-backdrop{
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #00000050;
+}
+.sidebar-brand-full,.header-brand{
+  img{
+    width: 118px;
+  }
+}
+
+$sizes: 10, 20, 30, 40, 50, 60, 70, 80, 90, 100,110, 120, 130, 140, 150, 160, 170, 180, 190, 200;
+@each $size in $sizes {
+  .w-#{$size}-px {
+    width: #{$size}px;
+  }
+}
+
