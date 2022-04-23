@@ -1,0 +1,15 @@
+
+spring:
+  datasource:
+    url: jdbc:sqlserver://192.168.31.221;databaseName=IRS_Assembly1
+    username: irs_ass1
+    password: wo3fuv3PhPHMe3
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
