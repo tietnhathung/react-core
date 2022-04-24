@@ -77,7 +77,6 @@ const Index: React.FC = () => {
                         </Table>
                     </Card.Body>
                     <Card.Footer>
-                       <AppPagination perPage={20} totalItem={99} currentPage={1} />
                     </Card.Footer>
                 </Card>
             </Col>

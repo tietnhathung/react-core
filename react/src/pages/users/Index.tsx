@@ -4,37 +4,50 @@ import {IUser} from "../../types/entities/IUser";
 import {Button, Card, Col, Row, Table} from 'react-bootstrap';
 import FaIcon from "../../components/FaIcon";
 import { Link } from 'react-router-dom';
-
+import AppConstants from "../../constants/appConstants";
+import AppPagination from "../../components/AppPagination";
 interface IHookUseUser {
     state: {
-        users: IUser[]
+        users: IUser[],
+        page:number,
+        totalItems:number
+
     },
-    method: {}
+    method: {
+        setPage:(page:number) => void
+    }
 }
 
 const useUser = function (props: any): IHookUseUser {
     let [users, setUsers] = useState<IUser[]>([]);
+    let [totalItems, setTotalItems] = useState<number>(0);
+    let [page, setPage] = useState<number>(0);
 
     useEffect(function () {
         (async function fetch() {
-            let resultUser = await getUsers();
-            if (resultUser.status) {
-                setUsers(resultUser.data)
+            let {status,data} = await getUsers(page,AppConstants.pagination);
+            if (status) {
+                setUsers(data.content)
+                setTotalItems(data.totalElements)
             }
             return "fetch data done!"
         })();
-    }, [])
+    }, [page])
 
     return {
         state: {
-            users
+            users,
+            page,
+            totalItems
         },
-        method: {}
+        method: {
+            setPage
+        }
     }
 }
 
 const Index: React.FC = props => {
-    const {state} = useUser(props);
+    const {state,method} = useUser(props);
     return (
         <Row>
             <Col md={12}>
@@ -79,6 +92,9 @@ const Index: React.FC = props => {
                             </tbody>
                         </Table>
                     </Card.Body>
+                    <Card.Footer>
+                        <AppPagination page={state.page} totalItems={state.totalItems}  perPage={AppConstants.pagination} setPage={method.setPage} />
+                    </Card.Footer>
                 </Card>
             </Col>
         </Row>

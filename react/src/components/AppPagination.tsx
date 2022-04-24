@@ -3,33 +3,35 @@ import {Pagination} from "react-bootstrap";
 
 
 interface IAppPaginationProps {
-    totalItem: number,
+    totalItems: number,
     perPage: number,
-    currentPage: number,
+    page: number,
+    setPage: (page: number) => void,
 }
 
 const AppPagination = (props: IAppPaginationProps) => {
-    let {perPage, currentPage, totalItem} = props
-    let totalPage: number = Math.ceil(totalItem / perPage);
-
-    function build() {
-
+    let {perPage, page, totalItems,setPage} = props
+    let totalPage: number = Math.ceil(totalItems / perPage);
+    let numbersPage: number[] = Array();
+    for (let i = 0; i < totalPage; i++) {
+        numbersPage.push(i)
     }
-
     return (
-        <Pagination size="sm">
-            <Pagination.First/>
-            <Pagination.Prev/>
-
-            {Array(totalPage).map((value: null, index) => (
-                <Pagination.Item>{index + 1}</Pagination.Item>
-            ))}
-            {build()}
-
-            <Pagination.Item>{1}</Pagination.Item>
-            <Pagination.Next/>
-            <Pagination.Last/>
-        </Pagination>
+        totalPage > 1 ? <Pagination size="sm">
+            {page > 1 && <Pagination.First onClick={()=>{setPage(0)}}/>}
+            {page != 0 && <Pagination.Prev onClick={()=>{setPage(page-1 <= 0 ? 0 : page-1 )}}/>}
+            {page >= 3 && <Pagination.Item onClick={()=>{setPage(1)}}>{1}</Pagination.Item>}
+            {page >= 4 && <Pagination.Ellipsis/>}
+            {numbersPage.map((value, index) => {
+                if (numbersPage.length <= 5 || (value >= page - 2 && value <= page + 2)) {
+                    return <Pagination.Item active={value == page} key={value}  onClick={()=>{setPage(value)}} >{index + 1}</Pagination.Item>
+                }
+            })}
+            {page + 4 < totalPage && <Pagination.Ellipsis/>}
+            {page + 3 < totalPage && <Pagination.Item onClick={()=>{setPage(totalPage -1)}}>{totalPage}</Pagination.Item>}
+            {page != totalPage -1 && <Pagination.Next onClick={()=>{setPage(page+1 >= totalPage -1 ? totalPage -1 : page+1 )}}/>}
+            {page < totalPage -2 && <Pagination.Last onClick={()=>{setPage(totalPage -1)}}/>}
+        </Pagination> : <></>
     );
 };
 

@@ -6,6 +6,9 @@ import com.react.api.model.User;
 
 import com.react.api.repository.UserRepository;
 import com.react.api.types.ApiData;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.List;
 
 
 @RestController
@@ -28,8 +30,12 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiData> get() {
-        List<User> users = userRepository.findAll();
+    public ResponseEntity<ApiData> get(@RequestParam(required = false, defaultValue = "0") int page,@RequestParam(required = false, defaultValue = "0") int perPage) {
+
+        Sort sort = Sort.by("id");
+        PageRequest paging =  PageRequest.of(page, perPage > 0 ? perPage : Integer.MAX_VALUE,sort);
+        Page<User> users = userRepository.findAll(paging);
+
         return ResponseBuilder.ok(users);
     }
 

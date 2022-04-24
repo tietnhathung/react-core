@@ -3,7 +3,17 @@ import http from "./axiosClient";
 import userConstants from "../constants/userConstants";
 import {IUser} from "../types/entities/IUser";
 
-export const getUsers = async ( params?: any): Promise<TApiResult> => {
+export const getUsers = async (page?:number,perPage?:number): Promise<TApiResult> => {
+    let params = {
+        page: 0,
+        perPage:0
+    }
+    if (page != null){
+        params.page = page
+    }
+    if (perPage != null){
+        params.perPage = perPage
+    }
     return await http.get(userConstants.api.get,{params: params});
 }
 
