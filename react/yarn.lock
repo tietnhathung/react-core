@@ -1428,7 +1428,7 @@
     schema-utils "^3.0.0"
     source-map "^0.7.3"
 
-"@popperjs/core@^2.10.1":
+"@popperjs/core@^2.10.1", "@popperjs/core@^2.11.5":
   version "2.11.5"
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.5.tgz#db5a11bf66bdab39569719555b0f76e138d7bd64"
   integrity sha512-9X2obfABZuDVLCgPK9aX0a/x4jaOEweTTWE2+9sr0Qqqevj2Uv5XorvusThmc9XGYpS9yI+fhh8RTafBtGposw==
@@ -1646,7 +1646,7 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
-"@testing-library/dom@*":
+"@testing-library/dom@*", "@testing-library/dom@^8.13.0":
   version "8.13.0"
   resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-8.13.0.tgz#bc00bdd64c7d8b40841e27a70211399ad3af46f5"
   integrity sha512-9VHgfIatKNXQNaZTtLnalIy0jNZzY35a4S3oi08YAt9Hv1VsfZ/DfA45lM8D/UhtHBGJ4/lGwp0PZkVndRkoOQ==
@@ -1711,6 +1711,11 @@
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@trysound/sax/-/sax-0.2.0.tgz#cccaab758af56761eb7bf37af6f03f326dd798ad"
   integrity sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==
+
+"@types/alertify@^0.3.31":
+  version "0.3.31"
+  resolved "https://registry.yarnpkg.com/@types/alertify/-/alertify-0.3.31.tgz#3bb9f775ea7ca59bd542adba2de42cda808779fc"
+  integrity sha512-xQV077k/3iRdAPP/rrMEb4tzoxaA17ti+fuAWXq/BJu1zFgUBRzY7yVObBn3xiD5Va2ohLFNtBBDjWwJWNBq9Q==
 
 "@types/aria-query@^4.2.0":
   version "4.2.2"
@@ -2444,6 +2449,11 @@ ajv@^8.0.0, ajv@^8.6.0, ajv@^8.8.0:
     json-schema-traverse "^1.0.0"
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
+
+alertifyjs@^1.13.1:
+  version "1.13.1"
+  resolved "https://registry.yarnpkg.com/alertifyjs/-/alertifyjs-1.13.1.tgz#f1f0aeb86cfe996740d509ae0706fe3ca677ce50"
+  integrity sha512-CckZE2dZDsEEXglOXKxT00vUDV5A6udZom+bn1XHdIWlbSFZgYq7UXCBlwkShhIH3Li/1VxLmr55GOQFQ12WSg==
 
 ansi-escapes@^4.2.1, ansi-escapes@^4.3.1:
   version "4.3.2"

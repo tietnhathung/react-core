@@ -6,6 +6,7 @@ enum StatusCode {
     BadRequest = 400,
     Unauthorized = 401,
     Forbidden = 403,
+    NotFound = 404,
     TooManyRequests = 429,
     InternalServerError = 500,
 }
@@ -54,40 +55,40 @@ class Http {
         return http;
     }
 
-    async get(url: string, config?: AxiosRequestConfig): Promise<TApiResult> {
+    async get<T = any>(url: string, config?: AxiosRequestConfig): Promise<TApiResult<T>> {
         try {
-            let response = await this.http.get<TApiResponse>(url, config)
-            return {status: true, data: response.data.content, error: {}};
+            let response = await this.http.get<TApiResponse<T>>(url, config)
+            return {status: true, data: response.data.content};
         } catch (error) {
-            return {status: false, data: {}, error: error};
+            return {status: false, error: error};
         }
     }
 
-    async post(url: string, data?: any, config?: AxiosRequestConfig): Promise<TApiResult> {
+    async post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<TApiResult<T>> {
         try {
-            let response = await this.http.post<TApiResponse>(url, data, config);
-            return {status: true, data: response.data.content, error: {}};
+            let response = await this.http.post<TApiResponse<T>>(url, data, config);
+            return {status: true, data: response.data.content};
         } catch (error) {
-            return {status: false, data: {}, error: error};
+            return {status: false, error: error};
         }
 
     }
 
-    async put(url: string, data?: any, config?: AxiosRequestConfig): Promise<TApiResult> {
+    async put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<TApiResult<T>> {
         try {
-            let response = await this.http.put<TApiResponse>(url, data, config);
-            return {status: true, data: response.data.content, error: {}};
+            let response = await this.http.put<TApiResponse<T>>(url, data, config);
+            return {status: true, data: response.data.content};
         } catch (error) {
-            return {status: false, data: {}, error: error};
+            return {status: false, error: error};
         }
     }
 
-    async delete(url: string, config?: AxiosRequestConfig): Promise<TApiResult> {
+    async delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<TApiResult<T>> {
         try {
-            let response = await this.http.delete<TApiResponse>(url, config);
-            return {status: true, data: response.data.content, error: {}};
+            let response = await this.http.delete<TApiResponse<T>>(url, config);
+            return {status: true, data: response.data.content};
         } catch (error) {
-            return {status: false, data: {}, error: error};
+            return {status: false, error: error};
         }
     }
 
@@ -96,42 +97,31 @@ class Http {
     private static handleError(errors: any) {
         const {response, message} = errors;
         if (response) {
-            const {status,data} = response;
+            const {status, data} = response;
             switch (status) {
                 case StatusCode.BadRequest: {
-                    const {content} = data;
-                    if (content){
-                        return Promise.reject(content);
-                    }
-                    break;
+                    const {errors} = data;
+                    return Promise.reject(errors);
+                }
+                case StatusCode.NotFound: {
+                    const {errors} = data;
+                    return Promise.reject(errors);
                 }
                 case StatusCode.InternalServerError: {
-                    const {content} = data;
-                    if (content){
-                        return Promise.reject(content);
-                    }
-                    break;
+                    const {errors} = data;
+                    return Promise.reject(errors);
                 }
                 case StatusCode.Forbidden: {
-                    const {content} = data;
-                    if (content){
-                        return Promise.reject(content);
-                    }
-                    break;
+                    const {errors} = data;
+                    return Promise.reject(errors);
                 }
                 case StatusCode.Unauthorized: {
-                    const {content} = data;
-                    if (content){
-                        return Promise.reject(content);
-                    }
-                    break;
+                    const {errors} = data;
+                    return Promise.reject(errors);
                 }
                 case StatusCode.TooManyRequests: {
-                    const {content} = data;
-                    if (content){
-                        return Promise.reject(content);
-                    }
-                    break;
+                    const {errors} = data;
+                    return Promise.reject(errors);
                 }
             }
         }

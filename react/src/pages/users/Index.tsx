@@ -1,38 +1,53 @@
 import React, {useEffect, useState} from 'react';
-import {getUsers} from "../../services/userFetchServices";
+import {deleteUser, getUsers} from "../../services/userFetchServices";
 import {IUser} from "../../types/entities/IUser";
 import {Button, Card, Col, Row, Table} from 'react-bootstrap';
 import FaIcon from "../../components/FaIcon";
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import AppConstants from "../../constants/appConstants";
 import AppPagination from "../../components/AppPagination";
+import alertify from '../../instants/alertify'
+
 interface IHookUseUser {
     state: {
         users: IUser[],
-        page:number,
-        totalItems:number
-
+        page: number,
+        totalItems: number
     },
     method: {
-        setPage:(page:number) => void
+        setPage: (page: number) => void,
+        removeItem: (id: number) => void
     }
 }
 
-const useUser = function (props: any): IHookUseUser {
+const useUser = function (): IHookUseUser {
     let [users, setUsers] = useState<IUser[]>([]);
     let [totalItems, setTotalItems] = useState<number>(0);
     let [page, setPage] = useState<number>(0);
 
     useEffect(function () {
-        (async function fetch() {
-            let {status,data} = await getUsers(page,AppConstants.pagination);
-            if (status) {
-                setUsers(data.content)
-                setTotalItems(data.totalElements)
-            }
-            return "fetch data done!"
-        })();
+        fetchItems(page);
     }, [page])
+
+    const fetchItems = async (page:number): Promise<void> => {
+        let {status, data} = await getUsers(page, AppConstants.pagination);
+        if (status && data) {
+            setUsers(data.content)
+            setTotalItems(data.totalElements)
+        }
+    }
+
+    const removeItem = (id: number): void => {
+        alertify.confirm("You won't be able to revert this.", async function () {
+            let {status} = await deleteUser(id.toString());
+            if (status) {
+                fetchItems(page);
+                alertify.success(`Delete item with id is ${id} successfully`);
+            } else {
+                alertify.error(`Delete item has id: ${id} failed`);
+            }
+        });
+    }
 
     return {
         state: {
@@ -41,20 +56,22 @@ const useUser = function (props: any): IHookUseUser {
             totalItems
         },
         method: {
-            setPage
+            setPage,
+            removeItem
         }
     }
 }
 
-const Index: React.FC = props => {
-    const {state,method} = useUser(props);
+const Index: React.FC = () => {
+    const {state, method} = useUser();
     return (
         <Row>
             <Col md={12}>
                 <Card>
                     <Card.Header>
                         <Card.Title>
-                            User <Link className="btn btn-sm btn-primary" to="/user/create"><i className="fas fa-plus"></i> Add</Link>
+                            User <Link className="btn btn-sm btn-primary" to="/user/create"><i
+                            className="fas fa-plus"></i> Add</Link>
                         </Card.Title>
 
                     </Card.Header>
@@ -75,25 +92,32 @@ const Index: React.FC = props => {
                                     <td>{user.id}</td>
                                     <td>{user.fullName}</td>
                                     <td>{user.username}</td>
-                                    <td>{user.status?"Active" :"NonActive"}</td>
+                                    <td>{user.status ? "Active" : "NonActive"}</td>
                                     <td className="text-center">
-                                        <Button className="me-2" variant="primary"  size="sm">
-                                            <FaIcon icon="far fa-search" /> Show
+                                        <Button className="me-2" variant="primary" size="sm">
+                                            <FaIcon icon="far fa-search"/> Show
                                         </Button>
-                                        <Button className="me-2 text-white" variant="success"  size="sm">
-                                            <FaIcon icon="far fa-pen" /> Edit
-                                        </Button>
-                                        <Button className="me-2 text-white" variant="danger"  size="sm">
-                                            <FaIcon icon="far fa-trash-alt" /> Delete
+                                        <Link className="me-2 text-white btn btn-success btn-sm"
+                                              to={`/user/edit/${user.id}`}>
+                                            <FaIcon icon="far fa-pen"/> Edit
+                                        </Link>
+                                        <Button className="me-2 text-white" variant="danger" size="sm" onClick={() => {
+                                            method.removeItem(user.id)
+                                        }}>
+                                            <FaIcon icon="far fa-trash-alt"/> Delete
                                         </Button>
                                     </td>
                                 </tr>
                             ))}
+                            {state.users.length === 0 && <tr>
+                                <td className="text-center" colSpan={5}>No data!</td>
+                            </tr>}
                             </tbody>
                         </Table>
                     </Card.Body>
                     <Card.Footer>
-                        <AppPagination page={state.page} totalItems={state.totalItems}  perPage={AppConstants.pagination} setPage={method.setPage} />
+                        <AppPagination page={state.page} totalItems={state.totalItems} perPage={AppConstants.pagination}
+                                       setPage={method.setPage}/>
                     </Card.Footer>
                 </Card>
             </Col>

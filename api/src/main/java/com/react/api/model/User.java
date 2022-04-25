@@ -34,7 +34,7 @@ public class User {
     @Column(name = "Status")
     private Boolean status;
 
-    @Column(name = "Username")
+    @Column(name = "Username",unique = true)
     private String username;
 
     @Column(name = "CreatedAt")

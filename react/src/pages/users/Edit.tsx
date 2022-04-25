@@ -1,36 +1,59 @@
-import React, {useState} from 'react';
-import {Alert, Button, Card, Col, Form, Row} from "react-bootstrap";
+import React, {useEffect, useState} from 'react';
+import {Button, Card, Col, Form, Row} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import {yupResolver} from '@hookform/resolvers/yup';
-import * as yup from "yup";
+import * as yup from 'yup';
 import {IUser} from "../../types/entities/IUser";
-import {createUsers} from "../../services/userFetchServices";
-import {useNavigate} from "react-router-dom";
-import {TApiErrors} from "../../types/TApiErrors";
+import {getUserById, updateUsers} from "../../services/userFetchServices";
+import {useNavigate, useParams} from "react-router-dom";
 import AlertErrors from "../../components/AlertErrors";
-
+import {TApiErrors} from '../../types/TApiErrors';
 
 const schema = yup.object({
+    id: yup.number().required(),
     username: yup.string().min(6).max(12).required(),
     fullName: yup.string().min(4).max(255).required(),
-    password: yup.string().min(6).max(12).required(),
+    password: yup.string().test("is-password", "Password must be more than 6 characters and less than 12 characters", value => !value || (value.length >= 6 && value.length <= 12)),
     status: yup.boolean().required()
 }).required();
 
-const Create = () => {
-    const {register, handleSubmit, formState: {errors, isSubmitted}} = useForm<IUser>({
+
+const Edit = () => {
+    const {register, setValue, handleSubmit, formState: {errors, isSubmitted}} = useForm<IUser>({
         resolver: yupResolver(schema)
     });
     let [errorsMessages, setErrorsMessages] = useState<TApiErrors>();
-
     let navigate = useNavigate();
+    let {id} = useParams();
+
+    useEffect(function () {
+        if (id) {
+            fetchItem(id);
+        }
+    }, [id])
+
+    const fetchItem = async (id: string) => {
+        let {status, data, error} = await getUserById(id)
+        if (status && data) {
+            setValue("id", data.id);
+            setValue("status", data.status);
+            setValue("fullName", data.fullName);
+            setValue("username", data.username);
+        } else {
+            setErrorsMessages(error)
+        }
+    }
 
     const onSubmit = handleSubmit(async userForm => {
-        let {status, error} = await createUsers(userForm);
-        if (status) {
-            navigate('/user');
-        } else {
-            setErrorsMessages(error);
+        if (id) {
+            let {status, error} = await updateUsers(id, userForm);
+            if (status) {
+                navigate('/user');
+            } else {
+                if (error) {
+                    setErrorsMessages(error);
+                }
+            }
         }
     });
 
@@ -44,7 +67,7 @@ const Create = () => {
                         </Card.Title>
                     </Card.Header>
                     <Card.Body>
-                        {errorsMessages && <AlertErrors error={errorsMessages} />}
+                        {errorsMessages && <AlertErrors error={errorsMessages}/>}
                         <Form onSubmit={onSubmit}>
                             <Form.Group className="mb-3" controlId="formBasicUsername">
                                 <Form.Label>User name</Form.Label>
@@ -100,4 +123,4 @@ const Create = () => {
     );
 };
 
-export default Create;
+export default Edit;
