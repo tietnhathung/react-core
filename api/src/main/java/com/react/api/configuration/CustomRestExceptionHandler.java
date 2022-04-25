@@ -7,6 +7,7 @@ import com.react.api.types.ApiValidationError;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -47,5 +48,11 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND);
         apiError.setMessage(ex.getMessage());
         return ResponseBuilder.buildObject(null, apiError, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(AuthenticationException.class)
+    protected ResponseEntity<Object> handleAuthenticationException(AuthenticationException ex) {
+        ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED);
+        apiError.setMessage(ex.getMessage());
+        return ResponseBuilder.buildObject(null, apiError, HttpStatus.UNAUTHORIZED);
     }
 }
