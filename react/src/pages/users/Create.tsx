@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {Alert, Button, Card, Col, Form, Row} from "react-bootstrap";
+import {Button, Card, Col, Form, Row} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import {IUser} from "../../types/entities/IUser";
-import {createUsers} from "../../services/userFetchServices";
+import {createUsers} from "../../services/userServices";
 import {useNavigate} from "react-router-dom";
 import {TApiErrors} from "../../types/TApiErrors";
 import AlertErrors from "../../components/AlertErrors";

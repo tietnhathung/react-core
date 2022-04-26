@@ -48,8 +48,8 @@ public class AuthController {
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             JwtDto jwtDto = new JwtDto();
             jwtDto.setUser(userDetails);
-            jwtDto.setAccess_token(token);
-            jwtDto.setRefresh_token(refreshToken);
+            jwtDto.setAccessToken(token);
+            jwtDto.setRefreshToken(refreshToken);
             return ResponseBuilder.ok(jwtDto);
         } catch (Exception ex) {
             ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED);

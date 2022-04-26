@@ -3,12 +3,19 @@ import avatar from '../assets/img/avatars/8.jpg';
 import logo from "../assets/img/logo/logo-amitech.png";
 import FaIcon from "./FaIcon";
 import {Link} from "react-router-dom";
-
+import {toggleHideSidebar} from "../features/app/appSlice"
+import {  useAppDispatch } from '../hooks/hooks';
 const Header = () => {
+    const dispatch = useAppDispatch()
+
+    const handlerHideSidebarClick = () => {
+        dispatch(toggleHideSidebar())
+    }
+
     return (
         <header className="header header-sticky mb-4">
             <div className="container-fluid">
-                <button className="header-toggler px-md-0 me-md-3" type="button">
+                <button className="header-toggler px-md-0 me-md-3" type="button" onClick={handlerHideSidebarClick}>
                     <FaIcon icon="far fa-align-justify"/>
                 </button>
                 <Link className="header-brand d-md-none" to="/">

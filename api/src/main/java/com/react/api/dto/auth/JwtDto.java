@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class JwtDto {
-    private String access_token;
-    private String refresh_token;
+    private String accessToken;
+    private String refreshToken;
     private UserDetailsImpl user;
 }

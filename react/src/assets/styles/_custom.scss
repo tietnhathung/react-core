@@ -1,9 +1,5 @@
 // Here you can add other styles
-.spinner-border{
-  position: fixed;
-  top: 50%;
-  left: 50%;
-}
+
 .spinner-backdrop{
   position: absolute;
   top: 0;
@@ -11,6 +7,11 @@
   bottom: 0;
   left: 0;
   background: #00000050;
+  .spinner-border{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+  }
 }
 .sidebar-brand-full,.header-brand{
   img{

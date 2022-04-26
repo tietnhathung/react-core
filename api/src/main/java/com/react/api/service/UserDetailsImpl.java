@@ -1,5 +1,6 @@
 package com.react.api.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.react.api.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,6 +28,7 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public String getPassword() {
         return password;
     }

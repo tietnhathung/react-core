@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {deleteUser, getUsers} from "../../services/userFetchServices";
+import {deleteUser, getUsers} from "../../services/userServices";
 import {IUser} from "../../types/entities/IUser";
 import {Button, Card, Col, Row, Table} from 'react-bootstrap';
 import FaIcon from "../../components/FaIcon";

@@ -4,7 +4,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {IUser} from "../../types/entities/IUser";
-import {getUserById, updateUsers} from "../../services/userFetchServices";
+import {getUserById, updateUsers} from "../../services/userServices";
 import {useNavigate, useParams} from "react-router-dom";
 import AlertErrors from "../../components/AlertErrors";
 import {TApiErrors} from '../../types/TApiErrors';
@@ -30,10 +30,10 @@ const Edit = () => {
         if (id) {
             fetchItem(id);
         }
-    }, [id])
+    })
 
-    const fetchItem = async (id: string) => {
-        let {status, data, error} = await getUserById(id)
+    const fetchItem = async (userId: string) => {
+        let {status, data, error} = await getUserById(userId)
         if (status && data) {
             setValue("id", data.id);
             setValue("status", data.status);
