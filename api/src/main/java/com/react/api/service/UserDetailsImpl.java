@@ -7,11 +7,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 public class UserDetailsImpl implements UserDetails {
+    private final Integer id;
+    private final String fullName;
     private final String username;
     private final String password;
     private final boolean status;
 
     public UserDetailsImpl(User user) {
+        this.id = user.getId();
+        this.fullName = user.getFullName();
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.status = user.getStatus();
@@ -50,5 +54,13 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public boolean isEnabled() {
         return status;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public Integer getId() {
+        return id;
     }
 }

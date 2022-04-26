@@ -20,5 +20,5 @@ spring:
       ddl-auto: update
 
 app:
-  jwtSecret: bezKoderSecretKey
   jwtExpirationMs: 86400000
+  jwtRefreshExpirationMs: 172800000
