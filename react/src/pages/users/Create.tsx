@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
-import {Alert, Button, Card, Col, Form, Row, Table} from "react-bootstrap";
+import {Button, Card, Col, Form, Row} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import {IUser} from "../../types/entities/IUser";
-import {createUsers} from "../../services/userFetchServices";
+import {createUsers} from "../../services/userServices";
 import {useNavigate} from "react-router-dom";
+import {TApiErrors} from "../../types/TApiErrors";
+import AlertErrors from "../../components/AlertErrors";
 
 
 const schema = yup.object({
@@ -19,20 +21,16 @@ const Create = () => {
     const {register, handleSubmit, formState: {errors, isSubmitted}} = useForm<IUser>({
         resolver: yupResolver(schema)
     });
-    let [errorsMessages, setErrorsMessages] = useState<string[]>([]);
+    let [errorsMessages, setErrorsMessages] = useState<TApiErrors>();
 
     let navigate = useNavigate();
 
     const onSubmit = handleSubmit(async userForm => {
-        let {status, data, error} = await createUsers(userForm);
+        let {status, error} = await createUsers(userForm);
         if (status) {
-            navigate('user');
+            navigate('/user');
         } else {
-            let errors:string[] = [];
-            Object.keys(error).forEach(key => {
-                errors.push(`${key}: ${error[key]}`);
-            });
-            setErrorsMessages(errors);
+            setErrorsMessages(error);
         }
     });
 
@@ -46,7 +44,7 @@ const Create = () => {
                         </Card.Title>
                     </Card.Header>
                     <Card.Body>
-                        {errorsMessages.map((error, index) => <Alert key={index} variant="danger">  {error}  </Alert>)}
+                        {errorsMessages && <AlertErrors error={errorsMessages} />}
                         <Form onSubmit={onSubmit}>
                             <Form.Group className="mb-3" controlId="formBasicUsername">
                                 <Form.Label>User name</Form.Label>

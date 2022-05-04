@@ -1,15 +1,17 @@
-package com.react.api.dto;
+package com.react.api.dto.use;
 
+import com.react.api.validation.constraints.UserUnique;
 import lombok.Data;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
 
 @Data
-public class UserDto implements Serializable {
+public class UserCreateDto implements Serializable {
     @NotEmpty()
     @Size(max = 12,min = 6)
     @NotNull
+    @UserUnique
     private final String username;
 
     @NotEmpty()

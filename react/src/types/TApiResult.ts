@@ -1,5 +1,7 @@
-export interface TApiResult{
+import {TApiErrors} from "./TApiErrors";
+
+export interface TApiResult<T= any>{
     status: boolean;
-    data: any;
-    error: any;
+    data?: T;
+    error?: TApiErrors;
 }

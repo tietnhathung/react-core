@@ -1,4 +1,7 @@
-export interface TApiResponse{
+import { TApiErrors } from "./TApiErrors";
+
+export interface TApiResponse<T = any> {
     httpStatus: boolean;
-    content: any;
+    content: T;
+    errors: TApiErrors;
 }

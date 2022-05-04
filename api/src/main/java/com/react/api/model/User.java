@@ -1,5 +1,6 @@
 package com.react.api.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -34,10 +35,11 @@ public class User {
     @Column(name = "Status")
     private Boolean status;
 
-    @Column(name = "Username")
+    @Column(name = "Username",unique = true)
     private String username;
 
     @Column(name = "CreatedAt")
+    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
     private LocalDateTime createdAt;
 
     @Column(name = "CreatedBy")
