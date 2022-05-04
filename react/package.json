@@ -20,6 +20,8 @@
     "alertifyjs": "^1.13.1",
     "axios": "^0.26.1",
     "bootstrap": "^5.1.3",
+    "history": "^5.3.0",
+    "jwt-decode": "^3.1.2",
     "react": "^18.0.0",
     "react-bootstrap": "^2.3.0",
     "react-dom": "^18.0.0",

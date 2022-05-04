@@ -8,7 +8,8 @@ import TFormLogin from "../../types/auth/TFormLogin";
 import AlertErrors from "../../components/AlertErrors";
 import {Row, Spinner} from 'react-bootstrap';
 import {useAppDispatch} from "../../hooks/hooks";
-import {loginAsync} from "../../features/auth/authSlice";
+import {loginAsync} from "../../store/auth/authSlice";
+
 
 const schema = yup.object({
     username: yup.string().min(6).required(),
@@ -30,11 +31,11 @@ const Index: React.FC = () => {
         setIsLoad(true)
         let {status,error} = await dispatch(loginAsync(loginForm)).unwrap();
         setIsLoad(false)
-        if (!status && error){
-            setErrorsMessages(error)
-        }
         if (status){
             navigate("/")
+        }
+        if (!status && error){
+            setErrorsMessages(error)
         }
     });
 

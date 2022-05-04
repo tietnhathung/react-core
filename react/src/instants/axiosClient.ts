@@ -1,6 +1,15 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from "axios";
 import {TApiResult} from "../types/TApiResult";
 import {TApiResponse} from "../types/IApiResponse";
+import history from "./history"
+import {logout} from "../store/auth/authSlice";
+import {Store} from "redux";
+
+let store:Store
+
+export const httpInjectStore = (_store:Store) => {
+    store = _store
+}
 
 enum StatusCode {
     BadRequest = 400,
@@ -49,7 +58,7 @@ class Http {
 
         http.interceptors.request.use(injectToken, (error) => Promise.reject(error));
 
-        http.interceptors.response.use((response: AxiosResponse<TApiResponse>) => response, (error: any) => Http.handleError(error));
+        http.interceptors.response.use((response: AxiosResponse<TApiResponse>) => response, (error: any) => this.handleError(error));
 
         this.instance = http;
         return http;
@@ -94,8 +103,8 @@ class Http {
 
     // Handle global app errors
     // We can handle generic app errors depending on the status code
-    private static handleError(errors: any) {
-        const {response, message} = errors;
+    private  handleError = (errors: any) => {
+        const {response, message,config} = errors;
         if (response) {
             const {status, data} = response;
             switch (status) {
@@ -117,6 +126,12 @@ class Http {
                 }
                 case StatusCode.Unauthorized: {
                     const {errors} = data;
+                    // if (!config._retry){
+                    //     config._retry = true;
+                    //     return this.http.request(config);
+                    // }
+                    history.push("/login");
+                    store.dispatch(logout());
                     return Promise.reject(errors);
                 }
                 case StatusCode.TooManyRequests: {

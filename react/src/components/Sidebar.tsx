@@ -4,7 +4,7 @@ import FaIcon from "./FaIcon";
 import logo from "../assets/img/logo/logo-amitech.png";
 import { useAppSelector, useAppDispatch } from '../hooks/hooks';
 import { RootState } from '../store';
-import {toggleUnfoldableSidebar} from "../features/app/appSlice"
+import {toggleUnfoldableSidebar} from "../store/app/appSlice"
 
 const Sidebar: React.FC = () => {
     const hideSidebar = useAppSelector((state: RootState) => state.app.hideSidebar)

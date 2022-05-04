@@ -3,7 +3,7 @@ import avatar from '../assets/img/avatars/8.jpg';
 import logo from "../assets/img/logo/logo-amitech.png";
 import FaIcon from "./FaIcon";
 import {Link} from "react-router-dom";
-import {toggleHideSidebar} from "../features/app/appSlice"
+import {toggleHideSidebar} from "../store/app/appSlice"
 import {  useAppDispatch } from '../hooks/hooks';
 const Header = () => {
     const dispatch = useAppDispatch()

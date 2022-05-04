@@ -5,6 +5,9 @@ import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 // @ts-ignore
 import { createRoot } from 'react-dom/client';
+import {httpInjectStore} from "./instants/axiosClient";
+
+httpInjectStore(store);
 
 const container = document.getElementById('root')
 const root = createRoot(container!)
