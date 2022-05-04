@@ -1,4 +1,4 @@
-export default {
+const userConstants = {
     api:{
         get:"user",
         getById:"user/{id}",
@@ -7,3 +7,4 @@ export default {
         delete:"user/{id}",
     }
 }
+export default userConstants;

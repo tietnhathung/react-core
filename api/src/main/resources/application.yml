@@ -20,5 +20,5 @@ spring:
       ddl-auto: update
 
 app:
-  jwtExpirationMs: 86400000
+  jwtExpirationMs: 60000
   jwtRefreshExpirationMs: 172800000

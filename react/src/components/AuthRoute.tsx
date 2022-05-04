@@ -1,6 +1,6 @@
 import React from 'react';
-import {Navigate, Route,RouterProps,useLocation } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../hooks/hooks';
+import {Navigate, useLocation } from 'react-router-dom';
+import { useAppSelector } from '../hooks/hooks';
 import {authIsLogin} from "../store/auth/authSlice";
 
 const AuthRoute = ( { children,auth }: { children: JSX.Element,auth:boolean }) => {
