@@ -4,10 +4,13 @@ import {TApiResponse} from "../types/IApiResponse";
 import history from "./history"
 import {logout} from "../store/auth/authSlice";
 import {Store} from "redux";
+import localStorageService from "../services/localStorageService";
+import {AppDispatch} from "../store";
+import * as authService from "../services/authService";
 
-let store:Store
+let store: Store
 
-export const httpInjectStore = (_store:Store) => {
+export const httpInjectStore = (_store: Store) => {
     store = _store
 }
 
@@ -30,7 +33,7 @@ const headers: Readonly<Record<string, string | boolean>> = {
 // We get the `accessToken` from the localStorage that we set when we authenticate
 const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
     try {
-        const token = localStorage.getItem("accessToken");
+        const token = localStorageService.getAccessToken();
         if (token != null) {
             config.headers = {
                 Authorization: `Bearer ${token}`
@@ -103,8 +106,8 @@ class Http {
 
     // Handle global app errors
     // We can handle generic app errors depending on the status code
-    private  handleError = (errors: any) => {
-        const {response, message,config} = errors;
+    private handleError = async (errors: any) => {
+        const {response, message, config} = errors;
         if (response) {
             const {status, data} = response;
             switch (status) {
@@ -126,10 +129,16 @@ class Http {
                 }
                 case StatusCode.Unauthorized: {
                     const {errors} = data;
-                    // if (!config._retry){
-                    //     config._retry = true;
-                    //     return this.http.request(config);
-                    // }
+                    if (!config._retry && store.getState().auth.isLogin) {
+                        config._retry = true;
+                        let refreshToken = localStorageService.getRefreshToken();
+                        let response =  await authService.refreshToken(refreshToken);
+                        let {status, data} = response;
+                        if (status && data) {
+                            localStorageService.setToken(data);
+                            return this.http.request(config);
+                        }
+                    }
                     history.push("/login");
                     store.dispatch(logout());
                     return Promise.reject(errors);
