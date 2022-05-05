@@ -12,7 +12,7 @@ import {loginAsync} from "../../store/auth/authSlice";
 
 
 const schema = yup.object({
-    username: yup.string().min(6).required(),
+    username: yup.string().min(5).required(),
     password: yup.string().min(4).required(),
 }).required();
 

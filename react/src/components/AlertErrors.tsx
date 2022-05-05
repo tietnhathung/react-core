@@ -10,7 +10,7 @@ const AlertErrors = (props:AlertErrorsProp) => {
     return (
         <Alert variant="danger">
             {error.message}
-            {error.subErrors && <ol>
+            {(error.subErrors && error.subErrors.length > 0)&& <ol>
                 {error.subErrors.map((subError,index) => <li key={index}>{subError.message}</li> ) }
             </ol>}
         </Alert>

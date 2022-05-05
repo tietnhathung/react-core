@@ -24,18 +24,10 @@ public class ResponseBuilder {
         apiData.setErrors(errors);
         return new ResponseEntity<>(apiData,errors.getStatus());
     }
-    public static ResponseEntity<ApiData> build(Object data,ApiError errors,HttpStatus status){
-        ApiData apiData = new ApiData();
-        apiData.setHttpStatus(status);
-        apiData.setContent(data);
-        apiData.setErrors(errors);
-        return new ResponseEntity<>(apiData,status);
-    }
 
-    public static ResponseEntity<Object> buildObject(Object data,ApiError errors,HttpStatus status){
+    public static ResponseEntity<Object> buildError(ApiError errors,HttpStatus status){
         ApiData apiData = new ApiData();
         apiData.setHttpStatus(status);
-        apiData.setContent(data);
         apiData.setErrors(errors);
         return new ResponseEntity<>(apiData,status);
     }

@@ -6,6 +6,8 @@ import {logout} from "../store/auth/authSlice";
 import {Store} from "redux";
 import tokenService from "../services/tokenService";
 import * as authService from "../services/authService";
+import {TApiErrors} from "../types/TApiErrors";
+import authConstants from "../constants/authConstants";
 
 let store: Store
 
@@ -124,11 +126,12 @@ class Http {
                 }
                 case StatusCode.Forbidden: {
                     const {errors} = data;
+                    history.push("/403");
                     return Promise.reject(errors);
                 }
                 case StatusCode.Unauthorized: {
                     const {errors} = data;
-                    if (!config._retry && store.getState().auth.isLogin) {
+                    if ( ![authConstants.api.login,authConstants.api.refresh].includes(config.url)  && !config._retry && store.getState().auth.isLogin) {
                         config._retry = true;
                         let refreshToken = tokenService.getRefreshToken();
                         let response =  await authService.refreshToken(refreshToken);
@@ -138,8 +141,10 @@ class Http {
                             return this.http.request(config);
                         }
                     }
-                    history.push("/login");
-                    store.dispatch(logout());
+                    if (store.getState().auth.isLogin){
+                        store.dispatch(logout());
+                        history.push("/login");
+                    }
                     return Promise.reject(errors);
                 }
                 case StatusCode.TooManyRequests: {
@@ -149,7 +154,12 @@ class Http {
             }
         }
         if (!response && message) {
-            return Promise.reject(message);
+            let apiErrors:TApiErrors = {
+                message:message,
+                status: "1",
+                subErrors:[]
+            }
+            return Promise.reject(apiErrors);
         }
         return Promise.reject(errors);
     }

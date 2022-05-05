@@ -1,7 +1,12 @@
 package com.react.api.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "user", indexes = {
@@ -30,7 +35,9 @@ public class User {
     private Boolean status;
 
     @Column(name = "createdAt")
-    private Instant createdAt;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
+    private LocalDateTime createdAt;
 
     @Column(name = "createdBy")
     private Integer createdBy;
@@ -83,11 +90,11 @@ public class User {
         this.status = status;
     }
 
-    public Instant getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Instant createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
