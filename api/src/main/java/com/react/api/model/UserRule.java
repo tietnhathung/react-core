@@ -1,8 +1,11 @@
 package com.react.api.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
+@Data
 @Table(name = "user_rule")
 public class UserRule {
     @Id
@@ -17,29 +20,4 @@ public class UserRule {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "rule_id", nullable = false)
     private Rule rule;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Rule getRule() {
-        return rule;
-    }
-
-    public void setRule(Rule rule) {
-        this.rule = rule;
-    }
-
 }

@@ -8,19 +8,19 @@ import java.io.Serializable;
 
 @Data
 public class UserCreateDto implements Serializable {
-    @NotEmpty()
-    @Size(max = 12,min = 6)
+    @NotEmpty
+    @Size(max = 12, min = 6)
     @NotNull
     @UserUnique
     private final String username;
 
-    @NotEmpty()
-    @Size(max = 255,min = 4)
+    @NotEmpty
+    @Size(max = 255, min = 4)
     @NotNull
     private final String fullName;
 
-    @NotEmpty()
-    @Size(max = 12,min = 6)
+    @NotEmpty
+    @Size(max = 12, min = 6)
     @NotNull
     private final String password;
 
