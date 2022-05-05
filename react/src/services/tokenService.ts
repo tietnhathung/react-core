@@ -1,6 +1,6 @@
 import TJwt from "../types/auth/TJwt";
 
-class LocalStorageService {
+class TokenService {
     setToken = function (jwt: TJwt):void {
         localStorage.setItem('accessToken', jwt.accessToken);
         localStorage.setItem('refreshToken', jwt.refreshToken);
@@ -17,4 +17,4 @@ class LocalStorageService {
     }
 }
 
-export default new LocalStorageService();
+export default new TokenService();

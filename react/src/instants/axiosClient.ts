@@ -4,7 +4,7 @@ import {TApiResponse} from "../types/IApiResponse";
 import history from "./history"
 import {logout} from "../store/auth/authSlice";
 import {Store} from "redux";
-import localStorageService from "../services/localStorageService";
+import tokenService from "../services/tokenService";
 import {AppDispatch} from "../store";
 import * as authService from "../services/authService";
 
@@ -33,7 +33,7 @@ const headers: Readonly<Record<string, string | boolean>> = {
 // We get the `accessToken` from the localStorage that we set when we authenticate
 const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
     try {
-        const token = localStorageService.getAccessToken();
+        const token = tokenService.getAccessToken();
         if (token != null) {
             config.headers = {
                 Authorization: `Bearer ${token}`
@@ -131,11 +131,11 @@ class Http {
                     const {errors} = data;
                     if (!config._retry && store.getState().auth.isLogin) {
                         config._retry = true;
-                        let refreshToken = localStorageService.getRefreshToken();
+                        let refreshToken = tokenService.getRefreshToken();
                         let response =  await authService.refreshToken(refreshToken);
                         let {status, data} = response;
                         if (status && data) {
-                            localStorageService.setToken(data);
+                            tokenService.setToken(data);
                             return this.http.request(config);
                         }
                     }
