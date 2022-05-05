@@ -5,7 +5,6 @@ import history from "./history"
 import {logout} from "../store/auth/authSlice";
 import {Store} from "redux";
 import tokenService from "../services/tokenService";
-import {AppDispatch} from "../store";
 import * as authService from "../services/authService";
 
 let store: Store

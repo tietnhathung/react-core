@@ -1,54 +1,102 @@
 package com.react.api.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
-import org.hibernate.Hibernate;
-
 import javax.persistence.*;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
-@RequiredArgsConstructor
-@Table(name = "User")
+@Table(name = "user", indexes = {
+        @Index(name = "user_username_uindex", columnList = "username", unique = true)
+})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id", nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
-    @JsonIgnore
-    @Column(name = "AccessTokenApp", length = 4000)
-    private String accessTokenApp;
-
-    @Column(name = "FullName")
-    private String fullName;
-
-    @Column(name = "Password")
-    private String password;
-
-    @Column(name = "Status")
-    private Boolean status;
-
-    @Column(name = "Username",unique = true)
+    @Column(name = "username", nullable = false, length = 20)
     private String username;
 
-    @Column(name = "CreatedAt")
-    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
-    private LocalDateTime createdAt;
+    @Column(name = "fullName")
+    private String fullName;
 
-    @Column(name = "CreatedBy")
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @Lob
+    @Column(name = "accessTokenApp")
+    private String accessTokenApp;
+
+    @Column(name = "status")
+    private Boolean status;
+
+    @Column(name = "createdAt")
+    private Instant createdAt;
+
+    @Column(name = "createdBy")
     private Integer createdBy;
 
-    @Override
-    @Transient
-    public int hashCode() {
-        return getClass().hashCode();
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getAccessTokenApp() {
+        return accessTokenApp;
+    }
+
+    public void setAccessTokenApp(String accessTokenApp) {
+        this.accessTokenApp = accessTokenApp;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Integer getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Integer createdBy) {
+        this.createdBy = createdBy;
     }
 
 }
