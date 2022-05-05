@@ -6,6 +6,7 @@ import {TApiResult} from "../../types/TApiResult";
 import TJwt from "../../types/auth/TJwt";
 import {RootState} from "../index";
 import jwt_decode from "jwt-decode";
+import tokenService from "../../services/tokenService";
 
 export interface AuthState {
     authUser?: IUser,
@@ -16,8 +17,7 @@ const initialState: AuthState = {
     authUser: undefined,
     isLogin: false
 }
-const token = localStorage.getItem("accessToken");
-
+const token = tokenService.getAccessToken();
 if (token) {
     let decoded: { userDetails: IUser, sub: string, iat: number, exp: number } = jwt_decode(token);
     initialState.isLogin = true;
@@ -35,16 +35,14 @@ export const authSlice = createSlice({
         logout: (state) => {
             state.isLogin = false
             state.authUser = undefined
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
+            tokenService.clearToken()
         }
     },
     extraReducers: (builder) => {
         builder.addCase(loginAsync.fulfilled, (state, action) => {
             let {status, data} = action.payload;
             if (status && data) {
-                localStorage.setItem('accessToken', data.accessToken);
-                localStorage.setItem('refreshToken', data.refreshToken);
+                tokenService.setToken(data)
                 state.authUser = data.user;
                 state.isLogin = true;
             }

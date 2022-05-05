@@ -7,12 +7,15 @@ import {Link} from 'react-router-dom';
 import AppConstants from "../../constants/appConstants";
 import AppPagination from "../../components/AppPagination";
 import alertify from '../../instants/alertify'
+import {TApiErrors} from "../../types/TApiErrors";
+import AlertErrors from "../../components/AlertErrors";
 
 interface IHookUseUser {
     state: {
         users: IUser[],
         page: number,
-        totalItems: number
+        totalItems: number,
+        errorsMessages:TApiErrors|undefined
     },
     method: {
         setPage: (page: number) => void,
@@ -24,16 +27,20 @@ const useUser = function (): IHookUseUser {
     let [users, setUsers] = useState<IUser[]>([]);
     let [totalItems, setTotalItems] = useState<number>(0);
     let [page, setPage] = useState<number>(0);
+    let [errorsMessages, setErrorsMessages] = useState<TApiErrors>();
 
     useEffect(function () {
         fetchItems(page);
     }, [page])
 
     const fetchItems = async (page:number): Promise<void> => {
-        let {status, data} = await getUsers(page, AppConstants.pagination);
+        let {status, data , error} = await getUsers(page, AppConstants.pagination);
         if (status && data) {
             setUsers(data.content)
             setTotalItems(data.totalElements)
+        }
+        if (!status && error){
+            setErrorsMessages(error)
         }
     }
 
@@ -53,7 +60,8 @@ const useUser = function (): IHookUseUser {
         state: {
             users,
             page,
-            totalItems
+            totalItems,
+            errorsMessages
         },
         method: {
             setPage,
@@ -66,6 +74,9 @@ const Index: React.FC = () => {
     const {state, method} = useUser();
     return (
         <Row>
+            <Col md={12}>
+                {state.errorsMessages && <AlertErrors error={state.errorsMessages}/>}
+            </Col>
             <Col md={12}>
                 <Card>
                     <Card.Header>

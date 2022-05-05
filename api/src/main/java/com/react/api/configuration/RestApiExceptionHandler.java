@@ -7,6 +7,7 @@ import com.react.api.types.ApiValidationError;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -37,22 +38,30 @@ public class RestApiExceptionHandler extends ResponseEntityExceptionHandler {
             }
             errors.add(validationError);
         });
-        ApiError apiError = new ApiError(HttpStatus.NOT_FOUND);
+        ApiError apiError = new ApiError(status);
         apiError.setMessage("Form Error Validation");
         apiError.setSubErrors(errors);
-        return ResponseBuilder.buildObject(null, apiError, HttpStatus.BAD_REQUEST);
+        return ResponseBuilder.buildError(apiError, status);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex) {
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND);
         apiError.setMessage(ex.getMessage());
-        return ResponseBuilder.buildObject(null, apiError, HttpStatus.NOT_FOUND);
+        return ResponseBuilder.buildError(apiError, HttpStatus.NOT_FOUND);
     }
+
     @ExceptionHandler(AuthenticationException.class)
-    protected ResponseEntity<Object> handleAuthenticationException(AuthenticationException ex) {
+    protected ResponseEntity<Object> handleAuthentication(AuthenticationException ex) {
         ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED);
         apiError.setMessage(ex.getMessage());
-        return ResponseBuilder.buildObject(null, apiError, HttpStatus.UNAUTHORIZED);
+        return ResponseBuilder.buildError(apiError, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public final ResponseEntity<Object> handleAccessDenied(AccessDeniedException ex) {
+        ApiError apiError = new ApiError(HttpStatus.FORBIDDEN);
+        apiError.setMessage(ex.getMessage());
+        return ResponseBuilder.buildError(apiError, HttpStatus.FORBIDDEN);
     }
 }

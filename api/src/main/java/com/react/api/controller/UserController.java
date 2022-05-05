@@ -13,18 +13,21 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 
 @RestController
 @RequestMapping("api/user")
+@PreAuthorize("hasAnyRole('ROLE_USER')")
 public class UserController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -35,8 +38,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiData> get(@RequestParam(required = false, defaultValue = "0") int page, @RequestParam(required = false, defaultValue = "0") int perPage) {
-
+    public ResponseEntity<ApiData> get(@RequestParam(required = false, defaultValue = "0") int page, @RequestParam(required = false, defaultValue = "0") int perPage, Principal principal) {
         Sort sort = Sort.by("id");
         PageRequest paging = PageRequest.of(page, perPage > 0 ? perPage : Integer.MAX_VALUE, sort);
         Page<User> users = userRepository.findAll(paging);
@@ -93,7 +95,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiData> update(@PathVariable Integer id) {
+    public ResponseEntity<ApiData> delete(@PathVariable Integer id) {
         try {
             Optional<User> oUser = userRepository.findById(id);
             if (oUser.isEmpty()) {
