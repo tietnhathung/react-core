@@ -4,13 +4,25 @@ import logo from "../assets/img/logo/logo-amitech.png";
 import FaIcon from "./FaIcon";
 import {Link} from "react-router-dom";
 import {toggleHideSidebar} from "../store/app/appSlice"
-import {useAppDispatch} from '../hooks/hooks';
+import {useAppDispatch, useAppSelector} from '../hooks/hooks';
+import {NavDropdown} from 'react-bootstrap';
+import alertify from "../instants/alertify";
+import {authUser, logout} from '../store/auth/authSlice';
+import history from "../instants/history";
 
 const Header = () => {
     const dispatch = useAppDispatch()
+    const auth = useAppSelector(authUser)
 
     const handlerHideSidebarClick = () => {
         dispatch(toggleHideSidebar())
+    }
+
+    const handlerLogout = async () => {
+        alertify.confirm("Are you sure you want to sign out?", async function () {
+            dispatch(logout())
+            history.push("/login");
+        });
     }
 
     return (
@@ -45,43 +57,23 @@ const Header = () => {
                     </li>
                 </ul>
                 <ul className="header-nav ms-3">
-                    <li className="nav-item dropdown">
-                        <a href="/" className="nav-link py-0" data-coreui-toggle="dropdown" role="button"
-                           aria-haspopup="true" aria-expanded="false">
-                            <div className="avatar avatar-md">
-                                <img className="avatar-img" src={avatar} alt="user@email.com"/>
-                            </div>
-                        </a>
-                        <div className="dropdown-menu dropdown-menu-end pt-0">
-                            <div className="dropdown-header bg-light py-2">
-                                <div className="fw-semibold">Account</div>
-                            </div>
-
-                            <a href="/" className="dropdown-item">
-                                Updates<span className="badge badge-sm bg-info ms-2">42</span>
-                            </a>
-                            <a href="/" className="dropdown-item">
-                                Messages<span className="badge badge-sm bg-success ms-2">42</span>
-                            </a>
-                            <a href="/" className="dropdown-item">
-                                Tasks<span className="badge badge-sm bg-danger ms-2">42</span>
-                            </a>
-                            <a href="/" className="dropdown-item">
-                                Comments<span className="badge badge-sm bg-warning ms-2">42</span>
-                            </a>
-                            <div className="dropdown-header bg-light py-2">
-                                <div className="fw-semibold">Settings</div>
-                            </div>
-                            <a href="/" className="dropdown-item"> Profile</a>
-                            <a href="/" className="dropdown-item"> Settings</a>
-                            <a href="/" className="dropdown-item"> Payments<span
-                                className="badge badge-sm bg-secondary ms-2">42</span></a>
-                            <a href="/" className="dropdown-item"> Projects<span
-                                className="badge badge-sm bg-primary ms-2">42</span></a>
-                            <div className="dropdown-divider"></div>
-                            <a href="/" className="dropdown-item"> Lock Account</a>
-                            <a href="/" className="dropdown-item"> Logout</a>
-                        </div>
+                    <li className="nav-item">
+                        <NavDropdown
+                            id="setting-dropdown"
+                            className="pt-0"
+                            title={<div className="avatar avatar-md">
+                                <img className="avatar-img" src={avatar} alt={auth?.fullName} />
+                            </div>}
+                            menuVariant="light"
+                        >
+                            <NavDropdown.Item href="/profile">
+                                <i className="far fa-user"></i> Profile
+                            </NavDropdown.Item>
+                            <NavDropdown.Divider/>
+                            <NavDropdown.Item onClick={handlerLogout}>
+                                <i className="far fa-sign-out"></i> Logout
+                            </NavDropdown.Item>
+                        </NavDropdown>
                     </li>
                 </ul>
             </div>

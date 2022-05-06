@@ -25,4 +25,5 @@ export const appSlice = createSlice({
 
 export const { toggleHideSidebar,toggleUnfoldableSidebar } = appSlice.actions
 
+
 export default appSlice.reducer
