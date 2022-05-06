@@ -5,11 +5,12 @@ import com.react.api.common.ResponseBuilder;
 import com.react.api.dto.auth.JwtDto;
 import com.react.api.dto.auth.LoginDto;
 import com.react.api.dto.auth.RefreshTokenDto;
-import com.react.api.repository.UserRepository;
 import com.react.api.service.UserDetailsImpl;
 import com.react.api.service.UserDetailsServiceImpl;
 import com.react.api.types.ApiData;
 import com.react.api.types.ApiError;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,25 +18,21 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600L)
 @RestController
 @RequestMapping("api/auth")
 public class AuthController {
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     private final AuthenticationManager authenticationManager;
-    private final UserRepository userRepository;
-    private final PasswordEncoder encoder;
     private final JwtUtils jwtUtils;
-    private UserDetailsServiceImpl userDetailsService;
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, PasswordEncoder encoder, JwtUtils jwtUtils, UserDetailsServiceImpl userDetailsService) {
+    private final UserDetailsServiceImpl userDetailsService;
+
+    public AuthController(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserDetailsServiceImpl userDetailsService) {
         this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.encoder = encoder;
         this.jwtUtils = jwtUtils;
         this.userDetailsService = userDetailsService;
     }
@@ -43,8 +40,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<ApiData> login(@Valid @RequestBody LoginDto loginDto) {
         try {
-
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
+            logger.info("Login username:{}, password:{}", loginDto.getUsername(), loginDto.getPassword());
+            Authentication authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String token = jwtUtils.generateJwtToken(authentication);
@@ -64,15 +61,16 @@ public class AuthController {
 
     @PostMapping("/refresh")
     public ResponseEntity<ApiData> refresh(@Valid @RequestBody RefreshTokenDto refreshTokenDto) {
-        String errorMessage ;
+        logger.info("refresh token");
+        String errorMessage;
         try {
             if (jwtUtils.validateJwtToken(refreshTokenDto.getRefreshToken())) {
                 String username = jwtUtils.getUserNameFromJwtToken(refreshTokenDto.getRefreshToken());
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                String token = jwtUtils.generateJwtToken(authentication);
-                String refreshToken = jwtUtils.generateJwtRefreshToken(authentication);
+                Authentication authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                String token = jwtUtils.generateJwtToken(authenticationToken);
+                String refreshToken = jwtUtils.generateJwtRefreshToken(authenticationToken);
                 UserDetailsImpl userDetailsImpl = (UserDetailsImpl) userDetails;
                 JwtDto jwtDto = new JwtDto();
                 jwtDto.setUser(userDetailsImpl);

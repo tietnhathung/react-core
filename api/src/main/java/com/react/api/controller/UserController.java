@@ -8,6 +8,8 @@ import com.react.api.model.User;
 import com.react.api.repository.UserRepository;
 import com.react.api.types.ApiData;
 import com.react.api.types.ApiError;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -20,15 +22,15 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 
 @RestController
 @RequestMapping("api/user")
-@PreAuthorize("hasAnyRole('ROLE_USER')")
+@PreAuthorize("hasAnyRole('user')")
 public class UserController {
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -38,9 +40,11 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiData> get(@RequestParam(required = false, defaultValue = "0") int page, @RequestParam(required = false, defaultValue = "0") int perPage, Principal principal) {
+    public ResponseEntity<ApiData> get(@RequestParam(required = false, defaultValue = "0") int page, @RequestParam(required = false, defaultValue = "0") int perPage) {
+        logger.info("get page:{}, perPage:{}", page, perPage);
+
         Sort sort = Sort.by("id");
-        PageRequest paging = PageRequest.of(page, perPage > 0 ? perPage : Integer.MAX_VALUE, sort);
+        PageRequest paging = PageRequest.of(page, 0 < perPage ? perPage : Integer.MAX_VALUE, sort);
         Page<User> users = userRepository.findAll(paging);
 
         return ResponseBuilder.ok(users);
@@ -48,6 +52,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiData> find(@PathVariable Integer id) {
+        logger.info("find id:{}", id);
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
             throw new EntityNotFoundException("Entity not found");
@@ -58,6 +63,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<ApiData> create(@Valid @RequestBody UserCreateDto userDto) {
+        logger.info("create UserCreateDto:{}", userDto);
         try {
             User user = new User();
             user.setFullName(userDto.getFullName());
@@ -74,17 +80,18 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiData> update(@PathVariable Integer id,@Valid @RequestBody UserUpdateDto userDto) {
+    public ResponseEntity<ApiData> update(@PathVariable Integer id, @Valid @RequestBody UserUpdateDto userDto) {
+        logger.info("update id:{}, userDto:{}", id, userDto);
+        Optional<User> oUser = userRepository.findById(id);
+        if (oUser.isEmpty()) {
+            throw new EntityNotFoundException("Entity not found");
+        }
         try {
-            Optional<User> oUser = userRepository.findById(id);
-            if (oUser.isEmpty()) {
-                throw new EntityNotFoundException("Entity not found");
-            }
             User user = oUser.get();
             user.setFullName(userDto.getFullName());
             user.setUsername(userDto.getUsername());
             user.setStatus(userDto.getStatus());
-            if (StringUtils.hasLength(userDto.getPassword())){
+            if (StringUtils.hasLength(userDto.getPassword())) {
                 user.setPassword(passwordEncoder.encode(userDto.getPassword()));
             }
             userRepository.save(user);
@@ -96,11 +103,12 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiData> delete(@PathVariable Integer id) {
+        logger.info("delete id:{}", id);
+        Optional<User> oUser = userRepository.findById(id);
+        if (oUser.isEmpty()) {
+            throw new EntityNotFoundException("Entity not found");
+        }
         try {
-            Optional<User> oUser = userRepository.findById(id);
-            if (oUser.isEmpty()) {
-                throw new EntityNotFoundException("Entity not found");
-            }
             userRepository.delete(oUser.get());
             return ResponseBuilder.ok(true);
         } catch (Exception errors) {
