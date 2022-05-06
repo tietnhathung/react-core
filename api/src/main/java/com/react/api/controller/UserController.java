@@ -28,7 +28,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/user")
-@PreAuthorize("hasAnyRole('user')")
+@PreAuthorize("hasAnyAuthority('USER')")
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     private final UserRepository userRepository;

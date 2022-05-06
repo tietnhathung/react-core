@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @SpringBootTest
 class DemoApplicationTests {
@@ -23,18 +24,18 @@ class DemoApplicationTests {
     void contextLoads() {
     }
 
-    @Test
-    void createUser() {
-        User user = new User();
-        user.setFullName("Tiết Nhật Hưng");
-        user.setStatus(true);
-        user.setUsername("admin");
-        user.setPassword(encoder.encode("123456"));
-        user.setCreatedAt(LocalDateTime.now());
-        user.setCreatedBy(0);
-        userRepository.save(user);
-        Assertions.assertThat(user.getId()).isNotNull();
-    }
+//    @Test
+//    void createUser() {
+//        User user = new User();
+//        user.setFullName("Tiết Nhật Hưng");
+//        user.setStatus(true);
+//        user.setUsername("admin");
+//        user.setPassword(encoder.encode("123456"));
+//        user.setCreatedAt(LocalDateTime.now());
+//        user.setCreatedBy(0);
+//        userRepository.save(user);
+//        Assertions.assertThat(user.getId()).isNotNull();
+//    }
 
     @Test
     public void whenParsingJsonStringIntoJsonNode_thenCorrect() throws Exception {
@@ -46,5 +47,16 @@ class DemoApplicationTests {
         System.out.print(actualObj);
 
         Assertions.assertThat(actualObj).isNotNull();
+    }
+
+    @Test
+    public void testCache() {
+        Optional<User> optUser =  userRepository.findByUsername("admin");
+        Optional<User> optUser2 =  userRepository.findByUsername("admin");
+        Optional<User> optUser3 =  userRepository.findByUsername("admin2");
+
+        Assertions.assertThat(optUser.isPresent()).isTrue();
+        Assertions.assertThat(optUser2.isPresent()).isTrue();
+        Assertions.assertThat(optUser3.isEmpty()).isTrue();
     }
 }
