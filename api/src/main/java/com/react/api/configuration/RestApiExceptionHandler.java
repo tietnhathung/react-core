@@ -1,12 +1,17 @@
 package com.react.api.configuration;
 
 import com.react.api.common.ResponseBuilder;
+import com.react.api.controller.AuthController;
 import com.react.api.types.ApiError;
 import com.react.api.types.ApiSubError;
 import com.react.api.types.ApiValidationError;
+import org.hibernate.exception.GenericJDBCException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
@@ -22,9 +27,10 @@ import java.util.List;
 
 @ControllerAdvice
 public class RestApiExceptionHandler extends ResponseEntityExceptionHandler {
-
+    private final Logger logger = LoggerFactory.getLogger(RestApiExceptionHandler.class);
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        logger.debug(ex.getMessage(),ex);
         List<ApiSubError> errors = new ArrayList<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             ApiValidationError validationError = new ApiValidationError(error.getObjectName());
@@ -32,10 +38,8 @@ public class RestApiExceptionHandler extends ResponseEntityExceptionHandler {
                 String fieldName = ((FieldError) error).getField();
                 validationError.setField(fieldName);
                 validationError.setRejectedValue(((FieldError) error).getRejectedValue());
-                validationError.setMessage(String.format("%s: %s", fieldName, error.getDefaultMessage()));
-            } else {
-                validationError.setMessage(String.format("%s: %s", error.getObjectName(), error.getDefaultMessage()));
             }
+            validationError.setMessage(error.getDefaultMessage());
             errors.add(validationError);
         });
         ApiError apiError = new ApiError(status);
@@ -46,27 +50,38 @@ public class RestApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        logger.debug(ex.getMessage(),ex);
         ApiError apiError = new ApiError(status);
         apiError.setMessage(ex.getMessage());
         return ResponseBuilder.buildError(apiError, status);
     }
 
+    @ExceptionHandler({GenericJDBCException.class, JpaSystemException.class})
+    public ResponseEntity<Object> handleExceptionJpa(Exception ex) {
+        logger.debug(ex.getMessage(),ex);
+        ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR);
+        apiError.setMessage(ex.getMessage());
+        return ResponseBuilder.buildError(apiError, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
     @ExceptionHandler(EntityNotFoundException.class)
-    protected ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex) {
+    protected ResponseEntity<Object> handleExceptionEntityNotFound(EntityNotFoundException ex) {
+        logger.debug(ex.getMessage(),ex);
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND);
         apiError.setMessage(ex.getMessage());
         return ResponseBuilder.buildError(apiError, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    protected ResponseEntity<Object> handleAuthentication(AuthenticationException ex) {
+    protected ResponseEntity<Object> handleExceptionAuthentication(AuthenticationException ex) {
+        logger.debug(ex.getMessage(),ex);
         ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED);
         apiError.setMessage(ex.getMessage());
         return ResponseBuilder.buildError(apiError, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public final ResponseEntity<Object> handleAccessDenied(AccessDeniedException ex) {
+    public final ResponseEntity<Object> handleExceptionAccessDenied(AccessDeniedException ex) {
+        logger.debug(ex.getMessage(),ex);
         ApiError apiError = new ApiError(HttpStatus.FORBIDDEN);
         apiError.setMessage(ex.getMessage());
         return ResponseBuilder.buildError(apiError, HttpStatus.FORBIDDEN);

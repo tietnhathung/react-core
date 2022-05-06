@@ -1,17 +1,19 @@
 import React from 'react';
-import { Alert } from 'react-bootstrap';
-import { TApiErrors } from '../types/TApiErrors';
+import {Alert} from 'react-bootstrap';
+import {TApiErrors} from '../types/TApiErrors';
 
 type AlertErrorsProp = {
-    error:TApiErrors
+    error: TApiErrors
 }
-const AlertErrors = (props:AlertErrorsProp) => {
+const AlertErrors = (props: AlertErrorsProp) => {
     let {error} = props;
     return (
         <Alert variant="danger">
             {error.message}
-            {(error.subErrors && error.subErrors.length > 0)&& <ol>
-                {error.subErrors.map((subError,index) => <li key={index}>{subError.message}</li> ) }
+            {(error.subErrors && error.subErrors.length > 0) && <ol>
+                {error.subErrors.map((subError, index) => {
+                    return <li key={index}>{"field" in subError ? subError.field : ""}: {subError.message}</li>
+                })}
             </ol>}
         </Alert>
     );

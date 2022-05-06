@@ -30,7 +30,7 @@ import java.util.Optional;
 @RequestMapping("api/user")
 @PreAuthorize("hasAnyAuthority('USER')")
 public class UserController {
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private final Logger logger = LoggerFactory.getLogger(UserController.class);
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 

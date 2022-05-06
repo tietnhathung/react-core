@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Data
-@UserUnique(message = "username must be unique")
+@UserUnique
 public class UserUpdateDto implements Serializable {
     private final Integer id;
 

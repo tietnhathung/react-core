@@ -11,7 +11,6 @@ import AuthRoute from './components/AuthRoute';
 
 const Login = React.lazy(() => import('./pages/Login'))
 const DefaultLayout = React.lazy(() => import('./layouts/DefaultLayout'))
-
 function App() {
     return (
         <HistoryRouter history={history}>
@@ -22,7 +21,7 @@ function App() {
                             <Login/>
                         </AuthRoute>
                     }/>
-                    <Route path="*" element={
+                    <Route path="/*" element={
                         <AuthRoute auth={true}>
                             <DefaultLayout/>
                         </AuthRoute>

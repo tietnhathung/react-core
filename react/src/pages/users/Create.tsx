@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Card, Col, Form, Row} from "react-bootstrap";
-import {useForm} from "react-hook-form";
+import {useForm,FieldPath} from "react-hook-form";
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import {IUser} from "../../types/entities/IUser";
@@ -8,7 +8,6 @@ import {createUsers} from "../../services/userServices";
 import {useNavigate} from "react-router-dom";
 import {TApiErrors} from "../../types/TApiErrors";
 import AlertErrors from "../../components/AlertErrors";
-
 
 const schema = yup.object({
     username: yup.string().min(6).max(12).required(),
@@ -18,7 +17,7 @@ const schema = yup.object({
 }).required();
 
 const Create = () => {
-    const {register, handleSubmit, formState: {errors, isSubmitted}} = useForm<IUser>({
+    const {register, handleSubmit, setError,  formState: {errors, isSubmitted}} = useForm<IUser>({
         resolver: yupResolver(schema)
     });
     let [errorsMessages, setErrorsMessages] = useState<TApiErrors>();
@@ -31,6 +30,11 @@ const Create = () => {
             navigate('/user');
         } else {
             setErrorsMessages(error);
+            error?.subErrors.forEach(function (subError) {
+                if ("field" in subError) {
+                    setError(subError.field as FieldPath<IUser>, {type: 'server', message: `${subError.field} ${subError.message}`})
+                }
+            })
         }
     });
 
@@ -44,7 +48,7 @@ const Create = () => {
                         </Card.Title>
                     </Card.Header>
                     <Card.Body>
-                        {errorsMessages && <AlertErrors error={errorsMessages} />}
+                        {errorsMessages && <AlertErrors error={errorsMessages}/>}
                         <Form onSubmit={onSubmit}>
                             <Form.Group className="mb-3" controlId="formBasicUsername">
                                 <Form.Label>User name</Form.Label>
@@ -72,7 +76,7 @@ const Create = () => {
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control
                                     className={errors.password ? "is-invalid" : (isSubmitted ? "is-valid" : "")}
-                                    type="password" placeholder="Password" {...register("password")}/>
+                                    type="password" autoComplete="on" placeholder="Password" {...register("password")}/>
                                 {errors.password &&
                                     <Form.Control.Feedback type="invalid">
                                         {errors.password.message}

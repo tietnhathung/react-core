@@ -2,7 +2,7 @@ import React from 'react';
 import avatar from '../assets/img/avatars/8.jpg';
 import logo from "../assets/img/logo/logo-amitech.png";
 import FaIcon from "./FaIcon";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {toggleHideSidebar} from "../store/app/appSlice"
 import {useAppDispatch, useAppSelector} from '../hooks/hooks';
 import {NavDropdown} from 'react-bootstrap';
@@ -13,7 +13,7 @@ import history from "../instants/history";
 const Header = () => {
     const dispatch = useAppDispatch()
     const auth = useAppSelector(authUser)
-
+    let navigate = useNavigate();
     const handlerHideSidebarClick = () => {
         dispatch(toggleHideSidebar())
     }
@@ -66,7 +66,7 @@ const Header = () => {
                             </div>}
                             menuVariant="light"
                         >
-                            <NavDropdown.Item href="/profile">
+                            <NavDropdown.Item onClick={()=>{navigate("/profile")}}>
                                 <i className="far fa-user"></i> Profile
                             </NavDropdown.Item>
                             <NavDropdown.Divider/>

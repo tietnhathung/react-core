@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Card, Col, Form, Row} from "react-bootstrap";
-import {useForm} from "react-hook-form";
+import {FieldPath, useForm} from "react-hook-form";
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {IUser} from "../../types/entities/IUser";
@@ -19,7 +19,7 @@ const schema = yup.object({
 
 
 const Edit = () => {
-    const {register, setValue, handleSubmit, formState: {errors, isSubmitted}} = useForm<IUser>({
+    const {register, setValue, setError, handleSubmit, formState: {errors, touchedFields}} = useForm<IUser>({
         resolver: yupResolver(schema)
     });
     let [errorsMessages, setErrorsMessages] = useState<TApiErrors>();
@@ -28,11 +28,11 @@ const Edit = () => {
 
     useEffect(function () {
         if (id) {
-            fetchItem(id);
+            fetchItem(id).then(console.log);
         }
-    })
+    }, [id])
 
-    const fetchItem = async (userId: string) => {
+    async function fetchItem(userId: string) {
         let {status, data, error} = await getUserById(userId)
         if (status && data) {
             setValue("id", data.id);
@@ -42,6 +42,7 @@ const Edit = () => {
         } else {
             setErrorsMessages(error)
         }
+        return "fetch data done!"
     }
 
     const onSubmit = handleSubmit(async userForm => {
@@ -52,6 +53,14 @@ const Edit = () => {
             } else {
                 if (error) {
                     setErrorsMessages(error);
+                    error?.subErrors.forEach(function (subError) {
+                        if ("field" in subError) {
+                            setError(subError.field as FieldPath<IUser>, {
+                                type: 'server',
+                                message: `${subError.field} ${subError.message}`
+                            })
+                        }
+                    })
                 }
             }
         }
@@ -63,7 +72,7 @@ const Edit = () => {
                 <Card>
                     <Card.Header>
                         <Card.Title>
-                            Create User
+                            Update User
                         </Card.Title>
                     </Card.Header>
                     <Card.Body>
@@ -72,9 +81,9 @@ const Edit = () => {
                             <Form.Group className="mb-3" controlId="formBasicUsername">
                                 <Form.Label>User name</Form.Label>
                                 <Form.Control
-                                    className={errors.username ? "is-invalid" : (isSubmitted ? "is-valid" : "")}
+                                    className={errors.username && touchedFields.username ? "is-invalid" : ""}
                                     type="text" placeholder="Enter username" {...register("username")} />
-                                {errors.username &&
+                                {(errors.username && touchedFields.username) &&
                                     <Form.Control.Feedback type="invalid">
                                         {errors.username.message}
                                     </Form.Control.Feedback>
@@ -83,9 +92,9 @@ const Edit = () => {
                             <Form.Group className="mb-3" controlId="formBasicFullName">
                                 <Form.Label>Full name</Form.Label>
                                 <Form.Control
-                                    className={errors.fullName ? "is-invalid" : (isSubmitted ? "is-valid" : "")}
+                                    className={errors.fullName && touchedFields.fullName ? "is-invalid" : ""}
                                     type="text" placeholder="Enter fullName" {...register("fullName")} />
-                                {errors.fullName &&
+                                {(errors.fullName && touchedFields.fullName) &&
                                     <Form.Control.Feedback type="invalid">
                                         {errors.fullName.message}
                                     </Form.Control.Feedback>
@@ -94,9 +103,9 @@ const Edit = () => {
                             <Form.Group className="mb-3" controlId="formBasicPassword">
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control
-                                    className={errors.password ? "is-invalid" : (isSubmitted ? "is-valid" : "")}
-                                    type="password" placeholder="Password" {...register("password")}/>
-                                {errors.password &&
+                                    className={errors.password && touchedFields.password ? "is-invalid" : ""}
+                                    type="password" autoComplete="on" placeholder="Password" {...register("password")}/>
+                                {(errors.password && touchedFields.password) &&
                                     <Form.Control.Feedback type="invalid">
                                         {errors.password.message}
                                     </Form.Control.Feedback>
@@ -105,8 +114,8 @@ const Edit = () => {
                             <Form.Group className="mb-3" controlId="formBasicStatus">
                                 <Form.Label>Status</Form.Label>
                                 <Form.Check
-                                    className={errors.password ? "is-invalid" : (isSubmitted ? "is-valid" : "")}{...register("status")}/>
-                                {errors.status &&
+                                    className={errors.status && touchedFields.status ? "is-invalid" : ""}{...register("status")}/>
+                                {(errors.status && touchedFields.status) &&
                                     <Form.Control.Feedback type="invalid">
                                         {errors.status.message}
                                     </Form.Control.Feedback>

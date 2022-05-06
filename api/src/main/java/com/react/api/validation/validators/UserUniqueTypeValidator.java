@@ -25,13 +25,18 @@ public class UserUniqueTypeValidator implements ConstraintValidator<UserUnique, 
 
     @Override
     public boolean isValid(UserUpdateDto userDto, ConstraintValidatorContext context) {
-
+        boolean valid = true;
         Optional<User> oUser = userRepository.findByUsername(userDto.getUsername());
-
         if (oUser.isPresent()) {
             User user = oUser.get();
-            return Objects.equals(user.getId(), userDto.getId());
+            valid = Objects.equals(user.getId(), userDto.getId());
         }
-        return true;
+        if (!valid){
+            context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
+                    .addPropertyNode("username")
+                    .addConstraintViolation()
+                    .disableDefaultConstraintViolation();
+        }
+        return valid;
     }
 }

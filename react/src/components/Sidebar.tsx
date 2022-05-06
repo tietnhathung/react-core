@@ -31,8 +31,8 @@ const Sidebar: React.FC = () => {
                     </Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="/line">
-                        <FaIcon className="nav-icon" icon="fad fa-grip-lines" />Line
+                    <Link className="nav-link" to="/menu">
+                        <FaIcon className="nav-icon" icon="fad fa-grip-lines" />Menu
                     </Link>
                 </li>
             </ul>
