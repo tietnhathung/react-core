@@ -44,6 +44,13 @@ public class RestApiExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseBuilder.buildError(apiError, status);
     }
 
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        ApiError apiError = new ApiError(status);
+        apiError.setMessage(ex.getMessage());
+        return ResponseBuilder.buildError(apiError, status);
+    }
+
     @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex) {
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND);
