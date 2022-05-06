@@ -11,7 +11,7 @@ const DefaultLayout: React.FC = () => {
             <div className="wrapper d-flex flex-column min-vh-100 bg-light">
                 <Header/>
                 <div className="body flex-grow-1 px-3">
-                    <Content />
+                    <Content/>
                 </div>
                 <Footer/>
             </div>

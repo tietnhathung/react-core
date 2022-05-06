@@ -1,13 +1,8 @@
 package com.react.api.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.react.api.constants.MenuTarget;
 import lombok.*;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -41,7 +36,7 @@ public class Menu {
     @JsonIgnoreProperties("children")
     private Menu parent;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "parent")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
     @ToString.Exclude
     @JsonIgnoreProperties("parent")
     private List<Menu> children = new ArrayList<>();

@@ -15,16 +15,16 @@ public class UserUpdateDto implements Serializable {
     private final Integer id;
 
     @NotEmpty()
-    @Size(max = 12,min = 6)
+    @Size(max = 12, min = 6)
     @NotNull
     private final String username;
 
     @NotEmpty()
-    @Size(max = 255,min = 4)
+    @Size(max = 255, min = 4)
     @NotNull
     private final String fullName;
 
-    @UpdatePassword(max = 12,min = 6)
+    @UpdatePassword(max = 12, min = 6)
     private final String password;
 
     @NotNull

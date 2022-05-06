@@ -1,6 +1,7 @@
 package com.react.api.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.react.api.model.Permission;
 import com.react.api.model.Rule;
 import com.react.api.model.User;
@@ -21,9 +22,9 @@ public class UserDetailsImpl implements UserDetails {
     private final String username;
     private final String password;
     private final boolean status;
-    private final Collection<GrantedAuthority> authorities;
+    private final Collection<SimpleGrantedAuthority> authorities;
 
-    UserDetailsImpl(User user, Collection<Permission> permissions) {
+    public UserDetailsImpl(User user, Collection<Permission> permissions) {
         id = user.getId();
         fullName = user.getFullName();
         username = user.getUsername();
@@ -33,7 +34,7 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<SimpleGrantedAuthority> getAuthorities() {
         return Collections.unmodifiableCollection(authorities);
     }
 

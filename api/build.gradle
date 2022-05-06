@@ -1,7 +1,7 @@
 plugins {
-	id 'org.springframework.boot' version '2.6.6'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.6.6'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
 }
 
 group = 'com.react'
@@ -9,31 +9,31 @@ version = '0.0.1'
 sourceCompatibility = '11'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.7'
-	implementation 'org.springframework.boot:spring-boot-starter-cache:2.6.7'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-validation:2.6.7'
-	implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
-	implementation 'org.springframework.security:spring-security-test'
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.10.5'
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.10.5'
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.10.5'
-	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:2.13.2'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.7'
+    implementation 'org.springframework.boot:spring-boot-starter-cache:2.6.7'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation:2.6.7'
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
+    implementation 'org.springframework.security:spring-security-test'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.10.5'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.10.5'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.10.5'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:2.13.2'
 
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '9.4.0.jre11'
-	implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.13'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '9.4.0.jre11'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.13'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
