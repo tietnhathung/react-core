@@ -4,7 +4,7 @@ import * as authService from '../../services/authService';
 import {IUser} from "../../types/entities/IUser";
 import {TApiResult} from "../../types/TApiResult";
 import TJwt from "../../types/auth/TJwt";
-import {RootState} from "../index";
+import {RootState,store} from "../index";
 import jwt_decode from "jwt-decode";
 import tokenService from "../../services/tokenService";
 
@@ -13,16 +13,7 @@ export interface AuthState {
     isLogin: boolean
 }
 
-const initialState: AuthState = {
-    authUser: undefined,
-    isLogin: false
-}
-const token = tokenService.getAccessToken();
-if (token) {
-    let decoded: { userDetails: IUser, sub: string, iat: number, exp: number } = jwt_decode(token);
-    initialState.isLogin = true;
-    initialState.authUser = decoded.userDetails
-}
+const initialState: AuthState = authService.getInitialStateAuth();
 
 export const loginAsync = createAsyncThunk('auth/login', async (formLogin: TFormLogin): Promise<TApiResult<TJwt>> => {
     return await authService.login(formLogin);

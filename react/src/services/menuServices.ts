@@ -19,3 +19,6 @@ export const getMenus = async (page?: number, perPage?: number): Promise<TApiRes
     return await http.get<IPagination<IMenu>>(menuConstants.api.get, {params: params});
 }
 
+export const getMenusOfUser = async (): Promise<TApiResult<IMenu[]>> => {
+    return await http.get<IMenu[]>(menuConstants.api.getByUserId);
+}

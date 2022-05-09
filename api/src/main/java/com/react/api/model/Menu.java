@@ -30,15 +30,15 @@ public class Menu {
     @Column(name = "target", nullable = false)
     private String target;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "icon")
+    private String icon;
+
+    @Column(name = "parent_id")
+    private Integer parentId;
+
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     @ToString.Exclude
-    @JsonIgnoreProperties("children")
-    private Menu parent;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
-    @ToString.Exclude
-    @JsonIgnoreProperties("parent")
     private List<Menu> children = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -77,8 +77,9 @@ class DemoApplicationTests {
 
     @Test
     public void menuServiceServiceTest() throws IOException {
-        List<Menu> menus = menuService.buildMenu();
+        List<Menu> menus = menuService.buildMenuByUser(1);
 
         Assertions.assertThat(menus.isEmpty()).isFalse();
+        Assertions.assertThat((long) menus.size()).isNotZero();
     }
 }

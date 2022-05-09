@@ -11,22 +11,26 @@ import java.util.stream.Collectors;
 
 @Service
 public class MenuServiceImpl implements MenuService {
-    private MenuRepository menuRepository;
+    private final MenuRepository menuRepository;
 
     public MenuServiceImpl(MenuRepository menuRepository) {
         this.menuRepository = menuRepository;
     }
 
     public List<Menu> buildMenu() {
-        List<Menu> menuRow = menuRepository.findAllAndParent();
+        List<Menu> menuRow = menuRepository.findAll();
+        return new ArrayList<>(getChildrenOfMenu(menuRow, null));
+    }
+
+    @Override
+    public List<Menu> buildMenuByUser(Integer userId) {
+        List<Menu> menuRow = new ArrayList<>(menuRepository.findAllByUserId(userId));
         return new ArrayList<>(getChildrenOfMenu(menuRow, null));
     }
 
     private List<Menu> getChildrenOfMenu(List<Menu> allMenus, Integer parentId) {
 
-        List<Menu> menus = allMenus.stream().filter(menu -> {
-            return Objects.equals(menu.getParent(), parentId) || Objects.equals(menu.getParent().getId(), parentId);
-        }).collect(Collectors.toList());
+        List<Menu> menus = allMenus.stream().filter(menu -> Objects.equals(menu.getParentId(), parentId)).collect(Collectors.toList());
         allMenus.removeAll(menus);
         menus = menus.stream().peek(menu -> {
             menu.setChildren(getChildrenOfMenu(allMenus, menu.getId()));

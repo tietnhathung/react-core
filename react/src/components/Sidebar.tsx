@@ -1,15 +1,30 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import FaIcon from "./FaIcon";
 import logo from "../assets/img/logo/logo-amitech.png";
 import { useAppSelector, useAppDispatch } from '../hooks/hooks';
 import { RootState } from '../store';
 import {toggleUnfoldableSidebar} from "../store/app/appSlice"
+import {IMenu} from "../types/entities/IMenu";
+import {getMenusOfUser} from "../services/menuServices";
+import {authUser} from "../store/auth/authSlice";
+import MenuBuilder from "./MenuBuilder";
 
 const Sidebar: React.FC = () => {
+    const dispatch = useAppDispatch()
     const hideSidebar = useAppSelector((state: RootState) => state.app.hideSidebar)
     const unfoldableSidebar = useAppSelector((state: RootState) => state.app.unfoldableSidebar)
-    const dispatch = useAppDispatch()
+
+    const [menus,setMenus] = useState<IMenu[]>([]);
+
+    useEffect(function () {
+        getMenusOfUser().then(response => {
+                let {status,data,error} = response;
+                if (status && data){
+                    setMenus(data);
+                }
+            });
+    },[])
 
     const handlerSidebarClick = () => {
         dispatch(toggleUnfoldableSidebar())
@@ -25,16 +40,7 @@ const Sidebar: React.FC = () => {
                 </div>
             </div>
             <ul className="sidebar-nav" data-coreui="navigation" data-simplebar="">
-                <li className="nav-item">
-                    <Link className="nav-link" to="/user">
-                        <FaIcon className="nav-icon" icon="far fa-user" />User
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link" to="/menu">
-                        <FaIcon className="nav-icon" icon="fad fa-grip-lines" />Menu
-                    </Link>
-                </li>
+                {<MenuBuilder menus={menus} />}
             </ul>
             <button className="sidebar-toggler" type="button" onClick={handlerSidebarClick}></button>
         </div>
