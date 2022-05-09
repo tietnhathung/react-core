@@ -19,3 +19,4 @@ app:
   jwtExpirationMs: 3600000
   jwtRefreshExpirationMs: 86400000
   jwtSecret: bezKoderSecretKey
+  jwtSecret: bezKoderSecretKey
