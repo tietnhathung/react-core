@@ -46,8 +46,7 @@ public class UserController {
         Sort sort = Sort.by("id");
         PageRequest paging = PageRequest.of(page, 0 < perPage ? perPage : Integer.MAX_VALUE, sort);
         Page<User> users = userRepository.findAll(paging);
-
-        return ResponseBuilder.ok(users);
+        return ResponseBuilder.page(users);
     }
 
     @GetMapping("/{id}")

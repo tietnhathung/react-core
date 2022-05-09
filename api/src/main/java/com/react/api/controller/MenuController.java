@@ -6,6 +6,7 @@ import com.react.api.model.Menu;
 import com.react.api.model.User;
 import com.react.api.repository.MenuRepository;
 import com.react.api.types.ApiData;
+import com.react.api.types.Pagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -36,7 +37,6 @@ public class MenuController {
         Sort sort = Sort.by("id");
         PageRequest paging = PageRequest.of(page, 0 < perPage ? perPage : Integer.MAX_VALUE, sort);
         Page<Menu> menus = menuRepository.findAll(paging);
-
-        return ResponseBuilder.ok(menus);
+        return ResponseBuilder.page(menus);
     }
 }

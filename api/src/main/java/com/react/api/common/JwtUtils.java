@@ -2,6 +2,7 @@ package com.react.api.common;
 
 import com.react.api.service.UserDetailsImpl;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 
@@ -18,7 +20,6 @@ import java.util.Date;
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
     @Value("${app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
