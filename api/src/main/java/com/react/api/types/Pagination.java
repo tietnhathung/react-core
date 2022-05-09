@@ -12,6 +12,10 @@ public class Pagination<T> {
         this.totalElements = listPage.getTotalElements();
         this.content = listPage.getContent();
     }
+    public Pagination(List<T> content) {
+        this.totalElements = content.size();
+        this.content = content;
+    }
     private long totalElements;
     private List<T> content;
 }

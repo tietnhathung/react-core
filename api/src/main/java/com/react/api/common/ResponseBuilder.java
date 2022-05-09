@@ -7,7 +7,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 public class ResponseBuilder {
+    public static <T>ResponseEntity<ApiData> page(List<T> pageData){
+        ApiData apiData = new ApiData();
+        apiData.setHttpStatus(HttpStatus.OK);
+        Pagination<T> pagination = new Pagination<>(pageData);
+        apiData.setContent(pagination);
+        return ResponseEntity.ok().body(apiData);
+    }
     public static <T>ResponseEntity<ApiData> page(Page<T> pageData){
         ApiData apiData = new ApiData();
         apiData.setHttpStatus(HttpStatus.OK);

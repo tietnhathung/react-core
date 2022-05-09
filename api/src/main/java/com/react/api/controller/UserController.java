@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -40,12 +41,15 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiData> get(@RequestParam(required = false, defaultValue = "0") int page, @RequestParam(required = false, defaultValue = "0") int perPage) {
+    public ResponseEntity<ApiData> get(@RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "0") Integer perPage) {
         logger.info("get page:{}, perPage:{}", page, perPage);
-
         Sort sort = Sort.by("id");
-        PageRequest paging = PageRequest.of(page, 0 < perPage ? perPage : Integer.MAX_VALUE, sort);
-        Page<User> users = userRepository.findAll(paging);
+        if (0 < perPage){
+            PageRequest paging = PageRequest.of(page, perPage, sort);
+            Page<User> users = userRepository.findAll(paging);
+            return ResponseBuilder.page(users);
+        }
+        List<User> users = userRepository.findAll(sort);
         return ResponseBuilder.page(users);
     }
 
@@ -56,7 +60,6 @@ public class UserController {
         if (user.isEmpty()) {
             throw new EntityNotFoundException("Entity not found");
         }
-
         return ResponseBuilder.ok(user.get());
     }
 

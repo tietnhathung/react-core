@@ -35,12 +35,15 @@ public class MenuController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiData> get(@RequestParam(required = false, defaultValue = "0") int page, @RequestParam(required = false, defaultValue = "0") int perPage) {
+    public ResponseEntity<ApiData> get(@RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "0") Integer perPage) {
         logger.info("get menus page:{}, perPage:{}", page, perPage);
-
         Sort sort = Sort.by("id");
-        PageRequest paging = PageRequest.of(page, 0 < perPage ? perPage : Integer.MAX_VALUE, sort);
-        Page<Menu> menus = menuRepository.findAll(paging);
+        if(0 < perPage){
+            PageRequest paging = PageRequest.of(page, perPage, sort);
+            Page<Menu> menus = menuRepository.findAll(paging);
+            return ResponseBuilder.page(menus);
+        }
+        List<Menu> menus = menuRepository.findAll(sort);
         return ResponseBuilder.page(menus);
     }
 
