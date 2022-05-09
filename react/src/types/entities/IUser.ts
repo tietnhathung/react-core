@@ -1,4 +1,8 @@
-export interface IUser{
+export type IAuthorities = {
+    authority:string
+}
+
+export interface IUser {
     id: number;
     fullName: string;
     username: string;
@@ -6,4 +10,5 @@ export interface IUser{
     password?: string;
     createdBy?: number;
     createdAt?: string;
+    authorities?: IAuthorities[]
 }

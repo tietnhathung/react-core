@@ -2,6 +2,7 @@ import React, {Suspense} from 'react';
 import Loading from "./Loading";
 import {Route, Routes} from "react-router-dom";
 import routes from "../routes";
+import PageRoute from "./PageRoute";
 
 
 const Content = () => {
@@ -14,7 +15,11 @@ const Content = () => {
                             <Route
                                 key={idx}
                                 path={route.path}
-                                element={<route.element/>}
+                                element={
+                                    route.authority ?
+                                        <PageRoute title={route.title} authority={route.authority} children={<route.element/>}/> :
+                                        <route.element/>
+                                }
                             />
                         )
                     )

@@ -44,6 +44,7 @@ export const authSlice = createSlice({
 //selector
 export const authIsLogin = (state: RootState) => state.auth.isLogin;
 export const authUser = (state: RootState) => state.auth.authUser;
+export const getAuthorities = (state: RootState) => state.auth.authUser?.authorities?.map( (item) => item.authority ) ?? [];
 
 export const {logout} = authSlice.actions
 

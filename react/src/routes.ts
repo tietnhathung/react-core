@@ -2,8 +2,10 @@ import React from "react";
 
 
 type RoutesType = {
+    title?: string,
+    authority?: string,
     path: string,
-    element: React.FC
+    element: React.FC,
 }
 
 //user
@@ -21,11 +23,11 @@ const Home = React.lazy(() => import('./pages/home/Index'))
 
 const routes: RoutesType[] = [
 
-    {path: 'user', element: UserIndex},
-    {path: 'user/create', element: UserCreate},
-    {path: 'user/edit/:id', element: UserEdit},
+    {path: 'user', element: UserIndex, title: 'User', authority: 'USER'},
+    {path: 'user/create', element: UserCreate, title: 'Create User', authority: 'USER'},
+    {path: 'user/edit/:id', element: UserEdit, title: 'Edit User', authority: 'USER'},
 
-    {path: 'menu', element: MenuIndex},
+    {path: 'menu', element: MenuIndex, title: 'Menu', authority: 'MENU'},
 
     {path: '403', element: Page403},
     {path: '/home', element: Home},
