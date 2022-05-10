@@ -34,12 +34,10 @@ public class UserController {
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
     public UserController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
     @GetMapping
     public ResponseEntity<ApiData> get(@RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "0") Integer perPage) {
         logger.info("get page:{}, perPage:{}", page, perPage);
@@ -52,7 +50,6 @@ public class UserController {
         List<User> users = userRepository.findAll(sort);
         return ResponseBuilder.page(users);
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<ApiData> find(@PathVariable Integer id) {
         logger.info("find id:{}", id);
@@ -62,7 +59,6 @@ public class UserController {
         }
         return ResponseBuilder.ok(user.get());
     }
-
     @PostMapping
     public ResponseEntity<ApiData> create(@Valid @RequestBody UserCreateDto userDto) {
         logger.info("create UserCreateDto:{}", userDto);
@@ -80,7 +76,6 @@ public class UserController {
             return ResponseBuilder.found(new ApiError(errors));
         }
     }
-
     @PutMapping("/{id}")
     public ResponseEntity<ApiData> update(@PathVariable Integer id, @Valid @RequestBody UserUpdateDto userDto) {
         logger.info("update id:{}, userDto:{}", id, userDto);
@@ -102,7 +97,6 @@ public class UserController {
             return ResponseBuilder.found(new ApiError(errors));
         }
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiData> delete(@PathVariable Integer id) {
         logger.info("delete id:{}", id);

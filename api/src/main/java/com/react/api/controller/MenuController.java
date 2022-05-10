@@ -15,15 +15,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
 @RequestMapping("api/menu")
-@PreAuthorize("hasAnyAuthority('MENU')")
 public class MenuController {
     private final Logger logger = LoggerFactory.getLogger(MenuController.class);
     private final MenuRepository menuRepository;
@@ -35,6 +32,7 @@ public class MenuController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('MENU')")
     public ResponseEntity<ApiData> get(@RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "0") Integer perPage) {
         logger.info("get menus page:{}, perPage:{}", page, perPage);
         Sort sort = Sort.by("id");

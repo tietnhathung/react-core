@@ -105,9 +105,10 @@ const Index: React.FC = () => {
                                     <td>{user.username}</td>
                                     <td>{user.status ? "Active" : "NonActive"}</td>
                                     <td className="text-center">
-                                        <Button className="me-2" variant="primary" size="sm">
+                                        <Link className="me-2 text-white btn btn-primary btn-sm"
+                                              to={`/user/show/${user.id}`}>
                                             <FaIcon icon="far fa-search"/> Show
-                                        </Button>
+                                        </Link>
                                         <Link className="me-2 text-white btn btn-success btn-sm"
                                               to={`/user/edit/${user.id}`}>
                                             <FaIcon icon="far fa-pen"/> Edit

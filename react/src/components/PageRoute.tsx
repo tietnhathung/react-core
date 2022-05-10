@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useAppSelector} from "../hooks/hooks";
-import {authIsLogin, getAuthorities} from "../store/auth/authSlice";
+import { getAuthorities} from "../store/auth/authSlice";
 import {Navigate, useLocation} from "react-router-dom";
 
 type PageRouteProp = {

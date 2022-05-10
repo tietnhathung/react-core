@@ -5,7 +5,6 @@ import {IUser} from "../../types/entities/IUser";
 import {TApiResult} from "../../types/TApiResult";
 import TJwt from "../../types/auth/TJwt";
 import {RootState,store} from "../index";
-import jwt_decode from "jwt-decode";
 import tokenService from "../../services/tokenService";
 
 export interface AuthState {

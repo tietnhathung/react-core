@@ -12,7 +12,8 @@ describe('auth reducer', () => {
             id:1,
             status:true,
             fullName:"test",
-            username:"test"
+            username:"test",
+            authorities:[]
         },
     };
     it('should handle initial state', () => {
