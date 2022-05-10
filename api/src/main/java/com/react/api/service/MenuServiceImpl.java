@@ -17,19 +17,16 @@ public class MenuServiceImpl implements MenuService {
         this.menuRepository = menuRepository;
     }
 
-    public List<Menu> buildMenu() {
-        List<Menu> menuRow = menuRepository.findAll();
+    public List<Menu> buildMenu(List<Menu> menuRow) {
         return new ArrayList<>(getChildrenOfMenu(menuRow, null));
     }
 
-    @Override
     public List<Menu> buildMenuByUser(Integer userId) {
         List<Menu> menuRow = new ArrayList<>(menuRepository.findAllByUserId(userId));
-        return new ArrayList<>(getChildrenOfMenu(menuRow, null));
+        return buildMenu(menuRow);
     }
 
     private List<Menu> getChildrenOfMenu(List<Menu> allMenus, Integer parentId) {
-
         List<Menu> menus = allMenus.stream().filter(menu -> Objects.equals(menu.getParentId(), parentId)).collect(Collectors.toList());
         allMenus.removeAll(menus);
         menus = menus.stream().peek(menu -> {

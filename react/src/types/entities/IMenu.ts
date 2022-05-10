@@ -7,3 +7,4 @@ export interface IMenu {
     parentId:number;
     children:IMenu[];
 }
+export type IMenuForm = Omit<IMenu, "children">;

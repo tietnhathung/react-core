@@ -8,6 +8,7 @@ import {getUserById, updateUsers} from "../../services/userServices";
 import {useNavigate, useParams} from "react-router-dom";
 import AlertErrors from "../../components/AlertErrors";
 import {TApiErrors} from '../../types/TApiErrors';
+import AppForm from "../../components/AppForm";
 
 const schema = yup.object({
     id: yup.number().required(),
@@ -19,7 +20,7 @@ const schema = yup.object({
 
 
 const Edit = () => {
-    const {register, setValue, setError, handleSubmit, formState: {errors, touchedFields}} = useForm<IUser>({
+    const {setValue, setError, handleSubmit, control} = useForm<IUser>({
         resolver: yupResolver(schema)
     });
     let [errorsMessages, setErrorsMessages] = useState<TApiErrors>();
@@ -80,46 +81,22 @@ const Edit = () => {
                         <Form onSubmit={onSubmit}>
                             <Form.Group className="mb-3" controlId="formBasicUsername">
                                 <Form.Label>User name</Form.Label>
-                                <Form.Control
-                                    className={errors.username && touchedFields.username ? "is-invalid" : ""}
-                                    type="text" placeholder="Enter username" {...register("username")} />
-                                {(errors.username && touchedFields.username) &&
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.username.message}
-                                    </Form.Control.Feedback>
-                                }
+                                <AppForm.Input name="username" control={control} type="text"
+                                               placeholder="Enter username"/>
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formBasicFullName">
                                 <Form.Label>Full name</Form.Label>
-                                <Form.Control
-                                    className={errors.fullName && touchedFields.fullName ? "is-invalid" : ""}
-                                    type="text" placeholder="Enter fullName" {...register("fullName")} />
-                                {(errors.fullName && touchedFields.fullName) &&
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.fullName.message}
-                                    </Form.Control.Feedback>
-                                }
+                                <AppForm.Input name="fullName" control={control} type="text"
+                                               placeholder="Enter fullName"/>
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formBasicPassword">
                                 <Form.Label>Password</Form.Label>
-                                <Form.Control
-                                    className={errors.password && touchedFields.password ? "is-invalid" : ""}
-                                    type="password" autoComplete="on" placeholder="Password" {...register("password")}/>
-                                {(errors.password && touchedFields.password) &&
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.password.message}
-                                    </Form.Control.Feedback>
-                                }
+                                <AppForm.Input name="password" control={control} type="password"
+                                               placeholder="Enter password"/>
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formBasicStatus">
                                 <Form.Label>Status</Form.Label>
-                                <Form.Check
-                                    className={errors.status && touchedFields.status ? "is-invalid" : ""}{...register("status")}/>
-                                {(errors.status && touchedFields.status) &&
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.status.message}
-                                    </Form.Control.Feedback>
-                                }
+                                <AppForm.Check name="status" control={control}/>
                             </Form.Group>
                             <Button variant="primary" type="submit">
                                 Submit

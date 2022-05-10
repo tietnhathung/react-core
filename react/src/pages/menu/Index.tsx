@@ -9,7 +9,7 @@ import AppPagination from "../../components/AppPagination";
 import {IMenu} from "../../types/entities/IMenu";
 import {getMenus} from "../../services/menuServices";
 
-const useUser = function () {
+const useIndex = function () {
     let [menus, setMenus] = useState<IMenu[]>([]);
     let [totalItems, setTotalItems] = useState<number>(0);
     let [page, setPage] = useState<number>(0);
@@ -57,7 +57,7 @@ const useUser = function () {
 }
 
 const Index: React.FC = () => {
-    const {state, method} = useUser();
+    const {state, method} = useIndex();
     return (
         <Row>
             <Col md={12}>
@@ -67,8 +67,9 @@ const Index: React.FC = () => {
                 <Card>
                     <Card.Header>
                         <Card.Title>
-                            User <Link className="btn btn-sm btn-primary" to="/user/create"><i
-                            className="fas fa-plus"></i> Add</Link>
+                            User <Link className="btn btn-sm btn-primary" to="/menu/create">
+                                <i className="fas fa-plus"></i> Add
+                            </Link>
                         </Card.Title>
 
                     </Card.Header>

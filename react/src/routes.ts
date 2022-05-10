@@ -16,6 +16,7 @@ const UserShow = React.lazy(() => import('./pages/users/Show'))
 
 //menu
 const MenuIndex = React.lazy(() => import('./pages/menu/Index'))
+const MenuCreate = React.lazy(() => import('./pages/menu/Create'))
 
 const Page403 = React.lazy(() => import('./pages/403/Index'))
 const Page404 = React.lazy(() => import('./pages/404/Index'))
@@ -30,6 +31,7 @@ const routes: RoutesType[] = [
     {path: 'user/show/:id', element: UserShow, title: 'Show User', authority: 'USER'},
 
     {path: 'menu', element: MenuIndex, title: 'Menu', authority: 'MENU'},
+    {path: 'menu/create', element: MenuCreate, title: 'Create menu', authority: 'MENU'},
 
     {path: '403', element: Page403},
     {path: '/home', element: Home},

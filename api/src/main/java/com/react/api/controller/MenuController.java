@@ -17,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -44,10 +45,10 @@ public class MenuController {
         List<Menu> menus = menuRepository.findAll(sort);
         return ResponseBuilder.page(menus);
     }
-
     @GetMapping("user")
     public ResponseEntity<ApiData> getByUser(Authentication authentication){
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
         List<Menu> menus = menuService.buildMenuByUser(userDetails.getId());
         return ResponseBuilder.ok(menus);
     }
