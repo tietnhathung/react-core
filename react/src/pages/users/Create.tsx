@@ -56,22 +56,22 @@ const Create = () => {
                         <Form onSubmit={onSubmit}>
                             <Form.Group className="mb-3" controlId="formBasicUsername">
                                 <Form.Label>User name</Form.Label>
-                                <AppForm.Input name="username" control={control} type="text"
+                                <AppForm.Input field="username" control={control} type="text"
                                                placeholder="Enter username"/>
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formBasicFullName">
                                 <Form.Label>Full name</Form.Label>
-                                <AppForm.Input name="fullName" control={control} type="text"
+                                <AppForm.Input field="fullName" control={control} type="text"
                                                placeholder="Enter fullName"/>
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formBasicPassword">
                                 <Form.Label>Password</Form.Label>
-                                <AppForm.Input name="password" control={control} type="password"
+                                <AppForm.Input field="password" control={control} type="password"
                                                placeholder="Enter password"/>
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formBasicStatus">
                                 <Form.Label>Status</Form.Label>
-                                <AppForm.Check name="status" control={control}/>
+                                <AppForm.Check field="status" control={control}/>
                             </Form.Group>
                             <Button variant="primary" type="submit">
                                 Submit

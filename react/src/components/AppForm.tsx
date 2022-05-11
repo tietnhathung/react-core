@@ -19,12 +19,12 @@ const Feedback = (props: TFeedbackProps) => {
 };
 
 type TAppFormProp<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> = {
-    name: TName
+    field: TName
     control?: Control<TFieldValues>
 }
 
 const Input = <TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: TAppFormProp<TFieldValues, TName> & FormControlProps) => {
-    let {name, control, ...formProps} = props;
+    let {field, control, ...formProps} = props;
     return <Controller
         render={({field, fieldState: {error, isTouched}}) => (
             <>
@@ -32,13 +32,13 @@ const Input = <TFieldValues extends FieldValues = FieldValues, TName extends Fie
                 <Feedback error={error} isTouched={isTouched}/>
             </>
         )}
-        name={name}
+        name={field}
         control={control}
     />
 };
 
 const Check = <TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: TAppFormProp<TFieldValues, TName> & FormCheckProps) => {
-    let {name, control, ...formProps} = props;
+    let {field, control, ...formProps} = props;
     return <Controller
         render={({field, fieldState: {error, isTouched}}) => (
             <>
@@ -46,7 +46,7 @@ const Check = <TFieldValues extends FieldValues = FieldValues, TName extends Fie
                 <Feedback error={error} isTouched={isTouched}/>
             </>
         )}
-        name={name}
+        name={field}
         control={control}
     />
 };

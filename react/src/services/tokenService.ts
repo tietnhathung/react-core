@@ -1,7 +1,5 @@
 import TJwt from "../types/auth/TJwt";
-import {IUser} from "../types/entities/IUser";
-import jwt_decode from "jwt-decode";
-import {AuthState} from "../store/auth/authSlice";
+
 
 class TokenService {
     setToken = function (jwt: TJwt): void {

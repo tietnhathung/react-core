@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {IMenuForm} from "../../../types/entities/IMenu";
 import {TApiErrors} from "../../../types/TApiErrors";
 import {Button, Card, Col, Form, Row} from "react-bootstrap";
@@ -28,15 +28,15 @@ const MenuFrom = (props:TMenuFromProp) => {
                         <Form onSubmit={onSubmit}>
                             <Form.Group className="mb-3" controlId="formTitle">
                                 <Form.Label>Title</Form.Label>
-                                <AppForm.Input name="title" control={control} type="text" placeholder="Enter title" />
+                                <AppForm.Input field="title" control={control} type="text" placeholder="Enter title" />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formTitle">
                                 <Form.Label>Url</Form.Label>
-                                <AppForm.Input name="url" control={control} type="text" placeholder="Enter url" />
+                                <AppForm.Input field="url" control={control} type="text" placeholder="Enter url" />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formTitle">
                                 <Form.Label>Icon</Form.Label>
-                                <AppForm.Input name="icon" control={control} type="text" placeholder="Enter icon" />
+                                <AppForm.Input field="icon" control={control} type="text" placeholder="Enter icon" />
                             </Form.Group>
                             <Button variant="primary" type="submit">
                                 Submit

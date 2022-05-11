@@ -5,10 +5,8 @@ import {TApiErrors} from "../../types/TApiErrors";
 import {useNavigate} from "react-router-dom";
 import * as yup from "yup";
 import {IMenuForm} from "../../types/entities/IMenu";
-import {createMenu} from "../../services/menuServices";
 import MenuFrom from "./components/MenuFrom";
-import {FieldPath} from 'react-hook-form';
-import {Controller} from 'react-hook-form';
+
 
 const schema = yup.object({
     title: yup.string().min(6).max(12).required(),

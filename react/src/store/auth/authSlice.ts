@@ -4,7 +4,7 @@ import * as authService from '../../services/authService';
 import {IUser} from "../../types/entities/IUser";
 import {TApiResult} from "../../types/TApiResult";
 import TJwt from "../../types/auth/TJwt";
-import {RootState,store} from "../index";
+import {RootState} from "../index";
 import tokenService from "../../services/tokenService";
 
 export interface AuthState {

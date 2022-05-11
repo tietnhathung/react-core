@@ -1,13 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
-import FaIcon from "./FaIcon";
 import logo from "../assets/img/logo/logo-amitech.png";
 import { useAppSelector, useAppDispatch } from '../hooks/hooks';
 import { RootState } from '../store';
 import {toggleUnfoldableSidebar} from "../store/app/appSlice"
 import {IMenu} from "../types/entities/IMenu";
 import {getMenusOfUser} from "../services/menuServices";
-import {authUser} from "../store/auth/authSlice";
 import MenuBuilder from "./MenuBuilder";
 
 const Sidebar: React.FC = () => {
@@ -19,7 +17,7 @@ const Sidebar: React.FC = () => {
 
     useEffect(function () {
         getMenusOfUser().then(response => {
-                let {status,data,error} = response;
+                let {status,data} = response;
                 if (status && data){
                     setMenus(data);
                 }
