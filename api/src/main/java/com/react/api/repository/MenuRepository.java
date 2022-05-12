@@ -9,8 +9,13 @@ import javax.persistence.QueryHint;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 public interface MenuRepository extends JpaRepository<Menu, Integer>, JpaSpecificationExecutor<Menu> {
+
+    @Override
+    @EntityGraph(attributePaths = "permission")
+    Optional<Menu> findById(Integer integer);
 
     @Query("select menu from Menu as menu " +
             "left join RulePermission as rp on rp.permission.id = menu.permission.id " +

@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
-import {TApiErrors} from "../../types/TApiErrors";
+import {TApiErrors} from "../../../types/TApiErrors";
 import {useNavigate} from "react-router-dom";
 import * as yup from "yup";
-import {IMenuForm} from "../../types/entities/IMenu";
+import {IMenuForm} from "../../../types/entities/IMenu";
 import MenuFrom from "./components/MenuFrom";
-import {IPermission} from "../../types/entities/IPermission";
-import {getPermissions} from "../../services/permissionService";
-import {createMenu} from "../../services/menuServices";
+import {IPermission} from "../../../types/entities/IPermission";
+import {getPermissions} from "../../../services/permissionService";
+import {createMenu} from "../../../services/menuServices";
 import { FieldPath } from 'react-hook-form';
 
 const schema = yup.object({

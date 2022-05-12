@@ -1,7 +1,3 @@
-export type IAuthorities = {
-    authority: string
-}
-
 export interface IUser {
     id: number;
     fullName: string;
@@ -10,5 +6,4 @@ export interface IUser {
     password?: string;
     createdBy?: number;
     createdAt?: string;
-    authorities: IAuthorities[]
 }

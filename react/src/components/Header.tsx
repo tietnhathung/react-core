@@ -42,7 +42,7 @@ const Header = () => {
                         <Link className="nav-link" to="/user">Users</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/line">Lines</Link>
+                        <Link className="nav-link" to="/menu">Menus</Link>
                     </li>
                 </ul>
                 <ul className="header-nav ms-auto">

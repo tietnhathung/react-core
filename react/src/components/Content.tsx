@@ -15,11 +15,7 @@ const Content = () => {
                             <Route
                                 key={idx}
                                 path={route.path}
-                                element={
-                                    route.authority ?
-                                        <PageRoute title={route.title} authority={route.authority} children={<route.element/>}/> :
-                                        <route.element/>
-                                }
+                                element={<PageRoute title={route.title} authority={route.authority} children={<route.element/>}/>}
                             />
                         )
                     )

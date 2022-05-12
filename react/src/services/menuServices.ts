@@ -26,6 +26,10 @@ export const updateMenu = async (id:number,data: IMenuForm): Promise<TApiResult<
     return await http.put<IMenu>(menuConstants.api.put.replace("{id}",id.toString()), data);
 }
 
+export const deleteMenu = async (id:number): Promise<TApiResult<void>> => {
+    return await http.delete<void>(menuConstants.api.delete.replace("{id}",id.toString()));
+}
+
 export const getMenuById = async (id:number): Promise<TApiResult<IMenu>> => {
     return await http.get<IMenu>(menuConstants.api.getById.replace("{id}",id.toString()));
 }

@@ -24,7 +24,11 @@ public class ResponseBuilder {
         apiData.setContent(pagination);
         return ResponseEntity.ok().body(apiData);
     }
-
+    public static ResponseEntity<ApiData> ok(){
+        ApiData apiData = new ApiData();
+        apiData.setHttpStatus(HttpStatus.OK);
+        return new ResponseEntity<>(apiData,HttpStatus.OK);
+    }
     public static ResponseEntity<ApiData> ok(Object data){
         ApiData apiData = new ApiData();
         apiData.setHttpStatus(HttpStatus.OK);

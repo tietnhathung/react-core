@@ -1,8 +1,8 @@
-import {IUser} from "../entities/IUser";
+import {IAuth} from "./IAuth";
 
 type TJwt = {
     accessToken:string,
     refreshToken:string,
-    user:IUser,
+    user:IAuth,
 }
 export default TJwt

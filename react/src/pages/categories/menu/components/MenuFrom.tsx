@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {IMenu, IMenuForm} from "../../../types/entities/IMenu";
-import {TApiErrors} from "../../../types/TApiErrors";
+import {IMenu, IMenuForm} from "../../../../types/entities/IMenu";
+import {TApiErrors} from "../../../../types/TApiErrors";
 import {Button, Card, Col, Form, Row} from "react-bootstrap";
-import AlertErrors from "../../../components/AlertErrors";
-import AppForm from "../../../components/AppForm";
+import AlertErrors from "../../../../components/AlertErrors";
+import AppForm from "../../../../components/AppForm";
 import {Control} from "react-hook-form/dist/types";
-import {IPermission} from "../../../types/entities/IPermission";
-import {getPermissions} from "../../../services/permissionService";
-import {getMenus} from "../../../services/menuServices";
-import menuConstants from "../../../constants/menuConstants";
+import {IPermission} from "../../../../types/entities/IPermission";
+import {getPermissions} from "../../../../services/permissionService";
+import {getMenus} from "../../../../services/menuServices";
+import menuConstants from "../../../../constants/menuConstants";
 
 type TMenuFromProp = {
     title: string

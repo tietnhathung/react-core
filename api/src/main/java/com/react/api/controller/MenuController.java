@@ -46,7 +46,7 @@ public class MenuController {
     public ResponseEntity<ApiData> get(@RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "0") Integer perPage) {
         logger.info("get menus page:{}, perPage:{}", page, perPage);
         Sort sort = Sort.by("id");
-        if(0 < perPage){
+        if (0 < perPage) {
             PageRequest paging = PageRequest.of(page, perPage, sort);
             Page<Menu> menus = menuRepository.findAll(paging);
             return ResponseBuilder.page(menus);
@@ -57,17 +57,18 @@ public class MenuController {
 
     @GetMapping("{id}")
     @PreAuthorize("hasAnyAuthority('MENU')")
-    public ResponseEntity<ApiData> getById(@PathVariable Integer id){
-       try {
-           Optional<Menu> optionalMenu = menuRepository.findById(id);
-           if (optionalMenu.isEmpty()){
-               throw new EntityNotFoundException("Permission not found");
-           }
-           return ResponseBuilder.ok(optionalMenu.get());
-       }catch (Exception errors){
-           return ResponseBuilder.found(new ApiError(errors));
-       }
+    public ResponseEntity<ApiData> getById(@PathVariable Integer id) {
+        try {
+            Optional<Menu> optionalMenu = menuRepository.findById(id);
+            if (optionalMenu.isEmpty()) {
+                throw new EntityNotFoundException("Menu not found");
+            }
+            return ResponseBuilder.ok(optionalMenu.get());
+        } catch (Exception errors) {
+            return ResponseBuilder.found(new ApiError(errors));
+        }
     }
+
     @PostMapping
     @PreAuthorize("hasAnyAuthority('MENU')")
     public ResponseEntity<ApiData> create(@Valid @RequestBody MenuDto menuDto) {
@@ -79,9 +80,9 @@ public class MenuController {
             menu.setIcon(menuDto.getIcon());
             menu.setParentId(menuDto.getParentId());
             menu.setTarget(menuDto.getTarget());
-            if (menuDto.getPermission() != null){
+            if (menuDto.getPermission() != null) {
                 Optional<Permission> OptionPermission = permissionRepository.findById(menuDto.getPermission().getId());
-                if (OptionPermission.isEmpty()){
+                if (OptionPermission.isEmpty()) {
                     throw new EntityNotFoundException("Permission not found");
                 }
                 menu.setPermission(OptionPermission.get());
@@ -95,12 +96,12 @@ public class MenuController {
 
     @PutMapping("{id}")
     @PreAuthorize("hasAnyAuthority('MENU')")
-    public ResponseEntity<ApiData> update(@PathVariable Integer id,@Valid @RequestBody MenuDto menuDto) {
-        logger.info("update MenuDto id:{}, data:{}",id, menuDto);
+    public ResponseEntity<ApiData> update(@PathVariable Integer id, @Valid @RequestBody MenuDto menuDto) {
+        logger.info("update MenuDto id:{}, data:{}", id, menuDto);
         try {
             Optional<Menu> optionalMenu = menuRepository.findById(id);
-            if (optionalMenu.isEmpty()){
-                throw new EntityNotFoundException("Permission not found");
+            if (optionalMenu.isEmpty()) {
+                throw new EntityNotFoundException("Menu not found");
             }
             Menu menu = optionalMenu.get();
             menu.setTitle(menuDto.getTitle());
@@ -108,25 +109,40 @@ public class MenuController {
             menu.setIcon(menuDto.getIcon());
             menu.setParentId(menuDto.getParentId());
             menu.setTarget(menuDto.getTarget());
-            if (menuDto.getPermission() != null){
+            if (menuDto.getPermission() != null) {
                 Optional<Permission> OptionPermission = permissionRepository.findById(menuDto.getPermission().getId());
-                if (OptionPermission.isEmpty()){
+                if (OptionPermission.isEmpty()) {
                     throw new EntityNotFoundException("Permission not found");
                 }
                 menu.setPermission(OptionPermission.get());
-            }else{
+            } else {
                 menu.setPermission(null);
             }
             Menu savedMenu = menuRepository.save(menu);
-            return ResponseBuilder.ok(savedMenu, HttpStatus.CREATED);
+            return ResponseBuilder.ok(savedMenu, HttpStatus.OK);
         } catch (Exception errors) {
             return ResponseBuilder.found(new ApiError(errors));
         }
     }
 
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('MENU')")
+    public ResponseEntity<ApiData> delete(@PathVariable Integer id) {
+        logger.info("delete menu id:{}", id);
+        try {
+            Optional<Menu> optionalMenu = menuRepository.findById(id);
+            if (optionalMenu.isEmpty()) {
+                throw new EntityNotFoundException("Menu not found");
+            }
+            menuRepository.delete(optionalMenu.get());
+            return ResponseBuilder.ok();
+        } catch (Exception errors) {
+            return ResponseBuilder.found(new ApiError(errors));
+        }
+    }
 
     @GetMapping("user")
-    public ResponseEntity<ApiData> getByUser(Authentication authentication){
+    public ResponseEntity<ApiData> getByUser(Authentication authentication) {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
         List<Menu> menus = menuService.buildMenuByUser(userDetails.getId());

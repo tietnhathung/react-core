@@ -3,12 +3,12 @@ import {Button, Card, Col, Form, Row} from "react-bootstrap";
 import {useForm, FieldPath} from "react-hook-form";
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import {IUser} from "../../types/entities/IUser";
-import {createUsers} from "../../services/userServices";
+import {IUser} from "../../../types/entities/IUser";
+import {createUsers} from "../../../services/userServices";
 import {useNavigate} from "react-router-dom";
-import {TApiErrors} from "../../types/TApiErrors";
-import AlertErrors from "../../components/AlertErrors";
-import AppForm from "../../components/AppForm";
+import {TApiErrors} from "../../../types/TApiErrors";
+import AlertErrors from "../../../components/AlertErrors";
+import AppForm from "../../../components/AppForm";
 
 const schema = yup.object({
     username: yup.string().min(6).max(12).required(),

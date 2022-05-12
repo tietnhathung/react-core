@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import * as yup from "yup";
 import {useNavigate, useParams} from "react-router-dom";
 import {FieldPath, useForm} from "react-hook-form";
-import {IMenuForm} from "../../types/entities/IMenu";
+import {IMenuForm} from "../../../types/entities/IMenu";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
-import {TApiErrors} from "../../types/TApiErrors";
-import {createMenu, getMenuById, updateMenu} from "../../services/menuServices";
+import {TApiErrors} from "../../../types/TApiErrors";
+import {getMenuById, updateMenu} from "../../../services/menuServices";
 import MenuFrom from "./components/MenuFrom";
 
 const schema = yup.object({
@@ -30,13 +30,7 @@ const Edit = () => {
     let [errorsMessages, setErrorsMessages] = useState<TApiErrors>();
     let {id} = useParams();
 
-    useEffect(() => {
-        if (id){
-            fetchMenu(parseInt(id)).then(console.log);
-        }
-    },[id])
-
-    const fetchMenu = async (id: number) => {
+    const fetchMenu = useCallback( async (id: number) => {
         let {status, data, error} = await getMenuById(id)
         if (status && data) {
             setValue("id", data.id);
@@ -50,7 +44,13 @@ const Edit = () => {
             setErrorsMessages(error)
         }
         return "fetch menu done!"
-    }
+    },[setValue])
+
+    useEffect(() => {
+        if (id){
+            fetchMenu(parseInt(id)).then(console.log);
+        }
+    },[id,fetchMenu])
 
     const onSubmit = handleSubmit(async menuForm => {
         if(id){

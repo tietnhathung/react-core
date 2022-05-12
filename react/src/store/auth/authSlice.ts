@@ -1,14 +1,14 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import TFormLogin from "../../types/auth/TFormLogin";
 import * as authService from '../../services/authService';
-import {IUser} from "../../types/entities/IUser";
 import {TApiResult} from "../../types/TApiResult";
 import TJwt from "../../types/auth/TJwt";
 import {RootState} from "../index";
 import tokenService from "../../services/tokenService";
+import {IAuth} from "../../types/auth/IAuth";
 
 export interface AuthState {
-    authUser?: IUser,
+    authUser?: IAuth,
     isLogin: boolean
 }
 

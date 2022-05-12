@@ -1,18 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import {getUserById} from "../../services/userServices";
-import {IUser} from "../../types/entities/IUser";
-import {TApiErrors} from "../../types/TApiErrors";
+import {getUserById} from "../../../services/userServices";
+import {IUser} from "../../../types/entities/IUser";
+import {TApiErrors} from "../../../types/TApiErrors";
 import { Card, Col, Row} from "react-bootstrap";
-import AlertErrors from "../../components/AlertErrors";
-import AppButton from "../../components/AppButton";
-import dateUtils from "../../utils/dateUtils";
+import AlertErrors from "../../../components/AlertErrors";
+import AppButton from "../../../components/AppButton";
+import dateUtils from "../../../utils/dateUtils";
 
 const Show = () => {
     let {id} = useParams();
     let [user,setUser] = useState<IUser>();
     let [errorsMessages, setErrorsMessages] = useState<TApiErrors>();
-
 
     useEffect(function () {
         if (id) {

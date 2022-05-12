@@ -2,13 +2,13 @@ import React, {useEffect, useState} from 'react';
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {TApiErrors} from "../../types/TApiErrors";
+import {TApiErrors} from "../../../types/TApiErrors";
 import {useNavigate} from "react-router-dom";
-import TFormLogin from "../../types/auth/TFormLogin";
-import AlertErrors from "../../components/AlertErrors";
+import TFormLogin from "../../../types/auth/TFormLogin";
+import AlertErrors from "../../../components/AlertErrors";
 import {Row, Spinner} from 'react-bootstrap';
-import {useAppDispatch} from "../../hooks/hooks";
-import {loginAsync} from "../../store/auth/authSlice";
+import {useAppDispatch} from "../../../hooks/hooks";
+import {loginAsync} from "../../../store/auth/authSlice";
 
 const schema = yup.object({
     username: yup.string().min(5).required(),

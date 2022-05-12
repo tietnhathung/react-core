@@ -1,16 +1,30 @@
-import React, {useEffect, useState} from "react";
-import {TApiErrors} from "../../types/TApiErrors";
-import AppConstants from "../../constants/appConstants";
-import {Button, Card, Col, Row, Table} from "react-bootstrap";
-import AlertErrors from "../../components/AlertErrors";
-import {Link} from "react-router-dom";
-import FaIcon from "../../components/FaIcon";
-import AppPagination from "../../components/AppPagination";
-import {IMenu} from "../../types/entities/IMenu";
-import {getMenus} from "../../services/menuServices";
+import React, {useEffect, useState} from 'react';
+import {deleteUser, getUsers} from "../../../services/userServices";
+import {IUser} from "../../../types/entities/IUser";
+import {Button, Card, Col, Row, Table} from 'react-bootstrap';
+import FaIcon from "../../../components/FaIcon";
+import {Link} from 'react-router-dom';
+import AppConstants from "../../../constants/appConstants";
+import AppPagination from "../../../components/AppPagination";
+import alertify from '../../../instants/alertify'
+import {TApiErrors} from "../../../types/TApiErrors";
+import AlertErrors from "../../../components/AlertErrors";
 
-const useIndex = function () {
-    let [menus, setMenus] = useState<IMenu[]>([]);
+interface IHookUseUser {
+    state: {
+        users: IUser[],
+        page: number,
+        totalItems: number,
+        errorsMessages:TApiErrors|undefined
+    },
+    method: {
+        setPage: (page: number) => void,
+        removeItem: (id: number) => void
+    }
+}
+
+const useUser = function (): IHookUseUser {
+    let [users, setUsers] = useState<IUser[]>([]);
     let [totalItems, setTotalItems] = useState<number>(0);
     let [page, setPage] = useState<number>(0);
     let [errorsMessages, setErrorsMessages] = useState<TApiErrors>();
@@ -20,9 +34,9 @@ const useIndex = function () {
     }, [page])
 
     const fetchItems = async (page:number): Promise<void> => {
-        let {status, data , error} = await getMenus(page, AppConstants.pagination);
+        let {status, data , error} = await getUsers(page, AppConstants.pagination);
         if (status && data) {
-            setMenus(data.content)
+            setUsers(data.content)
             setTotalItems(data.totalElements)
         }
         if (!status && error){
@@ -31,20 +45,20 @@ const useIndex = function () {
     }
 
     const removeItem = (id: number): void => {
-        // alertify.confirm("You won't be able to revert this.", async function () {
-        //     let {status} = await deleteUser(id.toString());
-        //     if (status) {
-        //         fetchItems(page);
-        //         alertify.success(`Delete item with id is ${id} successfully`);
-        //     } else {
-        //         alertify.error(`Delete item has id: ${id} failed`);
-        //     }
-        // });
+        alertify.confirm("You won't be able to revert this.", async function () {
+            let {status} = await deleteUser(id.toString());
+            if (status) {
+                fetchItems(page);
+                alertify.success(`Delete item with id is ${id} successfully`);
+            } else {
+                alertify.error(`Delete item has id: ${id} failed`);
+            }
+        });
     }
 
     return {
         state: {
-            menus,
+            users,
             page,
             totalItems,
             errorsMessages
@@ -57,7 +71,7 @@ const useIndex = function () {
 }
 
 const Index: React.FC = () => {
-    const {state, method} = useIndex();
+    const {state, method} = useUser();
     return (
         <Row>
             <Col md={12}>
@@ -67,9 +81,8 @@ const Index: React.FC = () => {
                 <Card>
                     <Card.Header>
                         <Card.Title>
-                            User <Link className="btn btn-sm btn-primary" to="/menu/create">
-                                <i className="fas fa-plus"></i> Add
-                            </Link>
+                            User <Link className="btn btn-sm btn-primary" to="/user/create"><i
+                            className="fas fa-plus"></i> Add</Link>
                         </Card.Title>
 
                     </Card.Header>
@@ -78,36 +91,37 @@ const Index: React.FC = () => {
                             <thead>
                             <tr className="text-center">
                                 <th>Id</th>
-                                <th>Title</th>
-                                <th>Url</th>
-                                <th>Target</th>
+                                <th>First Name</th>
+                                <th>UserName</th>
+                                <th>Status</th>
                                 <th className="w-300-px">Function</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {state.menus.map(menu => (
-                                <tr key={menu.id}>
-                                    <td>{menu.id}</td>
-                                    <td>{menu.title}</td>
-                                    <td>{menu.url}</td>
-                                    <td>{menu.target}</td>
+                            {state.users.map(user => (
+                                <tr key={user.id}>
+                                    <td>{user.id}</td>
+                                    <td>{user.fullName}</td>
+                                    <td>{user.username}</td>
+                                    <td>{user.status ? "Active" : "NonActive"}</td>
                                     <td className="text-center">
-                                        <Button className="me-2" variant="primary" size="sm">
+                                        <Link className="me-2 text-white btn btn-primary btn-sm"
+                                              to={`/user/show/${user.id}`}>
                                             <FaIcon icon="far fa-search"/> Show
-                                        </Button>
+                                        </Link>
                                         <Link className="me-2 text-white btn btn-success btn-sm"
-                                              to={`/menu/edit/${menu.id}`}>
+                                              to={`/user/edit/${user.id}`}>
                                             <FaIcon icon="far fa-pen"/> Edit
                                         </Link>
                                         <Button className="me-2 text-white" variant="danger" size="sm" onClick={() => {
-                                            method.removeItem(menu.id)
+                                            method.removeItem(user.id)
                                         }}>
                                             <FaIcon icon="far fa-trash-alt"/> Delete
                                         </Button>
                                     </td>
                                 </tr>
                             ))}
-                            {state.menus.length === 0 && <tr>
+                            {state.users.length === 0 && <tr>
                                 <td className="text-center" colSpan={5}>No data!</td>
                             </tr>}
                             </tbody>

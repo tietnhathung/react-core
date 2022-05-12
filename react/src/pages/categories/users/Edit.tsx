@@ -3,12 +3,13 @@ import {Button, Card, Col, Form, Row} from "react-bootstrap";
 import {FieldPath, useForm} from "react-hook-form";
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import {IUser} from "../../types/entities/IUser";
-import {getUserById, updateUsers} from "../../services/userServices";
+import {IUser} from "../../../types/entities/IUser";
+import {getUserById, updateUsers} from "../../../services/userServices";
 import {useNavigate, useParams} from "react-router-dom";
-import AlertErrors from "../../components/AlertErrors";
-import {TApiErrors} from '../../types/TApiErrors';
-import AppForm from "../../components/AppForm";
+import AlertErrors from "../../../components/AlertErrors";
+import {TApiErrors} from '../../../types/TApiErrors';
+import AppForm from "../../../components/AppForm";
+import { useCallback } from 'react';
 
 const schema = yup.object({
     id: yup.number().required(),
@@ -25,15 +26,10 @@ const Edit = () => {
     });
     let [errorsMessages, setErrorsMessages] = useState<TApiErrors>();
     let navigate = useNavigate();
+
     let {id} = useParams();
 
-    useEffect(function () {
-        if (id) {
-            fetchItem(id).then(console.log);
-        }
-    }, [id])
-
-    async function fetchItem(userId: string) {
+    const fetchItem = useCallback(async (userId: string) => {
         let {status, data, error} = await getUserById(userId)
         if (status && data) {
             setValue("id", data.id);
@@ -44,7 +40,13 @@ const Edit = () => {
             setErrorsMessages(error)
         }
         return "fetch data done!"
-    }
+    },[setValue])
+
+    useEffect(function () {
+        if (id) {
+            fetchItem(id).then(console.log);
+        }
+    }, [id,fetchItem])
 
     const onSubmit = handleSubmit(async userForm => {
         if (id) {

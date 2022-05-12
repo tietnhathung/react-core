@@ -10,9 +10,12 @@ describe('auth reducer', () => {
         isLogin: true,
         authUser: {
             id:1,
-            status:true,
+            enabled:true,
             fullName:"test",
             username:"test",
+            accountNonExpired:true,
+            accountNonLocked:true,
+            credentialsNonExpired:true,
             authorities:[]
         },
     };
