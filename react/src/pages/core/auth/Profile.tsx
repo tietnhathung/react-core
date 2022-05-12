@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card, Col, Row} from "react-bootstrap";
 import AppButton from "../../../components/AppButton";
-import {useAppSelector} from "../../../hooks/hooks";
+import {useAppSelector} from "../../../hooks";
 import {authUser, getAuthorities} from "../../../store/auth/authSlice";
 
 const Profile = () => {

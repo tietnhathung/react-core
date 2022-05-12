@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {useAppSelector} from "../hooks/hooks";
+import {useAppSelector} from "../hooks";
 import {getAuthorities} from "../store/auth/authSlice";
 import {Navigate, useLocation} from "react-router-dom";
 

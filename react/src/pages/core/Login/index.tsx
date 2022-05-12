@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 import TFormLogin from "../../../types/auth/TFormLogin";
 import AlertErrors from "../../../components/AlertErrors";
 import {Row, Spinner} from 'react-bootstrap';
-import {useAppDispatch} from "../../../hooks/hooks";
+import {useAppDispatch} from "../../../hooks";
 import {loginAsync} from "../../../store/auth/authSlice";
 
 const schema = yup.object({

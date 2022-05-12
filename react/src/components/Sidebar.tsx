@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import logo from "../assets/img/logo/logo-amitech.png";
-import { useAppSelector, useAppDispatch } from '../hooks/hooks';
+import { useAppSelector, useAppDispatch } from '../hooks';
 import { RootState } from '../store';
 import {toggleUnfoldableSidebar} from "../store/app/appSlice"
 import {IMenu} from "../types/entities/IMenu";

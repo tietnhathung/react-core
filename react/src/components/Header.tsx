@@ -4,7 +4,7 @@ import logo from "../assets/img/logo/logo-amitech.png";
 import FaIcon from "./FaIcon";
 import {Link, useNavigate} from "react-router-dom";
 import {toggleHideSidebar} from "../store/app/appSlice"
-import {useAppDispatch, useAppSelector} from '../hooks/hooks';
+import {useAppDispatch, useAppSelector} from '../hooks';
 import {NavDropdown} from 'react-bootstrap';
 import alertify from "../instants/alertify";
 import {authUser, logout} from '../store/auth/authSlice';
