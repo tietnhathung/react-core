@@ -41,19 +41,6 @@ class DemoApplicationTests {
     void contextLoads() {
     }
 
-//    @Test
-//    void createUser() {
-//        User user = new User();
-//        user.setFullName("Tiết Nhật Hưng");
-//        user.setStatus(true);
-//        user.setUsername("admin");
-//        user.setPassword(encoder.encode("123456"));
-//        user.setCreatedAt(LocalDateTime.now());
-//        user.setCreatedBy(0);
-//        userRepository.save(user);
-//        Assertions.assertThat(user.getId()).isNotNull();
-//    }
-
     @Test
     public void whenParsingJsonStringIntoJsonNode_thenCorrect() throws Exception {
         String jsonString = "{\"k1\":\"v1\",\"k2\":\"v2\"}";

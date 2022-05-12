@@ -27,12 +27,12 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final long MAX_AGE = 1800L;
-    @Autowired
-    private AuthEntryPointJwt unauthorizedHandler;
+    private final AuthEntryPointJwt unauthorizedHandler;
     private final UserDetailsService jwtUserDetailsService;
 
-    public WebSecurityConfig(UserDetailsService jwtUserDetailsService) {
+    public WebSecurityConfig(UserDetailsService jwtUserDetailsService, AuthEntryPointJwt unauthorizedHandler) {
         this.jwtUserDetailsService = jwtUserDetailsService;
+        this.unauthorizedHandler = unauthorizedHandler;
     }
 
     @Bean
