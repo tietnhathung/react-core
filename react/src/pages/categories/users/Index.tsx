@@ -30,7 +30,7 @@ const useUser = function (): IHookUseUser {
     let [errorsMessages, setErrorsMessages] = useState<TApiErrors>();
 
     useEffect(function () {
-        fetchItems(page);
+        fetchItems(page).then(console.log);
     }, [page])
 
     const fetchItems = async (page:number): Promise<void> => {
@@ -48,7 +48,7 @@ const useUser = function (): IHookUseUser {
         alertify.confirm("You won't be able to revert this.", async function () {
             let {status} = await deleteUser(id.toString());
             if (status) {
-                fetchItems(page);
+                await fetchItems(page);
                 alertify.success(`Delete item with id is ${id} successfully`);
             } else {
                 alertify.error(`Delete item has id: ${id} failed`);
