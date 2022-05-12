@@ -12,21 +12,21 @@ import java.io.Serializable;
 @Data
 @UserUnique
 public class UserUpdateDto implements Serializable {
-    private final Integer id;
+    private Integer id;
 
     @NotEmpty()
     @Size(max = 12, min = 6)
     @NotNull
-    private final String username;
+    private String username;
 
     @NotEmpty()
     @Size(max = 255, min = 4)
     @NotNull
-    private final String fullName;
+    private String fullName;
 
     @UpdatePassword(max = 12, min = 6)
-    private final String password;
+    private String password;
 
     @NotNull
-    private final Boolean status;
+    private Boolean status;
 }

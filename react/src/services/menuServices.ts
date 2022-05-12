@@ -18,8 +18,16 @@ export const getMenus = async (page?: number, perPage?: number): Promise<TApiRes
     return await http.get<IPagination<IMenu>>(menuConstants.api.get, {params: params});
 }
 
-export const createMenu = async (data: IMenuForm): Promise<TApiResult> => {
+export const createMenu = async (data: IMenuForm): Promise<TApiResult<IMenu>> => {
     return await http.post<IMenu>(menuConstants.api.post, data);
+}
+
+export const updateMenu = async (id:number,data: IMenuForm): Promise<TApiResult<IMenu>> => {
+    return await http.put<IMenu>(menuConstants.api.put.replace("{id}",id.toString()), data);
+}
+
+export const getMenuById = async (id:number): Promise<TApiResult<IMenu>> => {
+    return await http.get<IMenu>(menuConstants.api.getById.replace("{id}",id.toString()));
 }
 
 export const getMenusOfUser = async (): Promise<TApiResult<IMenu[]>> => {

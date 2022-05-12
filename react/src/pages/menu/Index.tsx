@@ -96,7 +96,7 @@ const Index: React.FC = () => {
                                             <FaIcon icon="far fa-search"/> Show
                                         </Button>
                                         <Link className="me-2 text-white btn btn-success btn-sm"
-                                              to={`/user/edit/${menu.id}`}>
+                                              to={`/menu/edit/${menu.id}`}>
                                             <FaIcon icon="far fa-pen"/> Edit
                                         </Link>
                                         <Button className="me-2 text-white" variant="danger" size="sm" onClick={() => {

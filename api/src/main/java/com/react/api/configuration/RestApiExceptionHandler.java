@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
@@ -85,5 +86,13 @@ public class RestApiExceptionHandler extends ResponseEntityExceptionHandler {
         ApiError apiError = new ApiError(HttpStatus.FORBIDDEN);
         apiError.setMessage(ex.getMessage());
         return ResponseBuilder.buildError(apiError, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(HttpMessageConversionException.class)
+    public final ResponseEntity<Object> handleHttpMessageConversion(HttpMessageConversionException ex) {
+        logger.debug(ex.getMessage(),ex);
+        ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR);
+        apiError.setMessage(ex.getMessage());
+        return ResponseBuilder.buildError(apiError, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

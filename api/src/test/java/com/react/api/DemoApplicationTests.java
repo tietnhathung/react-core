@@ -1,8 +1,10 @@
 package com.react.api;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.react.api.dto.auth.JwtDto;
+import com.react.api.dto.use.UserCreateDto;
 import com.react.api.model.Menu;
 import com.react.api.model.User;
 import com.react.api.repository.MenuRepository;
@@ -82,4 +84,14 @@ class DemoApplicationTests {
         Assertions.assertThat(menus.isEmpty()).isFalse();
         Assertions.assertThat((long) menus.size()).isNotZero();
     }
+
+    @Test
+    public void givenAbstractClass_whenDeserializing_thenException() throws IOException {
+        String json = "{\"username\":\"anh1ok\",\"fullName\":\"fullName\",\"password\":\"password\"}";
+        ObjectMapper mapper = new ObjectMapper();
+        UserCreateDto userCreateDto =  mapper.reader().forType(UserCreateDto.class).readValue(json);
+        System.out.print(userCreateDto);
+        Assertions.assertThat(userCreateDto).isNotNull();
+    }
+
 }

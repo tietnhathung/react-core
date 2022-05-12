@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -10,7 +10,6 @@ import {Row, Spinner} from 'react-bootstrap';
 import {useAppDispatch} from "../../hooks/hooks";
 import {loginAsync} from "../../store/auth/authSlice";
 
-
 const schema = yup.object({
     username: yup.string().min(5).required(),
     password: yup.string().min(4).required(),
@@ -18,14 +17,16 @@ const schema = yup.object({
 
 const Index: React.FC = () => {
     const dispatch = useAppDispatch();
-
     const {register, handleSubmit, formState: {errors, isSubmitted}} = useForm<TFormLogin>({
         resolver: yupResolver(schema)
     });
     let [errorsMessages, setErrorsMessages] = useState<TApiErrors>();
     let [isLoad, setIsLoad] = useState<boolean>(false);
-
     let navigate = useNavigate();
+
+    useEffect(() => {
+        document.title = "Login"
+    },[])
 
     const onSubmit = handleSubmit(async loginForm => {
         setIsLoad(true)

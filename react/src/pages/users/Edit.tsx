@@ -54,14 +54,16 @@ const Edit = () => {
             } else {
                 if (error) {
                     setErrorsMessages(error);
-                    error?.subErrors.forEach(function (subError) {
-                        if ("field" in subError) {
-                            setError(subError.field as FieldPath<IUser>, {
-                                type: 'server',
-                                message: `${subError.field} ${subError.message}`
-                            })
-                        }
-                    })
+                    if (error?.subErrors){
+                        error?.subErrors.forEach(function (subError) {
+                            if ("field" in subError) {
+                                setError(subError.field as FieldPath<IUser>, {
+                                    type: 'server',
+                                    message: `${subError.field} ${subError.message}`
+                                })
+                            }
+                        })
+                    }
                 }
             }
         }

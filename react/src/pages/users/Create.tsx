@@ -16,9 +16,14 @@ const schema = yup.object({
     password: yup.string().min(6).max(12).required(),
     status: yup.boolean().required()
 }).required();
-
 const Create = () => {
     const {handleSubmit, setError, control} = useForm<IUser>({
+        defaultValues: {
+            username:"",
+            fullName:"",
+            status:false,
+            password:""
+        },
         resolver: yupResolver(schema)
     });
     let [errorsMessages, setErrorsMessages] = useState<TApiErrors>();
@@ -31,6 +36,7 @@ const Create = () => {
             navigate('/user');
         } else {
             setErrorsMessages(error);
+            if (!error?.subErrors)return;
             error?.subErrors.forEach(function (subError) {
                 if ("field" in subError) {
                     setError(subError.field as FieldPath<IUser>, {
