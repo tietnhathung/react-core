@@ -66,7 +66,7 @@ const Create = () => {
                                            placeholder="Enter fullName"/>
                             <AppForm.Input title="Password" field="password" control={control} type="password"
                                            placeholder="Enter password"/>
-                            <AppForm.Check title="Status" field="status" control={control}/>
+                            <AppForm.Check title="Status" field="status" control={control} type="switch"/>
                             <Button variant="primary" type="submit">Submit</Button>
                         </Form>
                     </Card.Body>

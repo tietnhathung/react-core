@@ -1,4 +1,5 @@
-import React from 'react';
+// @ts-ignore
+import React,{useId} from 'react';
 import {Form} from "react-bootstrap";
 import {Controller} from "react-hook-form";
 import {FormControlProps} from "react-bootstrap/FormControl";
@@ -30,9 +31,10 @@ type TAppFormProp<TFieldValues extends FieldValues = FieldValues, TName extends 
 
 const Input = <TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: TAppFormProp<TFieldValues, TName> & FormControlProps) => {
     let {field, control,title, ...formProps} = props;
+    let id = useId();
     return <Controller
         render={({field, fieldState: {error, isTouched}}) => (
-            <Form.Group className="mb-3" controlId="formTitle">
+            <Form.Group className="mb-3" controlId={`form-${id}`}>
                 <Form.Label>{title}</Form.Label>
                 <Form.Control  {...formProps} className={error && isTouched ? "is-invalid" : ""} {...field} />
                 <Feedback error={error} isTouched={isTouched}/>
@@ -45,11 +47,12 @@ const Input = <TFieldValues extends FieldValues = FieldValues, TName extends Fie
 
 const Check = <TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: TAppFormProp<TFieldValues, TName> & FormCheckProps) => {
     let {field,title, control, ...formProps} = props;
+    const id = useId();
     return <Controller
         render={({field, fieldState: {error, isTouched}}) => (
-            <Form.Group className="mb-3" controlId="formTitle">
+            <Form.Group className="mb-3" controlId={"form-"+id}>
                 <Form.Label>{title}</Form.Label>
-                <Form.Check {...formProps} className={error && isTouched ? "is-invalid" : ""} {...field}/>
+                <Form.Check {...formProps} className={error && isTouched ? "is-invalid" : ""} {...field} checked={field.value}/>
                 <Feedback error={error} isTouched={isTouched}/>
             </Form.Group>
         )}
@@ -66,6 +69,7 @@ interface TAppFormSelectProp<TOption, TFiled extends keyof TOption, TFieldValues
 
 const AppSelect = <TOption, TFiled extends keyof TOption, TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: TAppFormSelectProp<TOption, TFiled, TFieldValues, TName>) => {
     let {field,title, control, options, optionValue, optionLabel} = props;
+    const id = useId();
     return <Controller
         name={field}
         render={({field: {onChange, onBlur, value, name, ref}, fieldState: {error, isTouched}}) => {
@@ -97,7 +101,7 @@ const AppSelect = <TOption, TFiled extends keyof TOption, TFieldValues extends F
                 return JSON.stringify(option);
             }
             return (
-                <Form.Group className="mb-3" controlId="formTitle">
+                <Form.Group className="mb-3" controlId={`form-${id}`}>
                     <Form.Label>{title}</Form.Label>
                     <Select
                         className={error && isTouched ? "is-invalid" : ""}

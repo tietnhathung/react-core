@@ -22,6 +22,12 @@ const schema = yup.object({
 
 const Edit = () => {
     const {setValue, setError, handleSubmit, control} = useForm<IUser>({
+        defaultValues: {
+            username: "",
+            fullName: "",
+            status: false,
+            password: ""
+        },
         resolver: yupResolver(schema)
     });
     let [errorsMessages, setErrorsMessages] = useState<TApiErrors>();
@@ -89,7 +95,7 @@ const Edit = () => {
                                            placeholder="Enter fullName"/>
                             <AppForm.Input title="Password" field="password" control={control} type="password"
                                            placeholder="Enter password"/>
-                            <AppForm.Check title="Status" field="status" control={control}/>
+                            <AppForm.Check title="Status" field="status" control={control} type="switch"/>
                             <Button variant="primary" type="submit">
                                 Submit
                             </Button>
