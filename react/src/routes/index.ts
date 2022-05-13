@@ -9,9 +9,9 @@ export type RoutesType = {
     authority?: string
 }
 
-const routes: RoutesType[] = [
+const index: RoutesType[] = [
     ...categoryRoutes,
     ...coreRoutes
 ];
 
-export default routes
+export default index

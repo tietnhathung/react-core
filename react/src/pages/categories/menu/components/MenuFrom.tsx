@@ -64,33 +64,20 @@ const MenuFrom = (props: TMenuFromProp) => {
                     <Card.Body>
                         {errorsMessages && <AlertErrors error={errorsMessages}/>}
                         <Form onSubmit={onSubmit}>
-                            <Form.Group className="mb-3" controlId="formTitle">
-                                <Form.Label>Title</Form.Label>
-                                <AppForm.Input field="title" control={control} type="text" placeholder="Enter title"/>
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="formUrl">
-                                <Form.Label>Url</Form.Label>
-                                <AppForm.Input field="url" control={control} type="text" placeholder="Enter url"/>
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="formIcon">
-                                <Form.Label>Icon</Form.Label>
-                                <AppForm.Input field="icon" control={control} type="text" placeholder="Enter icon"/>
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="formParent">
-                                <Form.Label>Parent</Form.Label>
-                                <AppForm.Select field="parentId" control={control} options={menus} optionLabel="title"
-                                                optionValue="id"/>
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="formPermission">
-                                <Form.Label>Permission</Form.Label>
-                                <AppForm.Select field="permission" control={control} options={permissions}
-                                                optionLabel="name" />
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="formTarget">
-                                <Form.Label>Target</Form.Label>
-                                <AppForm.Select field="target" control={control} options={targetOptions}
-                                                optionLabel="label" optionValue="id"/>
-                            </Form.Group>
+                            <AppForm.Input title="Title" field="title" control={control} type="text"
+                                           placeholder="Enter title"/>
+                            <AppForm.Input title="Url" field="url" control={control} type="text"
+                                           placeholder="Enter url"/>
+                            <AppForm.Input title="Icon" field="icon" control={control} type="text"
+                                           placeholder="Enter icon"/>
+                            <AppForm.Select title="Parent" field="parentId" control={control} options={menus}
+                                            optionLabel="title"
+                                            optionValue="id"/>
+                            <AppForm.Select title="Permission" field="permission" control={control}
+                                            options={permissions}
+                                            optionLabel="name"/>
+                            <AppForm.Select title="Target" field="target" control={control} options={targetOptions}
+                                            optionLabel="label" optionValue="id"/>
                             <Button variant="primary" type="submit">
                                 Submit
                             </Button>

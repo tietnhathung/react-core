@@ -19,10 +19,10 @@ const schema = yup.object({
 const Create = () => {
     const {handleSubmit, setError, control} = useForm<IUser>({
         defaultValues: {
-            username:"",
-            fullName:"",
-            status:false,
-            password:""
+            username: "",
+            fullName: "",
+            status: false,
+            password: ""
         },
         resolver: yupResolver(schema)
     });
@@ -36,7 +36,7 @@ const Create = () => {
             navigate('/user');
         } else {
             setErrorsMessages(error);
-            if (!error?.subErrors)return;
+            if (!error?.subErrors) return;
             error?.subErrors.forEach(function (subError) {
                 if ("field" in subError) {
                     setError(subError.field as FieldPath<IUser>, {
@@ -60,28 +60,14 @@ const Create = () => {
                     <Card.Body>
                         {errorsMessages && <AlertErrors error={errorsMessages}/>}
                         <Form onSubmit={onSubmit}>
-                            <Form.Group className="mb-3" controlId="formBasicUsername">
-                                <Form.Label>User name</Form.Label>
-                                <AppForm.Input field="username" control={control} type="text"
-                                               placeholder="Enter username"/>
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="formBasicFullName">
-                                <Form.Label>Full name</Form.Label>
-                                <AppForm.Input field="fullName" control={control} type="text"
-                                               placeholder="Enter fullName"/>
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="formBasicPassword">
-                                <Form.Label>Password</Form.Label>
-                                <AppForm.Input field="password" control={control} type="password"
-                                               placeholder="Enter password"/>
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="formBasicStatus">
-                                <Form.Label>Status</Form.Label>
-                                <AppForm.Check field="status" control={control}/>
-                            </Form.Group>
-                            <Button variant="primary" type="submit">
-                                Submit
-                            </Button>
+                            <AppForm.Input title="User name" field="username" control={control} type="text"
+                                           placeholder="Enter username"/>
+                            <AppForm.Input title="Full name" field="fullName" control={control} type="text"
+                                           placeholder="Enter fullName"/>
+                            <AppForm.Input title="Password" field="password" control={control} type="password"
+                                           placeholder="Enter password"/>
+                            <AppForm.Check title="Status" field="status" control={control}/>
+                            <Button variant="primary" type="submit">Submit</Button>
                         </Form>
                     </Card.Body>
                 </Card>

@@ -23,18 +23,20 @@ const Feedback = (props: TFeedbackProps) => {
 };
 
 type TAppFormProp<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> = {
+    title: string
     field: TName
     control?: Control<TFieldValues>
 }
 
 const Input = <TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: TAppFormProp<TFieldValues, TName> & FormControlProps) => {
-    let {field, control, ...formProps} = props;
+    let {field, control,title, ...formProps} = props;
     return <Controller
         render={({field, fieldState: {error, isTouched}}) => (
-            <>
+            <Form.Group className="mb-3" controlId="formTitle">
+                <Form.Label>{title}</Form.Label>
                 <Form.Control  {...formProps} className={error && isTouched ? "is-invalid" : ""} {...field} />
                 <Feedback error={error} isTouched={isTouched}/>
-            </>
+            </Form.Group>
         )}
         name={field}
         control={control}
@@ -42,13 +44,14 @@ const Input = <TFieldValues extends FieldValues = FieldValues, TName extends Fie
 };
 
 const Check = <TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: TAppFormProp<TFieldValues, TName> & FormCheckProps) => {
-    let {field, control, ...formProps} = props;
+    let {field,title, control, ...formProps} = props;
     return <Controller
         render={({field, fieldState: {error, isTouched}}) => (
-            <>
+            <Form.Group className="mb-3" controlId="formTitle">
+                <Form.Label>{title}</Form.Label>
                 <Form.Check {...formProps} className={error && isTouched ? "is-invalid" : ""} {...field}/>
                 <Feedback error={error} isTouched={isTouched}/>
-            </>
+            </Form.Group>
         )}
         name={field}
         control={control}
@@ -62,7 +65,7 @@ interface TAppFormSelectProp<TOption, TFiled extends keyof TOption, TFieldValues
 }
 
 const AppSelect = <TOption, TFiled extends keyof TOption, TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: TAppFormSelectProp<TOption, TFiled, TFieldValues, TName>) => {
-    let {field, control, options, optionValue, optionLabel} = props;
+    let {field,title, control, options, optionValue, optionLabel} = props;
     return <Controller
         name={field}
         render={({field: {onChange, onBlur, value, name, ref}, fieldState: {error, isTouched}}) => {
@@ -88,13 +91,14 @@ const AppSelect = <TOption, TFiled extends keyof TOption, TFieldValues extends F
                 return option[optionLabel] as unknown as string;
             }
             const getOptionValue = (option: TOption) => {
-                if (optionValue){
+                if (optionValue) {
                     return option[optionValue] as unknown as string
                 }
                 return JSON.stringify(option);
             }
             return (
-                <>
+                <Form.Group className="mb-3" controlId="formTitle">
+                    <Form.Label>{title}</Form.Label>
                     <Select
                         className={error && isTouched ? "is-invalid" : ""}
                         name={name}
@@ -108,7 +112,7 @@ const AppSelect = <TOption, TFiled extends keyof TOption, TFieldValues extends F
                         options={options}
                     />
                     <Feedback error={error} isTouched={isTouched}/>
-                </>
+                </Form.Group>
             );
         }}
         control={control}
