@@ -60,14 +60,16 @@ const Create = () => {
                     <Card.Body>
                         {errorsMessages && <AlertErrors error={errorsMessages}/>}
                         <Form onSubmit={onSubmit}>
-                            <AppForm.Input title="User name" field="username" control={control} type="text"
-                                           placeholder="Enter username"/>
-                            <AppForm.Input title="Full name" field="fullName" control={control} type="text"
-                                           placeholder="Enter fullName"/>
-                            <AppForm.Input title="Password" field="password" control={control} type="password"
-                                           placeholder="Enter password"/>
-                            <AppForm.Check title="Status" field="status" control={control} type="switch"/>
-                            <Button variant="primary" type="submit">Submit</Button>
+                            <AppForm.GroupInput label="User name" field="username" control={control} type="text"
+                                                placeholder="Enter username"/>
+                            <AppForm.GroupInput label="Full name" field="fullName" control={control} type="text"
+                                                placeholder="Enter fullName"/>
+                            <AppForm.GroupInput label="Password" field="password" control={control} type="password"
+                                                placeholder="Enter password"/>
+                            <AppForm.GroupCheck label="Status" field="status" control={control} type="switch"/>
+                            <Button variant="primary" type="submit">
+                                Submit
+                            </Button>
                         </Form>
                     </Card.Body>
                 </Card>
