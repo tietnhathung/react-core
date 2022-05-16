@@ -1,6 +1,5 @@
 import TJwt from "../types/auth/TJwt";
 
-
 class TokenService {
     setToken = function (jwt: TJwt): void {
         localStorage.setItem('accessToken', jwt.accessToken);

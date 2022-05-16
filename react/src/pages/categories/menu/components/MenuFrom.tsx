@@ -70,13 +70,13 @@ const MenuFrom = (props: TMenuFromProp) => {
                                                 placeholder="Enter url"/>
                             <AppForm.GroupInput label="Icon" field="icon" control={control} type="text"
                                                 placeholder="Enter icon"/>
-                            <AppForm.GroupSelect label="Parent" field="parentId" control={control} options={menus}
+                            <AppForm.GroupSelect isMulti={false} label="Parent" field="parentId" control={control} options={menus}
                                                  optionLabel="title"
                                                  optionValue="id"/>
-                            <AppForm.GroupSelect label="Permission" field="permission" control={control}
+                            <AppForm.GroupSelect isMulti={false} label="Permission" field="permission" control={control}
                                                  options={permissions}
                                                  optionLabel="name"/>
-                            <AppForm.GroupSelect label="Target" field="target" control={control} options={targetOptions}
+                            <AppForm.GroupSelect isMulti={false} label="Target" field="target" control={control} options={targetOptions}
                                                  optionLabel="label" optionValue="id"/>
                             <Button variant="primary" type="submit">
                                 Submit

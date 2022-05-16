@@ -1,5 +1,5 @@
 // @ts-ignore
-import React,{useId} from 'react';
+import React, {useId} from 'react';
 import {Form} from "react-bootstrap";
 import {Controller} from "react-hook-form";
 import {FormControlProps} from "react-bootstrap/FormControl";
@@ -7,8 +7,10 @@ import ReactSelect from 'react-select';
 import {Control, FieldError, FieldPath, FieldValues} from "react-hook-form/dist/types";
 import {FormCheckProps} from "react-bootstrap/FormCheck";
 import {
+    MultiValue,
     OnChangeValue,
     PropsValue,
+    SingleValue,
 } from "react-select/dist/declarations/src/types";
 
 interface IFeedbackProps {
@@ -21,18 +23,19 @@ interface IAppFormProp<TFieldValues extends FieldValues = FieldValues, TName ext
     control?: Control<TFieldValues>
 }
 
-interface IAppGroupFormProp<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> extends IAppFormProp<TFieldValues, TName>{
-    label:string
+interface IAppGroupFormProp<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> extends IAppFormProp<TFieldValues, TName> {
+    label: string
 }
 
 interface IAppFormSelectProp<TOption, TFiled extends keyof TOption, TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> extends IAppFormProp<TFieldValues, TName> {
+    isMulti: boolean
     optionValue?: TFiled
     optionLabel: TFiled
     options: TOption[]
 }
 
-interface IAppGroupFormSelectProp<TOption, TFiled extends keyof TOption, TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> extends IAppFormSelectProp<TOption,TFiled,TFieldValues,TName> {
-    label:string
+interface IAppGroupFormSelectProp<TOption, TFiled extends keyof TOption, TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> extends IAppFormSelectProp<TOption, TFiled, TFieldValues, TName> {
+    label: string
 }
 
 const Feedback = (props: IFeedbackProps) => {
@@ -55,7 +58,7 @@ const Input = <TFieldValues extends FieldValues = FieldValues, TName extends Fie
 };
 
 const GroupInput = <TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: IAppGroupFormProp<TFieldValues, TName> & FormControlProps) => {
-    let {field, control,label, ...formProps} = props;
+    let {field, control, label, ...formProps} = props;
     let id = useId();
     return <Controller
         render={({field, fieldState: {error, isTouched}}) => (
@@ -74,20 +77,22 @@ const Check = <TFieldValues extends FieldValues = FieldValues, TName extends Fie
     let {field, control, ...formProps} = props;
     return <Controller
         render={({field, fieldState: {error, isTouched}}) => (
-            <Form.Check {...formProps} className={error && isTouched ? "is-invalid" : ""} {...field} checked={field.value}/>
+            <Form.Check {...formProps} className={error && isTouched ? "is-invalid" : ""} {...field}
+                        checked={field.value}/>
         )}
         name={field}
         control={control}
     />
 };
 const GroupCheck = <TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: IAppFormProp<TFieldValues, TName> & FormCheckProps) => {
-    let {field,label, control, ...formProps} = props;
+    let {field, label, control, ...formProps} = props;
     const id = useId();
     return <Controller
         render={({field, fieldState: {error, isTouched}}) => (
-            <Form.Group className="mb-3" controlId={"form-"+id}>
+            <Form.Group className="mb-3" controlId={"form-" + id}>
                 <Form.Label>{label}</Form.Label>
-                <Form.Check {...formProps} className={error && isTouched ? "is-invalid" : ""} {...field} checked={field.value}/>
+                <Form.Check {...formProps} className={error && isTouched ? "is-invalid" : ""} {...field}
+                            checked={field.value}/>
                 <Feedback error={error} isTouched={isTouched}/>
             </Form.Group>
         )}
@@ -97,23 +102,38 @@ const GroupCheck = <TFieldValues extends FieldValues = FieldValues, TName extend
 };
 
 const Select = <TOption, TFiled extends keyof TOption, TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: IAppFormSelectProp<TOption, TFiled, TFieldValues, TName>) => {
-    let {field, control, options, optionValue, optionLabel} = props;
+    let {field, control, options, optionValue, optionLabel,isMulti} = props;
     return <Controller
         name={field}
         render={({field: {onChange, onBlur, value, name, ref}, fieldState: {error, isTouched}}) => {
             const getValue = (): PropsValue<TOption> => {
-                if (optionValue) {
-                    let index = options.findIndex(option => option[optionValue as TFiled] === value);
-                    if (index >= 0) {
-                        return options[index];
+                if (optionValue && value) {
+                    if (isMulti){
+                        return options.filter(option => (value as Array<any>).includes(option[optionValue as TFiled]));
+                    }else{
+                        let index = options.findIndex(option => option[optionValue as TFiled] === value);
+                        if (index >= 0) {
+                            return options[index];
+                        }
                     }
                 }
                 return value
             }
-            const handlerChangeValue = (newValue: OnChangeValue<TOption, false>) => {
+            const handlerChangeValue = (newValue: OnChangeValue<TOption,typeof isMulti>) => {
+                let value:any = newValue;
+                if (optionValue){
+                    if (isMulti){
+                        value = (newValue as MultiValue<TOption>).map(item => {
+                            return item[optionValue as TFiled];
+                        });
+                    }else{
+                        value = (newValue as SingleValue<TOption>)?.[optionValue]
+                    }
+                }
+
                 let event = {
                     target: {
-                        value: optionValue ? newValue?.[optionValue] : newValue,
+                        value: value,
                         name: field
                     }
                 }
@@ -129,6 +149,7 @@ const Select = <TOption, TFiled extends keyof TOption, TFieldValues extends Fiel
                 return JSON.stringify(option);
             }
             return <ReactSelect
+                isMulti={isMulti}
                 className={error && isTouched ? "is-invalid" : ""}
                 name={name}
                 ref={ref}
@@ -145,24 +166,39 @@ const Select = <TOption, TFiled extends keyof TOption, TFieldValues extends Fiel
     />
 };
 const GroupSelect = <TOption, TFiled extends keyof TOption, TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>(props: IAppGroupFormSelectProp<TOption, TFiled, TFieldValues, TName>) => {
-    let {field,label, control, options, optionValue, optionLabel} = props;
+    let {field, label, control, options, optionValue, optionLabel, isMulti} = props;
     const id = useId();
     return <Controller
         name={field}
         render={({field: {onChange, onBlur, value, name, ref}, fieldState: {error, isTouched}}) => {
             const getValue = (): PropsValue<TOption> => {
-                if (optionValue) {
-                    let index = options.findIndex(option => option[optionValue as TFiled] === value);
-                    if (index >= 0) {
-                        return options[index];
+                if (optionValue && value) {
+                    if (isMulti){
+                        return options.filter(option => (value as Array<any>).includes(option[optionValue as TFiled]));
+                    }else{
+                        let index = options.findIndex(option => option[optionValue as TFiled] === value);
+                        if (index >= 0) {
+                            return options[index];
+                        }
                     }
                 }
                 return value
             }
-            const handlerChangeValue = (newValue: OnChangeValue<TOption, false>) => {
+            const handlerChangeValue = (newValue: OnChangeValue<TOption,typeof isMulti>) => {
+                let value:any = newValue;
+                if (optionValue){
+                    if (isMulti){
+                        value = (newValue as MultiValue<TOption>).map(item => {
+                            return item[optionValue as TFiled];
+                        });
+                    }else{
+                        value = (newValue as SingleValue<TOption>)?.[optionValue]
+                    }
+                }
+
                 let event = {
                     target: {
-                        value: optionValue ? newValue?.[optionValue] : newValue,
+                        value: value,
                         name: field
                     }
                 }
@@ -181,6 +217,7 @@ const GroupSelect = <TOption, TFiled extends keyof TOption, TFieldValues extends
                 <Form.Group className="mb-3" controlId={`form-${id}`}>
                     <Form.Label>{label}</Form.Label>
                     <ReactSelect
+                        isMulti={isMulti}
                         className={error && isTouched ? "is-invalid" : ""}
                         name={name}
                         ref={ref}

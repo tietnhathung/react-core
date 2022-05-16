@@ -1,6 +1,8 @@
 package com.react.api.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "permission")
@@ -12,6 +14,9 @@ public class Permission {
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    @ManyToMany(mappedBy = "permissions",fetch = FetchType.LAZY)
+    List<Rule> rules  = new ArrayList<>();;
 
     public Integer getId() {
         return id;

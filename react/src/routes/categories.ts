@@ -7,6 +7,11 @@ const UserCreate = React.lazy(() => import('../pages/categories/users/Create'))
 const UserEdit = React.lazy(() => import('../pages/categories/users/Edit'))
 const UserShow = React.lazy(() => import('../pages/categories/users/Show'))
 
+//
+const RuleIndex = React.lazy(() => import('../pages/categories/rule/Index'))
+const RuleCreate = React.lazy(() => import('../pages/categories/rule/Create'))
+const RuleEdit = React.lazy(() => import('../pages/categories/rule/Edit'))
+
 //menu
 const MenuIndex = React.lazy(() => import('../pages/categories/menu/Index'))
 const MenuCreate = React.lazy(() => import('../pages/categories/menu/Create'))
@@ -19,6 +24,11 @@ const categoryRoutes: RoutesType[] = [
     {path: 'user/create', element: UserCreate, title: 'Create User', authority: 'USER'},
     {path: 'user/edit/:id', element: UserEdit, title: 'Edit User', authority: 'USER'},
     {path: 'user/show/:id', element: UserShow, title: 'Show User', authority: 'USER'},
+
+    //rule
+    {path: 'rule', element: RuleIndex, title: 'Rule', authority: 'RULE'},
+    {path: 'rule/create', element: RuleCreate, title: 'Create Rule', authority: 'RULE'},
+    {path: 'rule/edit/:id', element: RuleEdit, title: 'Update Rule', authority: 'RULE'},
 
     //menu
     {path: 'menu', element: MenuIndex, title: 'Menu', authority: 'MENU'},
