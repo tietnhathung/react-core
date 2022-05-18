@@ -9,7 +9,7 @@ import com.react.api.repository.MenuRepository;
 import com.react.api.repository.PermissionRepository;
 import com.react.api.service.MenuService;
 import com.react.api.service.UserDetailsImpl;
-import com.react.api.types.ApiData;
+import com.react.api.types.ApiResult;
 import com.react.api.types.ApiError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +43,7 @@ public class MenuController {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('MENU')")
-    public ResponseEntity<ApiData> get(@RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "0") Integer perPage) {
+    public ResponseEntity<ApiResult> get(@RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "0") Integer perPage) {
         logger.info("get menus page:{}, perPage:{}", page, perPage);
         Sort sort = Sort.by("id");
         if (0 < perPage) {
@@ -57,7 +57,7 @@ public class MenuController {
 
     @GetMapping("{id}")
     @PreAuthorize("hasAnyAuthority('MENU')")
-    public ResponseEntity<ApiData> getById(@PathVariable Integer id) {
+    public ResponseEntity<ApiResult> getById(@PathVariable Integer id) {
         try {
             Optional<Menu> optionalMenu = menuRepository.findById(id);
             if (optionalMenu.isEmpty()) {
@@ -71,7 +71,7 @@ public class MenuController {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('MENU')")
-    public ResponseEntity<ApiData> create(@Valid @RequestBody MenuDto menuDto) {
+    public ResponseEntity<ApiResult> create(@Valid @RequestBody MenuDto menuDto) {
         logger.info("create MenuDto:{}", menuDto);
         try {
             Menu menu = new Menu();
@@ -96,7 +96,7 @@ public class MenuController {
 
     @PutMapping("{id}")
     @PreAuthorize("hasAnyAuthority('MENU')")
-    public ResponseEntity<ApiData> update(@PathVariable Integer id, @Valid @RequestBody MenuDto menuDto) {
+    public ResponseEntity<ApiResult> update(@PathVariable Integer id, @Valid @RequestBody MenuDto menuDto) {
         logger.info("update MenuDto id:{}, data:{}", id, menuDto);
         try {
             Optional<Menu> optionalMenu = menuRepository.findById(id);
@@ -127,7 +127,7 @@ public class MenuController {
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasAnyAuthority('MENU')")
-    public ResponseEntity<ApiData> delete(@PathVariable Integer id) {
+    public ResponseEntity<ApiResult> delete(@PathVariable Integer id) {
         logger.info("delete menu id:{}", id);
         try {
             Optional<Menu> optionalMenu = menuRepository.findById(id);
@@ -142,7 +142,7 @@ public class MenuController {
     }
 
     @GetMapping("user")
-    public ResponseEntity<ApiData> getByUser(Authentication authentication) {
+    public ResponseEntity<ApiResult> getByUser(Authentication authentication) {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
         List<Menu> menus = menuService.buildMenuByUser(userDetails.getId());

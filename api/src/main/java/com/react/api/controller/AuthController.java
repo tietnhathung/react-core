@@ -7,7 +7,7 @@ import com.react.api.dto.auth.LoginDto;
 import com.react.api.dto.auth.RefreshTokenDto;
 import com.react.api.service.UserDetailsImpl;
 import com.react.api.service.UserDetailsServiceImpl;
-import com.react.api.types.ApiData;
+import com.react.api.types.ApiResult;
 import com.react.api.types.ApiError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +38,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiData> login(@Valid @RequestBody LoginDto loginDto) {
+    public ResponseEntity<ApiResult> login(@Valid @RequestBody LoginDto loginDto) {
         try {
             logger.info("Login username:{}, password:{}", loginDto.getUsername(), loginDto.getPassword());
             Authentication authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
@@ -60,7 +60,7 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<ApiData> refresh(@Valid @RequestBody RefreshTokenDto refreshTokenDto) {
+    public ResponseEntity<ApiResult> refresh(@Valid @RequestBody RefreshTokenDto refreshTokenDto) {
         logger.info("refresh token");
         String errorMessage;
         try {

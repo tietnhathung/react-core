@@ -4,7 +4,7 @@ import com.react.api.common.ResponseBuilder;
 import com.react.api.dto.rule.RuleDto;
 import com.react.api.model.Rule;
 import com.react.api.repository.RuleRepository;
-import com.react.api.types.ApiData;
+import com.react.api.types.ApiResult;
 import com.react.api.types.ApiError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +33,7 @@ public class RuleController {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('RULE')")
-    public ResponseEntity<ApiData> get(@RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "0") Integer perPage) {
+    public ResponseEntity<ApiResult> get(@RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "0") Integer perPage) {
         logger.info("get rules page:{}, perPage:{}", page, perPage);
         Sort sort = Sort.by("name");
         if (0 < perPage) {
@@ -47,7 +47,7 @@ public class RuleController {
 
     @GetMapping("{id}")
     @PreAuthorize("hasAnyAuthority('RULE')")
-    public ResponseEntity<ApiData> find(@PathVariable Integer id) {
+    public ResponseEntity<ApiResult> find(@PathVariable Integer id) {
         logger.info("find id:{}", id);
         try {
             Optional<Rule> optionalRule = ruleRepository.findByIdWithPermissions(id);
@@ -62,7 +62,7 @@ public class RuleController {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('RULE')")
-    public ResponseEntity<ApiData> create(@Valid @RequestBody RuleDto ruleDto) {
+    public ResponseEntity<ApiResult> create(@Valid @RequestBody RuleDto ruleDto) {
         logger.info("create RuleDto:{}", ruleDto);
         try {
             Rule rule = new Rule();
@@ -77,7 +77,7 @@ public class RuleController {
 
     @PutMapping("{id}")
     @PreAuthorize("hasAnyAuthority('RULE')")
-    public ResponseEntity<ApiData> update(@PathVariable Integer id,@Valid @RequestBody RuleDto ruleDto) {
+    public ResponseEntity<ApiResult> update(@PathVariable Integer id, @Valid @RequestBody RuleDto ruleDto) {
         logger.info("update RuleDto:{}", ruleDto);
         try {
             Optional<Rule> optionalRule = ruleRepository.findById(id);
@@ -96,7 +96,7 @@ public class RuleController {
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasAnyAuthority('RULE')")
-    public ResponseEntity<ApiData> delete(@PathVariable Integer id) {
+    public ResponseEntity<ApiResult> delete(@PathVariable Integer id) {
         logger.info("delete rule id:{}", id);
         try {
             Optional<Rule> optionalRule = ruleRepository.findById(id);

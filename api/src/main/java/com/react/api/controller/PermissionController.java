@@ -3,9 +3,8 @@ package com.react.api.controller;
 
 import com.react.api.common.ResponseBuilder;
 import com.react.api.model.Permission;
-import com.react.api.model.User;
 import com.react.api.repository.PermissionRepository;
-import com.react.api.types.ApiData;
+import com.react.api.types.ApiResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -30,7 +29,7 @@ public class PermissionController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiData> get(@RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "0") Integer perPage) {
+    public ResponseEntity<ApiResult> get(@RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "0") Integer perPage) {
         logger.info("get page:{}, perPage:{}", page, perPage);
         Sort sort = Sort.by("id");
         if (0 < perPage){

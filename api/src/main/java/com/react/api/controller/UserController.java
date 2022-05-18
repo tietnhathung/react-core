@@ -6,7 +6,7 @@ import com.react.api.dto.use.UserUpdateDto;
 import com.react.api.model.User;
 
 import com.react.api.repository.UserRepository;
-import com.react.api.types.ApiData;
+import com.react.api.types.ApiResult;
 import com.react.api.types.ApiError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +39,7 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
     @GetMapping
-    public ResponseEntity<ApiData> get(@RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "0") Integer perPage) {
+    public ResponseEntity<ApiResult> get(@RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "0") Integer perPage) {
         logger.info("get page:{}, perPage:{}", page, perPage);
         Sort sort = Sort.by("id");
         if (0 < perPage){
@@ -51,7 +51,7 @@ public class UserController {
         return ResponseBuilder.page(users);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<ApiData> find(@PathVariable Integer id) {
+    public ResponseEntity<ApiResult> find(@PathVariable Integer id) {
         logger.info("find id:{}", id);
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
@@ -60,7 +60,7 @@ public class UserController {
         return ResponseBuilder.ok(user.get());
     }
     @PostMapping
-    public ResponseEntity<ApiData> create(@Valid @RequestBody UserCreateDto userDto) {
+    public ResponseEntity<ApiResult> create(@Valid @RequestBody UserCreateDto userDto) {
         logger.info("create UserCreateDto:{}", userDto);
         try {
             User user = new User();
@@ -77,7 +77,7 @@ public class UserController {
         }
     }
     @PutMapping("/{id}")
-    public ResponseEntity<ApiData> update(@PathVariable Integer id, @Valid @RequestBody UserUpdateDto userDto) {
+    public ResponseEntity<ApiResult> update(@PathVariable Integer id, @Valid @RequestBody UserUpdateDto userDto) {
         logger.info("update id:{}, userDto:{}", id, userDto);
         Optional<User> oUser = userRepository.findById(id);
         if (oUser.isEmpty()) {
@@ -98,7 +98,7 @@ public class UserController {
         }
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiData> delete(@PathVariable Integer id) {
+    public ResponseEntity<ApiResult> delete(@PathVariable Integer id) {
         logger.info("delete id:{}", id);
         Optional<User> oUser = userRepository.findById(id);
         if (oUser.isEmpty()) {
