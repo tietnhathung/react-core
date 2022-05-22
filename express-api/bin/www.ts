@@ -5,6 +5,7 @@
 import app from '../app'
 import http from 'http'
 import Debug from 'debug'
+import 'dotenv/config'
 
 const debug = Debug('express-api:server')
 
