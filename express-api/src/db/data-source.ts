@@ -1,5 +1,5 @@
 import { DataSource } from "typeorm"
-import UserEntity from "../entity/user.entity";
+import User from "../entity/user.entity";
 
 const dataSource = new DataSource({
     type: "mysql",
@@ -10,7 +10,7 @@ const dataSource = new DataSource({
     database: "react-core",
     synchronize: true,
     logging: true,
-    entities: [UserEntity],
+    entities: [User],
     subscribers: [],
     migrations: [],
 })
@@ -20,4 +20,5 @@ dataSource.initialize()
         console.log("dataSource initialize")
     })
     .catch((error) => console.log(error))
+
 export default dataSource
