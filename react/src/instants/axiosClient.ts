@@ -9,11 +9,11 @@ import * as authService from "../services/authService";
 import {TApiErrors} from "../types/TApiErrors";
 import authConstants from "../constants/authConstants";
 
-let store: Store
+let store: Store;
 
 export const httpInjectStore = (_store: Store) => {
     store = _store
-}
+};
 
 enum StatusCode {
     BadRequest = 400,
@@ -30,12 +30,10 @@ const headers: Readonly<Record<string, string | boolean>> = {
     "Access-Control-Allow-Credentials": true
 };
 
-// We can use the following function to inject the JWT token through an interceptor
-// We get the `accessToken` from the localStorage that we set when we authenticate
 const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
     try {
         const token = tokenService.getAccessToken();
-        if (token != null) {
+        if (token) {
             config.headers = {
                 Authorization: `Bearer ${token}`
             };
@@ -50,7 +48,7 @@ class Http {
     private instance: AxiosInstance | null = null;
 
     private get http(): AxiosInstance {
-        return this.instance != null ? this.instance : this.initHttp();
+        return this.instance ? this.instance : this.initHttp();
     }
 
     initHttp() {
@@ -68,16 +66,16 @@ class Http {
         return http;
     }
 
-    async get<T = any>(url: string, config?: AxiosRequestConfig): Promise<TApiResult<T>> {
+    public get = async <T = any>(url: string, config?: AxiosRequestConfig): Promise<TApiResult<T>> => {
         try {
-            let response = await this.http.get<TApiResponse<T>>(url, config)
+            let response = await this.http.get<TApiResponse<T>>(url, config);
             return {status: true, data: response.data.content};
         } catch (error) {
             return {status: false, error: error};
         }
-    }
+    };
 
-    async post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<TApiResult<T>> {
+    public post = async <T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<TApiResult<T>> => {
         try {
             let response = await this.http.post<TApiResponse<T>>(url, data, config);
             return {status: true, data: response.data.content};
@@ -85,25 +83,25 @@ class Http {
             return {status: false, error: error};
         }
 
-    }
+    };
 
-    async put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<TApiResult<T>> {
+    public put = async <T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<TApiResult<T>> => {
         try {
             let response = await this.http.put<TApiResponse<T>>(url, data, config);
             return {status: true, data: response.data.content};
         } catch (error) {
             return {status: false, error: error};
         }
-    }
+    };
 
-    async delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<TApiResult<T>> {
+    public delete = async <T = any>(url: string, config?: AxiosRequestConfig): Promise<TApiResult<T>> => {
         try {
             let response = await this.http.delete<TApiResponse<T>>(url, config);
             return {status: true, data: response.data.content};
         } catch (error) {
             return {status: false, error: error};
         }
-    }
+    };
 
     // Handle global app errors
     // We can handle generic app errors depending on the status code
@@ -131,17 +129,17 @@ class Http {
                 }
                 case StatusCode.Unauthorized: {
                     const {errors} = data;
-                    if ( ![authConstants.api.login,authConstants.api.refresh].includes(config.url)  && !config._retry && store.getState().auth.isLogin) {
+                    if (![authConstants.api.login, authConstants.api.refresh].includes(config.url) && !config._retry && store.getState().auth.isLogin) {
                         config._retry = true;
                         let refreshToken = tokenService.getRefreshToken();
-                        let response =  await authService.refreshToken(refreshToken);
+                        let response = await authService.refreshToken(refreshToken);
                         let {status, data} = response;
                         if (status && data) {
                             tokenService.setToken(data);
                             return this.http.request(config);
                         }
                     }
-                    if (store.getState().auth.isLogin){
+                    if (store.getState().auth.isLogin) {
                         store.dispatch(logout());
                         history.push("/login");
                     }
@@ -154,11 +152,11 @@ class Http {
             }
         }
         if (!response && message) {
-            let apiErrors:TApiErrors = {
-                message:message,
+            let apiErrors: TApiErrors = {
+                message: message,
                 status: "1",
-                subErrors:[]
-            }
+                subErrors: []
+            };
             return Promise.reject(apiErrors);
         }
         return Promise.reject(errors);

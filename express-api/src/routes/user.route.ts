@@ -1,7 +1,8 @@
 import userController from "../controller/user.controller";
 import express from "express";
+
 const route = express.Router()
 
-route.use('/', userController.index)
+route.get('/', userController.index)
 
 export default route;

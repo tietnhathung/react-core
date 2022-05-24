@@ -16,5 +16,5 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       ddl-auto: update
 app:
-  jwtExpirationMs: 3600000
+  jwtExpirationMs: 60000
   jwtRefreshExpirationMs: 86400000

@@ -2,7 +2,6 @@ package com.react.api.common;
 
 import com.react.api.service.UserDetailsImpl;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import org.slf4j.Logger;
@@ -12,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 
