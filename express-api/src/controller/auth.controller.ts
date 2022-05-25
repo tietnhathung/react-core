@@ -20,9 +20,9 @@ class AuthController {
                 username: user["username"],
             }
             const token = jwt.sign(payload, 'secret');
-            return jsonBuilder(res, token, 200);
+            return jsonBuilder(res, token);
         }
-        return errorBuilder(res, "User not found", 200);
+        return errorBuilder(res, "User not found", 401);
     }
 }
 

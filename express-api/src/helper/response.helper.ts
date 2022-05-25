@@ -2,7 +2,7 @@ import {Response} from "express-serve-static-core";
 import ApiResult from "../type/apiResult";
 import ApiError from "../type/apiError";
 
-export const jsonBuilder = (res: Response, content: any, status: number): Response => {
+export const jsonBuilder = (res: Response, content: any, status: number = 200): Response => {
     let result: ApiResult = new ApiResult();
     result.httpStatus = status
     result.content = content
