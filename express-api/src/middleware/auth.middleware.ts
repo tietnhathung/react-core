@@ -12,42 +12,43 @@ const jwtOptions: StrategyOptions = {
     secretOrKey: 'secret'
 }
 
-passport.use(new StrategyJwt(jwtOptions, async (jwtPayload, next) => {
+passport.use(new StrategyJwt(jwtOptions, async (jwtPayload, done) => {
     try {
         const user = await userRepository.findOneBy({id: jwtPayload.id});
+
         if (user) {
-            next(null, user);
+            done(null, user);
         } else {
-            next(null, false);
+            done(null, false);
         }
     } catch (e) {
-        return next(e, false)
+        return done(e, false)
     }
 
 }));
 
 const localOptions: IStrategyOptions = {
     usernameField: "username",
-    passwordField: "password"
+    passwordField: "password",
 }
 
-passport.use(new StrategyLocal(localOptions, async (username, password, next) => {
+passport.use(new StrategyLocal(localOptions, async (username, password, done) => {
     try {
         const user = await userRepository.findOneBy({
             username: username
         });
         if (!user) {
-            return next(null, false)
+            return done(null, false)
         }
         const isComparePassword = bcrypt.compareSync(password, user.password);
         if (!isComparePassword) {
-            return next(null, false)
+            return done(null, false)
         }
-        return next(null, user);
+        return done(null, user);
     } catch (e) {
-        return next(e, false)
+        return done(e, false)
     }
 }))
 
-export const jwtAuth = passport.authenticate('jwt', {session: false});
-export const localAuth = passport.authenticate("local", {session: false});
+export const jwtAuth = passport.authenticate('jwt', {session: false, failWithError: true});
+export const localAuth = passport.authenticate("local", {session: false, failWithError: true});

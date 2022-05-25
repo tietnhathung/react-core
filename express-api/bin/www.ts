@@ -53,7 +53,7 @@ function normalizePort(val: string) {
  */
 
 function onError(error: Error) {
-    console.log("error",error)
+    console.log("______________error",error)
 }
 
 /**

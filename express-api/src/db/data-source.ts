@@ -8,7 +8,7 @@ const dataSource = new DataSource({
     username: "root",
     password: "",
     database: "react-core",
-    synchronize: true,
+    synchronize: false,
     logging: true,
     entities: [User],
     subscribers: [],

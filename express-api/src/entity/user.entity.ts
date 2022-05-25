@@ -40,9 +40,11 @@ class User extends BaseEntity{
     accessTokenApp: string
 
     @Column({
-        name: "createdAt"
+        name: "createdAt",
+        type:"datetime",
+        default: () => 'NOW()',
     })
-    createdAt: string
+    createdAt: Date
 
     @Column({
         name: "createdBy"

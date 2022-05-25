@@ -1,6 +1,6 @@
 import authController from "../controller/auth.controller";
 import express from "express";
-import {localAuth} from "../authentication/auth";
+import {localAuth} from "../middleware/auth.middleware";
 
 const route = express.Router()
 
