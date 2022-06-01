@@ -4,12 +4,14 @@ import {IStrategyOptions, Strategy as StrategyLocal} from 'passport-local'
 import dataSource from "../db/data-source";
 import User from "../entity/user.entity";
 import bcrypt from 'bcrypt';
+import 'dotenv/config'
 
 const userRepository = dataSource.getRepository(User);
+const JWT_SECRET = process.env.JWT_SECRET || ""
 
 const jwtOptions: StrategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'secret'
+    secretOrKey: JWT_SECRET
 }
 
 passport.use(new StrategyJwt(jwtOptions, async (jwtPayload, done) => {

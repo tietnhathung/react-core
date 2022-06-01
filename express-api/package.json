@@ -4,6 +4,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "debug": "@powershell -Command $env:DEBUG='*';nodemon ./bin/www.ts",
     "start": "nodemon ./bin/www.ts"
   },
   "dependencies": {
@@ -13,6 +14,8 @@
     "dotenv": "^16.0.1",
     "express": "~4.16.1",
     "jsonwebtoken": "^8.5.1",
+    "log4js": "^6.5.2",
+    "moment": "^2.29.3",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
     "passport": "^0.6.0",

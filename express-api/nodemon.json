@@ -1,0 +1,9 @@
+{
+  "watch": [
+    "src", "app.ts","bin/www.ts"
+  ],
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "js,ts,json"
+}
