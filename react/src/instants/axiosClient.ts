@@ -8,6 +8,8 @@ import tokenService from "../services/tokenService";
 import * as authService from "../services/authService";
 import {TApiErrors} from "../types/TApiErrors";
 import authConstants from "../constants/authConstants";
+import jwt_decode from "jwt-decode";
+import TJwtEncode from "../types/auth/TJwtEncode";
 
 let store: Store;
 
@@ -34,6 +36,10 @@ const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
     try {
         const token = tokenService.getAccessToken();
         if (token) {
+            const tokenEncode:TJwtEncode = jwt_decode<TJwtEncode>(token)
+            if (Date.now() >= tokenEncode.exp * 1000 - 5000) {
+                console.log("must refresh token")
+            }
             config.headers = {
                 Authorization: `Bearer ${token}`
             };

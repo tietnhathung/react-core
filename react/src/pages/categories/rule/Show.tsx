@@ -1,10 +1,9 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {TApiErrors} from "../../../types/TApiErrors";
 import { Card, Col, Row} from "react-bootstrap";
 import AlertErrors from "../../../components/AlertErrors";
 import AppButton from "../../../components/AppButton";
-import FaIcon from "../../../components/FaIcon";
 import {getRule} from "../../../services/ruleService";
 import { IRule } from '../../../types/entities/IRule';
 
