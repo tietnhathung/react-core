@@ -3,7 +3,7 @@ import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {TApiErrors} from "../../../types/TApiErrors";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import TFormLogin from "../../../types/auth/TFormLogin";
 import AlertErrors from "../../../components/AlertErrors";
 import {Row, Spinner} from 'react-bootstrap';
@@ -21,7 +21,6 @@ type TGoogleAuthParams = {
 }
 
 const Index: React.FC = () => {
-
     const dispatch = useAppDispatch();
     const {register, handleSubmit, formState: {errors, isSubmitted}} = useForm<TFormLogin>({
         resolver: yupResolver(schema)
@@ -57,7 +56,7 @@ const Index: React.FC = () => {
 
         const params: TGoogleAuthParams = {
             'client_id': clientId,
-            'redirect_uri': 'http://localhost:3000/callback',
+            'redirect_uri': `${window.location.origin}/callback`,
             'response_type': 'token',
             'scope': 'openid profile email',
             'include_granted_scopes': 'true',

@@ -34,6 +34,9 @@ const Callback = () => {
         return "login login failure"
     },[dispatch,navigate])
 
+    useEffect(() => {
+        document.title = "Login with google"
+    }, [])
     useEffect( () => {
         const fragmentString = location.hash.substring(1);
         const params: TParams = {};
