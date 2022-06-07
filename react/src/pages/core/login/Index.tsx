@@ -3,7 +3,7 @@ import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {TApiErrors} from "../../../types/TApiErrors";
-import {useLocation, useNavigate} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import TFormLogin from "../../../types/auth/TFormLogin";
 import AlertErrors from "../../../components/AlertErrors";
 import {Row, Spinner} from 'react-bootstrap';
@@ -30,7 +30,7 @@ const Index: React.FC = () => {
     let navigate = useNavigate();
 
     useEffect(() => {
-        document.title = "Login"
+        document.title = "login"
     }, [])
 
     const onSubmit = handleSubmit(async loginForm => {

@@ -6,7 +6,6 @@ import TJwt from "../../types/auth/TJwt";
 import {RootState} from "../index";
 import tokenService from "../../services/tokenService";
 import {IAuth} from "../../types/auth/IAuth";
-import {googleLogin} from "../../services/authService";
 
 export interface AuthState {
     authUser?: IAuth,

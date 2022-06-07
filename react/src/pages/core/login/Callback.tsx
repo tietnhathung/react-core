@@ -35,7 +35,7 @@ const Callback = () => {
     },[dispatch,navigate])
 
     useEffect(() => {
-        document.title = "Login with google"
+        document.title = "login with google"
     }, [])
     useEffect( () => {
         const fragmentString = location.hash.substring(1);

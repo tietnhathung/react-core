@@ -9,8 +9,8 @@ import { unstable_HistoryRouter as HistoryRouter, Route, Routes} from 'react-rou
 import Loading from "./components/Loading";
 import AuthRoute from './components/AuthRoute';
 
-const Login = React.lazy(() => import('./pages/core/Login/Index'))
-const Callback = React.lazy(() => import('./pages/core/Login/Callback'))
+const Login = React.lazy(() => import('./pages/core/login/Index'))
+const Callback = React.lazy(() => import('./pages/core/login/Callback'))
 const DefaultLayout = React.lazy(() => import('./layouts/DefaultLayout'))
 function App() {
     return (

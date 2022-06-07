@@ -5,7 +5,7 @@ import {FieldPath, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import {TApiErrors} from "../../../types/TApiErrors";
 import {IRule} from "../../../types/entities/IRule";
-import {createRule, getRule, updateRule} from "../../../services/ruleService";
+import {getRule, updateRule} from "../../../services/ruleService";
 import RuleForm from "./components/RuleForm";
 
 const schemaPermission = yup.object({

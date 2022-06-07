@@ -10,6 +10,7 @@ import {TApiErrors} from "../types/TApiErrors";
 import authConstants from "../constants/authConstants";
 import jwt_decode from "jwt-decode";
 import TJwtEncode from "../types/auth/TJwtEncode";
+import TJwt from "../types/auth/TJwt";
 
 let store: Store;
 
@@ -32,25 +33,8 @@ const headers: Readonly<Record<string, string | boolean>> = {
     "Access-Control-Allow-Credentials": true
 };
 
-const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
-    try {
-        const token = tokenService.getAccessToken();
-        if (token) {
-            const tokenEncode:TJwtEncode = jwt_decode<TJwtEncode>(token)
-            if (Date.now() >= tokenEncode.exp * 1000 - 5000) {
-                console.log("must refresh token")
-            }
-            config.headers = {
-                Authorization: `Bearer ${token}`
-            };
-        }
-        return config;
-    } catch (error) {
-        throw new Error(error);
-    }
-};
-
 class Http {
+    private refreshToken:Promise<TApiResult<TJwt>>|null = null;
     private instance: AxiosInstance | null = null;
 
     private get http(): AxiosInstance {
@@ -59,18 +43,45 @@ class Http {
 
     initHttp() {
         const http = axios.create({
-            baseURL: "http://localhost:8080/api",
+            baseURL: process.env.REACT_APP_API_BASE_URL,
             headers,
             withCredentials: true,
         });
 
-        http.interceptors.request.use(injectToken, (error) => Promise.reject(error));
+        http.interceptors.request.use(this.injectToken, (error) => Promise.reject(error));
 
         http.interceptors.response.use((response: AxiosResponse<TApiResponse>) => response, (error: any) => this.handleError(error));
 
         this.instance = http;
         return http;
     }
+
+    injectToken = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> => {
+        try {
+            const token = tokenService.getAccessToken();
+            if (token) {
+                const tokenEncode: TJwtEncode = jwt_decode<TJwtEncode>(token)
+                if (Date.now() >= tokenEncode.exp * 1000) {
+                    // console.log("refresh token")
+                    // if (this.refreshToken === null) {
+                    //     let token = tokenService.getRefreshToken();
+                    //     this.refreshToken = authService.refreshToken(token);
+                    // }
+                    // let response = await this.refreshToken;
+                    // if (response != null && response.status && response.data) {
+                    //     tokenService.setToken(response.data);
+                    //     this.refreshToken = null;
+                    // }
+                }
+                config.headers = {
+                    Authorization: `Bearer ${token}`
+                };
+            }
+            return config;
+        } catch (error) {
+            throw new Error(error);
+        }
+    };
 
     public get = async <T = any>(url: string, config?: AxiosRequestConfig): Promise<TApiResult<T>> => {
         try {
@@ -135,13 +146,16 @@ class Http {
                 }
                 case StatusCode.Unauthorized: {
                     const {errors} = data;
-                    if (![authConstants.api.login, authConstants.api.refresh].includes(config.url) && !config._retry && store.getState().auth.isLogin) {
+                    if (![authConstants.api.login,authConstants.api.googleLogin, authConstants.api.refresh].includes(config.url) && !config._retry && store.getState().auth.isLogin) {
                         config._retry = true;
-                        let refreshToken = tokenService.getRefreshToken();
-                        let response = await authService.refreshToken(refreshToken);
-                        let {status, data} = response;
-                        if (status && data) {
-                            tokenService.setToken(data);
+                        if (this.refreshToken === null){
+                            let token = tokenService.getRefreshToken();
+                            this.refreshToken = authService.refreshToken(token);
+                        }
+                        let response = await this.refreshToken;
+                        if (response != null && response.status && response.data) {
+                            tokenService.setToken(response.data);
+                            this.refreshToken = null;
                             return this.http.request(config);
                         }
                     }
