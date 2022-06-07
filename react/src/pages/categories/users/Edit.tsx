@@ -10,13 +10,20 @@ import AlertErrors from "../../../components/AlertErrors";
 import {TApiErrors} from '../../../types/TApiErrors';
 import AppForm from "../../../components/AppForm";
 import { useCallback } from 'react';
+import {getRules} from "../../../services/ruleService";
+import {IRule} from "../../../types/entities/IRule";
 
+export const ruleSchema = yup.object({
+    id:yup.number().required(),
+    name: yup.string().required()
+}).required();
 const schema = yup.object({
     id: yup.number().required(),
     username: yup.string().min(6).max(20).required(),
     fullName: yup.string().min(4).max(255).required(),
     password: yup.string().test("is-password", "Password must be more than 6 characters and less than 12 characters", value => !value || (value.length >= 6 && value.length <= 12)),
-    status: yup.boolean().required()
+    status: yup.boolean().required(),
+    rules:yup.array().of(ruleSchema).min(1).required(),
 }).required();
 
 
@@ -26,13 +33,14 @@ const Edit = () => {
             username: "",
             fullName: "",
             status: false,
-            password: ""
+            password: "",
+            rules:[]
         },
         resolver: yupResolver(schema)
     });
     let [errorsMessages, setErrorsMessages] = useState<TApiErrors>();
     let navigate = useNavigate();
-
+    let [rules, setRules] = useState<IRule[]>([]);
     let {id} = useParams();
 
     const fetchItem = useCallback(async (userId: string) => {
@@ -42,13 +50,25 @@ const Edit = () => {
             setValue("status", data.status);
             setValue("fullName", data.fullName);
             setValue("username", data.username);
+            setValue("rules", data.rules);
         } else {
             setErrorsMessages(error)
         }
         return "fetch data done!"
     },[setValue])
+    const fetchRules = async () => {
+        let {status,data,error } = await getRules();
+        if (status && data){
+            setRules(data.content)
+        }
+        if(!status && error){
+            setErrorsMessages(error)
+        }
+        return "fetch rule done!"
+    }
 
     useEffect(function () {
+        fetchRules().then(console.log);
         if (id) {
             fetchItem(id).then(console.log);
         }
@@ -95,6 +115,9 @@ const Edit = () => {
                                            placeholder="Enter fullName"/>
                             <AppForm.GroupInput label="Password" field="password" control={control} type="password"
                                            placeholder="Enter password"/>
+                            <AppForm.GroupSelect isMulti={true} label="Rules" field="rules" control={control}
+                                                 options={rules}
+                                                 optionLabel="name"/>
                             <AppForm.GroupCheck label="Status" field="status" control={control} type="switch"/>
                             <Button variant="primary" type="submit">
                                 Submit
