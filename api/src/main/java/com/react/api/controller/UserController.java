@@ -71,6 +71,7 @@ public class UserController {
             user.setCreatedAt(LocalDateTime.now());
             user.setAccessTokenApp("");
             user.setCreatedBy(1);
+            user.setRules(userDto.getRules());
             userRepository.save(user);
             return ResponseBuilder.ok(user, HttpStatus.CREATED);
         } catch (Exception errors) {
@@ -89,6 +90,7 @@ public class UserController {
             user.setFullName(userDto.getFullName());
             user.setUsername(userDto.getUsername());
             user.setStatus(userDto.getStatus());
+            user.setRules(userDto.getRules());
             if (StringUtils.hasLength(userDto.getPassword())) {
                 user.setPassword(passwordEncoder.encode(userDto.getPassword()));
             }

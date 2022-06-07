@@ -1,10 +1,12 @@
 package com.react.api.dto.use;
 
+import com.react.api.model.Rule;
 import com.react.api.validation.constraints.UserUnique;
 import lombok.*;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 public class UserCreateDto implements Serializable {
@@ -26,4 +28,7 @@ public class UserCreateDto implements Serializable {
 
     @NotNull
     private Boolean status;
+
+    @NotNull
+    private List<Rule> rules;
 }

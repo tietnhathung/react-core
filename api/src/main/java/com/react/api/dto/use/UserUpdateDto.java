@@ -1,5 +1,6 @@
 package com.react.api.dto.use;
 
+import com.react.api.model.Rule;
 import com.react.api.validation.constraints.UpdatePassword;
 import com.react.api.validation.constraints.UserUnique;
 import lombok.Data;
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @UserUnique
@@ -29,4 +31,7 @@ public class UserUpdateDto implements Serializable {
 
     @NotNull
     private Boolean status;
+
+    @NotNull
+    private List<Rule> rules;
 }
