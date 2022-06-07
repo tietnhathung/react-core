@@ -1,17 +1,25 @@
+import {TRoutes} from "../types/TRoutes";
 import React from "react";
-import coreRoutes from "./core";
 import categoryRoutes from "./categories";
+import coreRoutes from "./core";
 
-export type RoutesType = {
-    path: string,
-    element: React.FC,
-    title: string,
-    authority?: string
-}
+const Login = React.lazy(() => import('../pages/core/login/Index'))
+const Callback = React.lazy(() => import('../pages/core/login/Callback'))
+const DefaultLayout = React.lazy(() => import('../layouts/DefaultLayout'))
 
-const index: RoutesType[] = [
-    ...categoryRoutes,
-    ...coreRoutes
+const index: TRoutes[] = [
+    {path: 'login', element: Login, title: 'Login', authentication: false},
+    {path: 'callback', element: Callback, title: 'Login with google', authentication: false},
+    {
+        path: '/',
+        element: DefaultLayout,
+        title: '',
+        authentication: true,
+        children: [
+            ...coreRoutes,
+            ...categoryRoutes
+        ]
+    },
 ];
 
 export default index

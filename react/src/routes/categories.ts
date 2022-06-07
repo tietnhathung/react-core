@@ -1,5 +1,5 @@
-import {RoutesType} from "./index";
 import React from "react";
+import {TRoutes} from "../types/TRoutes";
 
 //user
 const UserIndex = React.lazy(() => import('../pages/categories/users/Index'))
@@ -19,24 +19,24 @@ const MenuCreate = React.lazy(() => import('../pages/categories/menu/Create'))
 const MenuUpdate = React.lazy(() => import('../pages/categories/menu/Edit'))
 const MenuShow = React.lazy(() => import('../pages/categories/menu/Show'))
 
-const categoryRoutes: RoutesType[] = [
+const categoryRoutes: TRoutes[] = [
     //user
-    {path: 'user', element: UserIndex, title: 'User', authority: 'USER'},
-    {path: 'user/create', element: UserCreate, title: 'Create User', authority: 'USER'},
-    {path: 'user/edit/:id', element: UserEdit, title: 'Edit User', authority: 'USER'},
-    {path: 'user/show/:id', element: UserShow, title: 'Show User', authority: 'USER'},
+    {path: 'user', element: UserIndex, title: 'User',authentication:true ,authorization: 'USER'},
+    {path: 'user/create', element: UserCreate, title: 'Create User',authentication:true , authorization: 'USER'},
+    {path: 'user/edit/:id', element: UserEdit, title: 'Edit User', authentication:true ,authorization: 'USER'},
+    {path: 'user/show/:id', element: UserShow, title: 'Show User', authentication:true ,authorization: 'USER'},
 
     //rule
-    {path: 'rule', element: RuleIndex, title: 'Rule', authority: 'RULE'},
-    {path: 'rule/create', element: RuleCreate, title: 'Create Rule', authority: 'RULE'},
-    {path: 'rule/edit/:id', element: RuleEdit, title: 'Update Rule', authority: 'RULE'},
-    {path: 'rule/show/:id', element: RuleShow, title: 'Show Rule', authority: 'RULE'},
+    {path: 'rule', element: RuleIndex, title: 'Rule',authentication:true , authorization: 'RULE'},
+    {path: 'rule/create', element: RuleCreate, title: 'Create Rule',authentication:true , authorization: 'RULE'},
+    {path: 'rule/edit/:id', element: RuleEdit, title: 'Update Rule',authentication:true , authorization: 'RULE'},
+    {path: 'rule/show/:id', element: RuleShow, title: 'Show Rule',authentication:true , authorization: 'RULE'},
 
     //menu
-    {path: 'menu', element: MenuIndex, title: 'Menu', authority: 'MENU'},
-    {path: 'menu/create', element: MenuCreate, title: 'Create menu', authority: 'MENU'},
-    {path: 'menu/edit/:id', element: MenuUpdate, title: 'Update menu', authority: 'MENU'},
-    {path: 'menu/show/:id', element: MenuShow, title: 'Show menu', authority: 'MENU'},
+    {path: 'menu', element: MenuIndex, title: 'Menu',authentication:true , authorization: 'MENU'},
+    {path: 'menu/create', element: MenuCreate, title: 'Create menu',authentication:true , authorization: 'MENU'},
+    {path: 'menu/edit/:id', element: MenuUpdate, title: 'Update menu',authentication:true , authorization: 'MENU'},
+    {path: 'menu/show/:id', element: MenuShow, title: 'Show menu',authentication:true , authorization: 'MENU'},
 ];
 
 export default categoryRoutes

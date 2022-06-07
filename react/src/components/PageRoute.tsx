@@ -1,26 +1,36 @@
 import React, {useEffect} from 'react';
 import {useAppSelector} from "../hooks";
-import {getAuthorities} from "../store/auth/authSlice";
+import {authIsLogin, getAuthorities} from "../store/auth/authSlice";
 import {Navigate, useLocation} from "react-router-dom";
 
 type PageRouteProp = {
     title?: string,
     children: JSX.Element,
-    authority?: string
+    authentication: boolean,
+    authorization?: string,
 }
 
-const PageRoute = ({children, authority, title}: PageRouteProp) => {
-    let location = useLocation();
+const PageRoute = ({children, authentication, authorization, title}: PageRouteProp) => {
+    const location = useLocation();
+    const isLogin = useAppSelector(authIsLogin)
+    const authorities = useAppSelector(getAuthorities)
+
     useEffect(function () {
         if (title) {
             document.title = title
         }
     }, [title])
-    const authorities = useAppSelector(getAuthorities)
-    if (!authority || authorities.includes(authority)) {
-        return children;
+
+    if (authentication && !isLogin) {
+        return <Navigate to="/login" state={{from: location}} replace/>;
     }
-    return <Navigate to="/403" state={{from: location}} replace/>;
+    if (!authentication && isLogin) {
+        return <Navigate to="/" state={{ from: location }} replace />;
+    }
+    if (authorization && !authorities.includes(authorization)) {
+        return <Navigate to="/403" state={{from: location}} replace/>;
+    }
+    return children;
 };
 
 export default PageRoute;

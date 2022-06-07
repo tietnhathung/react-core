@@ -10,7 +10,6 @@ import {TApiErrors} from "../../../types/TApiErrors";
 import AlertErrors from "../../../components/AlertErrors";
 import AppForm from "../../../components/AppForm";
 import {getRules} from "../../../services/ruleService";
-import AppConstants from "../../../constants/appConstants";
 import {IRule} from "../../../types/entities/IRule";
 
 export const ruleSchema = yup.object({
