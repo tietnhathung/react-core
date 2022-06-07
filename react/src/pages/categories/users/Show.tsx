@@ -58,6 +58,10 @@ const Show = () => {
                             <dt className="col-sm-3">Create at</dt>
                             <dd className="col-sm-9">{dateUtils.datetimeFormat(user?.createdAt)}</dd>
                         </dl>
+                        <dl className="row">
+                            <dt className="col-sm-3">Rule</dt>
+                            <dd className="col-sm-9">{user?.rules.map(rule => rule.name).join(" | ")}</dd>
+                        </dl>
                     </Card.Body>
                     <Card.Footer>
                         <AppButton.Back />
