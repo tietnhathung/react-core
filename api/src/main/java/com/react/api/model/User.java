@@ -5,6 +5,7 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -47,7 +48,7 @@ public class User {
         name = "user_rule",
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "rule_id"))
-    private List<Rule> rules;
+    private List<Rule> rules = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
