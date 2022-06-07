@@ -34,7 +34,7 @@ const headers: Readonly<Record<string, string | boolean>> = {
 };
 
 class Http {
-    private refreshToken:Promise<TApiResult<TJwt>>|null = null;
+    private fetchRefreshToken: Promise<TApiResult<TJwt>> | null = null;
     private instance: AxiosInstance | null = null;
 
     private get http(): AxiosInstance {
@@ -58,23 +58,24 @@ class Http {
 
     injectToken = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> => {
         try {
-            const token = tokenService.getAccessToken();
-            if (token) {
-                const tokenEncode: TJwtEncode = jwt_decode<TJwtEncode>(token)
-                if (Date.now() >= tokenEncode.exp * 1000) {
-                    // console.log("refresh token")
-                    // if (this.refreshToken === null) {
-                    //     let token = tokenService.getRefreshToken();
-                    //     this.refreshToken = authService.refreshToken(token);
-                    // }
-                    // let response = await this.refreshToken;
-                    // if (response != null && response.status && response.data) {
-                    //     tokenService.setToken(response.data);
-                    //     this.refreshToken = null;
-                    // }
+            let accessToken = tokenService.getAccessToken();
+            if (store.getState().auth.isLogin && accessToken) {
+                const tokenEncode: TJwtEncode = jwt_decode<TJwtEncode>(accessToken)
+                if (!Object.values(authConstants.api).includes(config.url ?? "") &&
+                    Date.now() >= tokenEncode.exp * 1000) {
+                    if (this.fetchRefreshToken === null) {
+                        let refreshToken = tokenService.getRefreshToken();
+                        this.fetchRefreshToken = authService.refreshToken(refreshToken);
+                    }
+                    let response = await this.fetchRefreshToken;
+                    if (response != null && response.status && response.data) {
+                        tokenService.setToken(response.data);
+                        accessToken = response.data.accessToken;
+                        this.fetchRefreshToken = null;
+                    }
                 }
                 config.headers = {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${accessToken}`
                 };
             }
             return config;
@@ -146,16 +147,16 @@ class Http {
                 }
                 case StatusCode.Unauthorized: {
                     const {errors} = data;
-                    if (![authConstants.api.login,authConstants.api.googleLogin, authConstants.api.refresh].includes(config.url) && !config._retry && store.getState().auth.isLogin) {
+                    if (store.getState().auth.isLogin && !Object.values(authConstants.api).includes(config.url) && !config._retry) {
                         config._retry = true;
-                        if (this.refreshToken === null){
+                        if (this.fetchRefreshToken === null) {
                             let token = tokenService.getRefreshToken();
-                            this.refreshToken = authService.refreshToken(token);
+                            this.fetchRefreshToken = authService.refreshToken(token);
                         }
-                        let response = await this.refreshToken;
+                        let response = await this.fetchRefreshToken;
                         if (response != null && response.status && response.data) {
                             tokenService.setToken(response.data);
-                            this.refreshToken = null;
+                            this.fetchRefreshToken = null;
                             return this.http.request(config);
                         }
                     }

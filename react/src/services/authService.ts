@@ -32,6 +32,7 @@ export const googleLogin = async (token:string): Promise<TApiResult<TJwt>> => {
     })
 }
 export const refreshToken = async (refreshToken:string|null): Promise<TApiResult<TJwt>> => {
+    console.log("refresh token!")
     let payload = {
         "refreshToken": refreshToken
     }
