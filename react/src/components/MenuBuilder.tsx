@@ -1,6 +1,6 @@
 import React from 'react';
 import {IMenu} from "../types/entities/IMenu";
-import {Link} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import FaIcon from "./FaIcon";
 
 const MenuBuilder = (props: { menus: IMenu[] }) => {
@@ -14,9 +14,9 @@ const MenuBuilder = (props: { menus: IMenu[] }) => {
                     </React.Fragment>
                 } else {
                     return <li className="nav-item" key={menu.id}>
-                        <Link className="nav-link" to={menu.url} target={menu.target}>
+                        <NavLink className="nav-link" to={menu.url} target={menu.target}>
                             <FaIcon className="nav-icon" icon={menu.icon}/>{menu.title}
-                        </Link>
+                        </NavLink>
                     </li>
                 }
             })}
