@@ -48,7 +48,7 @@ public class AuthController {
     public ResponseEntity<ApiResult> login(@Valid @RequestBody LoginDto loginDto) {
         try {
             logger.info("Login username:{}, password:{}", loginDto.getUsername(), loginDto.getPassword());
-            Authentication authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String token = jwtUtils.generateJwtToken(authentication);
