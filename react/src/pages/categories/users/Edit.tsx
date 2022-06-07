@@ -13,7 +13,7 @@ import { useCallback } from 'react';
 
 const schema = yup.object({
     id: yup.number().required(),
-    username: yup.string().min(6).max(12).required(),
+    username: yup.string().min(6).max(20).required(),
     fullName: yup.string().min(4).max(255).required(),
     password: yup.string().test("is-password", "Password must be more than 6 characters and less than 12 characters", value => !value || (value.length >= 6 && value.length <= 12)),
     status: yup.boolean().required()

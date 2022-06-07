@@ -26,6 +26,11 @@ export const getInitialStateAuth = (): AuthState => {
 export const login = async (formLogin: TFormLogin): Promise<TApiResult<TJwt>> => {
     return await http.post<TJwt>(authConstants.api.login, formLogin)
 }
+export const googleLogin = async (token:string): Promise<TApiResult<TJwt>> => {
+    return await http.post<TJwt>(authConstants.api.googleLogin, {
+        access_token:token
+    })
+}
 export const refreshToken = async (refreshToken:string|null): Promise<TApiResult<TJwt>> => {
     let payload = {
         "refreshToken": refreshToken

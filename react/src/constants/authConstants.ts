@@ -1,7 +1,8 @@
-const authConstants ={
-    api:{
-        login:"auth/login",
-        refresh:"auth/refresh",
+const authConstants = {
+    api: {
+        login: "auth/login",
+        googleLogin: "auth/google/login",
+        refresh: "auth/refresh",
     }
 }
 

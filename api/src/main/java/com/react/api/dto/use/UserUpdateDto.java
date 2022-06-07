@@ -15,7 +15,7 @@ public class UserUpdateDto implements Serializable {
     private Integer id;
 
     @NotEmpty()
-    @Size(max = 12, min = 6)
+    @Size(max = 20, min = 6)
     @NotNull
     private String username;
 

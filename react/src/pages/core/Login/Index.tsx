@@ -9,13 +9,19 @@ import AlertErrors from "../../../components/AlertErrors";
 import {Row, Spinner} from 'react-bootstrap';
 import {useAppDispatch} from "../../../hooks";
 import {loginAsync} from "../../../store/auth/authSlice";
+import googleConstants from "../../../constants/googleConstants";
 
 const schema = yup.object({
     username: yup.string().min(5).required(),
     password: yup.string().min(4).required(),
 }).required();
 
+type TGoogleAuthParams = {
+    [key: string]: string
+}
+
 const Index: React.FC = () => {
+
     const dispatch = useAppDispatch();
     const {register, handleSubmit, formState: {errors, isSubmitted}} = useForm<TFormLogin>({
         resolver: yupResolver(schema)
@@ -26,19 +32,50 @@ const Index: React.FC = () => {
 
     useEffect(() => {
         document.title = "Login"
-    },[])
+    }, [])
 
     const onSubmit = handleSubmit(async loginForm => {
         setIsLoad(true)
-        let {status,error} = await dispatch(loginAsync(loginForm)).unwrap();
+        let {status, error} = await dispatch(loginAsync(loginForm)).unwrap();
         setIsLoad(false)
-        if (status){
+        if (status) {
             navigate("/")
         }
-        if (!status && error){
+        if (!status && error) {
             setErrorsMessages(error)
         }
     });
+
+    const oauthSignIn = function () {
+        // Create <form> element to submit parameters to OAuth 2.0 endpoint.
+        const form = document.createElement('form');
+        form.setAttribute('method', 'GET');
+        form.setAttribute('action', googleConstants.api.auth);
+
+        // Parameters to pass to OAuth 2.0 endpoint.
+        const clientId:string = process.env.REACT_APP_GOOGLE_CLIENT_ID ?? ""
+
+        const params: TGoogleAuthParams = {
+            'client_id': clientId,
+            'redirect_uri': 'http://localhost:3000/callback',
+            'response_type': 'token',
+            'scope': 'openid profile email',
+            'include_granted_scopes': 'true',
+            'state': 'pass-through value'
+        };
+        // Add form parameters as hidden input values.
+        for (const name in params) {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'hidden');
+            input.setAttribute('name', name);
+            input.setAttribute('value', params[name]);
+            form.appendChild(input);
+        }
+
+        // Add form to page and submit it to open the OAuth 2.0 endpoint.
+        document.body.appendChild(form);
+        form.submit();
+    }
 
     return (
         <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
@@ -95,13 +132,14 @@ const Index: React.FC = () => {
                             <div className="card col-md-5 text-white bg-primary py-5">
                                 <div className="card-body text-center">
                                     <div>
-                                        <h2>Sign up</h2>
+                                        <h2>Oauth</h2>
                                         <p>
                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                                             tempor incididunt ut labore et dolore magna aliqua.
                                         </p>
-                                        <button className="btn btn-lg btn-outline-light mt-3" type="button">
-                                            Register Now!
+                                        <button className="btn btn-lg btn-outline-light mt-3" type="button"
+                                                onClick={oauthSignIn}>
+                                            Login with google
                                         </button>
                                     </div>
                                 </div>

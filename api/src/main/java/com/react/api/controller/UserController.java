@@ -69,6 +69,7 @@ public class UserController {
             user.setStatus(userDto.getStatus());
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
             user.setCreatedAt(LocalDateTime.now());
+            user.setAccessTokenApp("");
             user.setCreatedBy(1);
             userRepository.save(user);
             return ResponseBuilder.ok(user, HttpStatus.CREATED);

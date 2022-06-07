@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 public class UserCreateDto implements Serializable {
     @NotEmpty
-    @Size(max = 12, min = 6)
+    @Size(max = 20, min = 6)
     @NotNull
     @UserUnique
     private String username;

@@ -6,9 +6,12 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -24,7 +27,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private static final String dateFormat = "yyyy-MM-dd";
     private static final String timeFormat = "HH:mm:ss.SSS";
     private static final String dateTimeFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-
+    @Bean
+    public RestTemplate restTemplate(RestTemplateBuilder builder) {
+        return builder.build();
+    }
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         ObjectMapper mapper = new ObjectMapper();

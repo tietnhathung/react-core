@@ -11,7 +11,7 @@ import AlertErrors from "../../../components/AlertErrors";
 import AppForm from "../../../components/AppForm";
 
 const schema = yup.object({
-    username: yup.string().min(6).max(12).required(),
+    username: yup.string().min(6).max(20).required(),
     fullName: yup.string().min(4).max(255).required(),
     password: yup.string().min(6).max(12).required(),
     status: yup.boolean().required()

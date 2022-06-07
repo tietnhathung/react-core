@@ -23,7 +23,6 @@ public class EntityGraphIntegrationTest {
     @Test
     void injectedComponentsAreNotNull()throws Exception{
         Menu menu = menuRepository.findById(2).orElseThrow();
-
         Assertions.assertThat(menu).isNotNull();
     }
 }

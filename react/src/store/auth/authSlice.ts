@@ -6,6 +6,7 @@ import TJwt from "../../types/auth/TJwt";
 import {RootState} from "../index";
 import tokenService from "../../services/tokenService";
 import {IAuth} from "../../types/auth/IAuth";
+import {googleLogin} from "../../services/authService";
 
 export interface AuthState {
     authUser?: IAuth,
@@ -16,6 +17,10 @@ const initialState: AuthState = authService.getInitialStateAuth();
 
 export const loginAsync = createAsyncThunk('auth/login', async (formLogin: TFormLogin): Promise<TApiResult<TJwt>> => {
     return await authService.login(formLogin);
+});
+
+export const googleLoginAsync = createAsyncThunk('auth/googleLogin', async (token: string): Promise<TApiResult<TJwt>> => {
+    return await authService.googleLogin(token);
 });
 
 export const authSlice = createSlice({
@@ -30,6 +35,14 @@ export const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(loginAsync.fulfilled, (state, action) => {
+            let {status, data} = action.payload;
+            if (status && data) {
+                tokenService.setToken(data)
+                state.authUser = data.user;
+                state.isLogin = true;
+            }
+        });
+        builder.addCase(googleLoginAsync.fulfilled, (state, action) => {
             let {status, data} = action.payload;
             if (status && data) {
                 tokenService.setToken(data)
