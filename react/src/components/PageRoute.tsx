@@ -6,7 +6,7 @@ import {Navigate, useLocation} from "react-router-dom";
 type PageRouteProp = {
     title?: string,
     children: JSX.Element,
-    authentication: boolean,
+    authentication?: boolean,
     authorization?: string,
 }
 
@@ -14,7 +14,6 @@ const PageRoute = ({children, authentication, authorization, title}: PageRoutePr
     const location = useLocation();
     const isLogin = useAppSelector(authIsLogin)
     const authorities = useAppSelector(getAuthorities)
-
     useEffect(function () {
         if (title) {
             document.title = title
@@ -24,9 +23,7 @@ const PageRoute = ({children, authentication, authorization, title}: PageRoutePr
     if (authentication && !isLogin) {
         return <Navigate to="/login" state={{from: location}} replace/>;
     }
-    if (!authentication && isLogin) {
-        return <Navigate to="/" state={{ from: location }} replace />;
-    }
+
     if (authorization && !authorities.includes(authorization)) {
         return <Navigate to="/403" state={{from: location}} replace/>;
     }

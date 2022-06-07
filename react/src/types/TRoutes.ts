@@ -4,7 +4,7 @@ export type TRoutes = {
     path: string,
     element: React.FC,
     title: string,
-    authentication: boolean,
+    authentication?: boolean,
     authorization?: string,
     children?:TRoutes[]
 }
