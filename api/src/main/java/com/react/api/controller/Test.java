@@ -1,7 +1,6 @@
 package com.react.api.controller;
 
 import com.react.api.common.ResponseBuilder;
-import com.react.api.dto.use.UserDto;
 import com.react.api.model.User;
 import com.react.api.service.UserService;
 import com.react.api.types.ApiResult;
