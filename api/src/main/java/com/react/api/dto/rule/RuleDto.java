@@ -1,6 +1,8 @@
 package com.react.api.dto.rule;
 
+import com.react.api.dto.permission.PermissionDto;
 import com.react.api.model.Permission;
+import com.react.api.model.Rule;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
@@ -21,5 +23,11 @@ public class RuleDto implements Serializable {
 
     @NotNull
     @Size(min = 1)
-    private List<Permission> permissions;
+    private List<PermissionDto> permissions;
+
+    public RuleDto(Rule rule){
+        id = rule.getId();
+        name = rule.getName();
+
+    }
 }

@@ -6,7 +6,7 @@ import javax.validation.constraints.*;
 import java.io.Serializable;
 
 @Data
-public class UserCreateDto extends UserDto implements Serializable {
+public class UserCreateDto extends UserDto {
     @NotEmpty
     @Size(max = 12, min = 6)
     @NotNull

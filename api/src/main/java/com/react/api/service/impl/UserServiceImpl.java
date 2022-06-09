@@ -9,7 +9,6 @@ import com.react.api.model.User;
 import com.react.api.repository.UserRepository;
 import com.react.api.service.UserService;
 import com.react.api.types.Pagination;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -35,28 +34,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Pagination<User> findAll(Integer page, Integer perPage) {
+    public Pagination<UserDto> findAll(Integer page, Integer perPage) {
         Sort sort = Sort.by("id");
-        if (0 < perPage) {
-            PageRequest paging = PageRequest.of(page, perPage, sort);
-            Page<User> users = userRepository.findAll(paging);
-            return new Pagination<>(users);
-        }
+//        if (0 < perPage) {
+//            PageRequest paging = PageRequest.of(page, perPage, sort);
+//            Page<User> users = userRepository.findAll(paging);
+//            return new Pagination<>(users);
+//        }
         List<User> users = userRepository.findAll(sort);
-        return new Pagination<>(users);
+        return new Pagination<>(mappingCommon.mapList(users,UserDto.class));
     }
 
     @Override
-    public User find(Integer id) {
+    public UserDto find(Integer id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
             throw new EntityNotFoundException("Entity not found");
         }
-        return user.get();
+        return mappingCommon.map(user.get(),UserDto.class);
     }
 
     @Override
-    public User create(UserCreateDto userForm) {
+    public UserDto create(UserCreateDto userForm) {
         User user = new User();
         user.setFullName(userForm.getFullName());
         user.setUsername(userForm.getUsername());
@@ -67,11 +66,12 @@ public class UserServiceImpl implements UserService {
         user.setCreatedBy(1);
         List<Rule> rules = mappingCommon.mapList(userForm.getRules(),Rule.class);
         user.setRules(rules);
-        return  userRepository.save(user);
+        User result = userRepository.save(user);
+        return mappingCommon.map(result,UserDto.class);
     }
 
     @Override
-    public User update(Integer id,UserUpdateDto userForm) {
+    public UserDto update(Integer id,UserUpdateDto userForm) {
         Optional<User> oUser = userRepository.findById(id);
         if (oUser.isEmpty()) {
             throw new EntityNotFoundException("Entity not found");
@@ -85,7 +85,8 @@ public class UserServiceImpl implements UserService {
         }
         List<Rule> rules = mappingCommon.mapList(userForm.getRules(),Rule.class);
         user.setRules(rules);
-        return  userRepository.save(user);
+        User result = userRepository.save(user);
+        return mappingCommon.map(result,UserDto.class);
     }
 
     @Override

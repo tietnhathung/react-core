@@ -2,6 +2,7 @@ package com.react.api.controller;
 
 import com.react.api.common.ResponseBuilder;
 import com.react.api.dto.rule.RuleDto;
+import com.react.api.model.Permission;
 import com.react.api.model.Rule;
 import com.react.api.repository.RuleRepository;
 import com.react.api.types.ApiResult;
@@ -67,7 +68,8 @@ public class RuleController {
         try {
             Rule rule = new Rule();
             rule.setName(ruleDto.getName());
-            rule.setPermissions(ruleDto.getPermissions());
+
+//            rule.setPermissions(ruleDto.getPermissions());
             Rule savedRule = ruleRepository.save(rule);
             return ResponseBuilder.ok(savedRule, HttpStatus.CREATED);
         } catch (Exception errors) {
@@ -86,7 +88,7 @@ public class RuleController {
             }
             Rule rule = optionalRule.get();
             rule.setName(ruleDto.getName());
-            rule.setPermissions(ruleDto.getPermissions());
+//            rule.setPermissions(ruleDto.getPermissions());
             Rule savedRule = ruleRepository.save(rule);
             return ResponseBuilder.ok(savedRule, HttpStatus.OK);
         } catch (Exception errors) {

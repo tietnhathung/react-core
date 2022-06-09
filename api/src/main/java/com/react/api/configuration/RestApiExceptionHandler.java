@@ -6,6 +6,7 @@ import com.react.api.types.ApiError;
 import com.react.api.types.ApiSubError;
 import com.react.api.types.ApiValidationError;
 import org.hibernate.exception.GenericJDBCException;
+import org.modelmapper.MappingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -90,6 +91,13 @@ public class RestApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(HttpMessageConversionException.class)
     public final ResponseEntity<Object> handleHttpMessageConversion(HttpMessageConversionException ex) {
+        logger.debug(ex.getMessage(),ex);
+        ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR);
+        apiError.setMessage(ex.getMessage());
+        return ResponseBuilder.buildError(apiError, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @ExceptionHandler(MappingException.class)
+    public final ResponseEntity<Object> handleMappingException(MappingException ex) {
         logger.debug(ex.getMessage(),ex);
         ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR);
         apiError.setMessage(ex.getMessage());
