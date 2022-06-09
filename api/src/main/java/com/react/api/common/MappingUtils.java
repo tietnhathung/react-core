@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class MappingCommon {
+public class MappingUtils {
     private final ModelMapper modelMapper;
 
-    public MappingCommon(ModelMapper modelMapper) {
+    public MappingUtils(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
 

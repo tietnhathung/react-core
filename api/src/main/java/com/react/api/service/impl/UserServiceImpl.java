@@ -1,6 +1,6 @@
 package com.react.api.service.impl;
 
-import com.react.api.common.MappingCommon;
+import com.react.api.common.MappingUtils;
 import com.react.api.dto.use.UserCreateDto;
 import com.react.api.dto.use.UserUpdateDto;
 import com.react.api.model.Rule;
@@ -23,12 +23,12 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final MappingCommon mappingCommon;
+    private final MappingUtils mappingUtils;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, MappingCommon mappingCommon, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, MappingUtils mappingUtils, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.mappingCommon = mappingCommon;
+        this.mappingUtils = mappingUtils;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
         user.setCreatedAt(LocalDateTime.now());
         user.setAccessTokenApp("");
         user.setCreatedBy(1);
-        List<Rule> rules = mappingCommon.mapList(userForm.getRules(),Rule.class);
+        List<Rule> rules = mappingUtils.mapList(userForm.getRules(),Rule.class);
         user.setRules(rules);
         return userRepository.save(user);
     }
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.hasLength(userForm.getPassword())) {
             user.setPassword(passwordEncoder.encode(userForm.getPassword()));
         }
-        List<Rule> rules = mappingCommon.mapList(userForm.getRules(),Rule.class);
+        List<Rule> rules = mappingUtils.mapList(userForm.getRules(),Rule.class);
         user.setRules(rules);
         return userRepository.save(user);
     }

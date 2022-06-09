@@ -1,6 +1,6 @@
 package com.react.api.service.impl;
 
-import com.react.api.common.MappingCommon;
+import com.react.api.common.MappingUtils;
 import com.react.api.dto.rule.RuleDto;
 import com.react.api.model.Permission;
 import com.react.api.model.Rule;
@@ -19,10 +19,10 @@ import java.util.Optional;
 @Service
 public class RuleServiceImpl implements RuleService {
     private final RuleRepository ruleRepository;
-    private final MappingCommon mappingCommon;
-    public RuleServiceImpl(RuleRepository ruleRepository, MappingCommon mappingCommon) {
+    private final MappingUtils mappingUtils;
+    public RuleServiceImpl(RuleRepository ruleRepository, MappingUtils mappingUtils) {
         this.ruleRepository = ruleRepository;
-        this.mappingCommon = mappingCommon;
+        this.mappingUtils = mappingUtils;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class RuleServiceImpl implements RuleService {
     public Rule create(RuleDto ruleDto) {
         Rule rule = new Rule();
         rule.setName(ruleDto.getName());
-        List<Permission> permissions = mappingCommon.mapList(ruleDto.getPermissions(),Permission.class);
+        List<Permission> permissions = mappingUtils.mapList(ruleDto.getPermissions(),Permission.class);
         rule.setPermissions(permissions);
         return ruleRepository.save(rule);
     }
@@ -63,7 +63,7 @@ public class RuleServiceImpl implements RuleService {
         }
         Rule rule = optionalRule.get();
         rule.setName(ruleDto.getName());
-        List<Permission> permissions = mappingCommon.mapList(ruleDto.getPermissions(),Permission.class);
+        List<Permission> permissions = mappingUtils.mapList(ruleDto.getPermissions(),Permission.class);
         rule.setPermissions(permissions);
         return ruleRepository.save(rule);
     }
