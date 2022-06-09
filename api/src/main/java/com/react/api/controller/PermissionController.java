@@ -4,7 +4,9 @@ package com.react.api.controller;
 import com.react.api.common.ResponseBuilder;
 import com.react.api.model.Permission;
 import com.react.api.repository.PermissionRepository;
+import com.react.api.service.PermissionService;
 import com.react.api.types.ApiResult;
+import com.react.api.types.Pagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -22,22 +24,17 @@ import java.util.List;
 @RequestMapping("api/permission")
 public class PermissionController {
     private final Logger logger = LoggerFactory.getLogger(PermissionController.class);
-    private final PermissionRepository permissionRepository;
 
-    public PermissionController(PermissionRepository permissionRepository) {
-        this.permissionRepository = permissionRepository;
+    private final PermissionService permissionService;
+
+    public PermissionController(PermissionService permissionService) {
+        this.permissionService = permissionService;
     }
 
     @GetMapping
     public ResponseEntity<ApiResult> get(@RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "0") Integer perPage) {
         logger.info("get page:{}, perPage:{}", page, perPage);
-        Sort sort = Sort.by("id");
-        if (0 < perPage){
-            PageRequest paging = PageRequest.of(page, perPage, sort);
-            Page<Permission> users = permissionRepository.findAll(paging);
-            return ResponseBuilder.page(users);
-        }
-        List<Permission> users = permissionRepository.findAll(sort);
+        Pagination<Permission> users = permissionService.findAll(page, perPage);
         return ResponseBuilder.page(users);
     }
 }

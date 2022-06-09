@@ -11,6 +11,7 @@ import com.react.api.service.MenuService;
 import com.react.api.service.impl.UserDetailsImpl;
 import com.react.api.types.ApiResult;
 import com.react.api.types.ApiError;
+import com.react.api.types.Pagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -31,13 +32,9 @@ import java.util.Optional;
 @RequestMapping("api/menu")
 public class MenuController {
     private final Logger logger = LoggerFactory.getLogger(MenuController.class);
-    private final MenuRepository menuRepository;
-    private final PermissionRepository permissionRepository;
     private final MenuService menuService;
 
-    public MenuController(MenuRepository menuRepository, PermissionRepository permissionRepository, MenuService menuService) {
-        this.menuRepository = menuRepository;
-        this.permissionRepository = permissionRepository;
+    public MenuController(MenuService menuService) {
         this.menuService = menuService;
     }
 
@@ -45,13 +42,7 @@ public class MenuController {
     @PreAuthorize("hasAnyAuthority('MENU')")
     public ResponseEntity<ApiResult> get(@RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "0") Integer perPage) {
         logger.info("get menus page:{}, perPage:{}", page, perPage);
-        Sort sort = Sort.by("id");
-        if (0 < perPage) {
-            PageRequest paging = PageRequest.of(page, perPage, sort);
-            Page<Menu> menus = menuRepository.findAll(paging);
-            return ResponseBuilder.page(menus);
-        }
-        List<Menu> menus = menuRepository.findAll(sort);
+        Pagination<Menu> menus = menuService.findAll(page, perPage);
         return ResponseBuilder.page(menus);
     }
 
@@ -59,11 +50,8 @@ public class MenuController {
     @PreAuthorize("hasAnyAuthority('MENU')")
     public ResponseEntity<ApiResult> getById(@PathVariable Integer id) {
         try {
-            Optional<Menu> optionalMenu = menuRepository.findById(id);
-            if (optionalMenu.isEmpty()) {
-                throw new EntityNotFoundException("Menu not found");
-            }
-            return ResponseBuilder.ok(optionalMenu.get());
+            Menu menu = menuService.find(id);
+            return ResponseBuilder.ok(menu);
         } catch (Exception errors) {
             return ResponseBuilder.found(new ApiError(errors));
         }
@@ -74,20 +62,7 @@ public class MenuController {
     public ResponseEntity<ApiResult> create(@Valid @RequestBody MenuDto menuDto) {
         logger.info("create MenuDto:{}", menuDto);
         try {
-            Menu menu = new Menu();
-            menu.setTitle(menuDto.getTitle());
-            menu.setUrl(menuDto.getUrl());
-            menu.setIcon(menuDto.getIcon());
-            menu.setParentId(menuDto.getParentId());
-            menu.setTarget(menuDto.getTarget());
-            if (menuDto.getPermission() != null) {
-                Optional<Permission> OptionPermission = permissionRepository.findById(menuDto.getPermission().getId());
-                if (OptionPermission.isEmpty()) {
-                    throw new EntityNotFoundException("Permission not found");
-                }
-                menu.setPermission(OptionPermission.get());
-            }
-            Menu savedMenu = menuRepository.save(menu);
+            Menu savedMenu = menuService.create(menuDto);
             return ResponseBuilder.ok(savedMenu, HttpStatus.CREATED);
         } catch (Exception errors) {
             return ResponseBuilder.found(new ApiError(errors));
@@ -99,26 +74,7 @@ public class MenuController {
     public ResponseEntity<ApiResult> update(@PathVariable Integer id, @Valid @RequestBody MenuDto menuDto) {
         logger.info("update MenuDto id:{}, data:{}", id, menuDto);
         try {
-            Optional<Menu> optionalMenu = menuRepository.findById(id);
-            if (optionalMenu.isEmpty()) {
-                throw new EntityNotFoundException("Menu not found");
-            }
-            Menu menu = optionalMenu.get();
-            menu.setTitle(menuDto.getTitle());
-            menu.setUrl(menuDto.getUrl());
-            menu.setIcon(menuDto.getIcon());
-            menu.setParentId(menuDto.getParentId());
-            menu.setTarget(menuDto.getTarget());
-            if (menuDto.getPermission() != null) {
-                Optional<Permission> OptionPermission = permissionRepository.findById(menuDto.getPermission().getId());
-                if (OptionPermission.isEmpty()) {
-                    throw new EntityNotFoundException("Permission not found");
-                }
-                menu.setPermission(OptionPermission.get());
-            } else {
-                menu.setPermission(null);
-            }
-            Menu savedMenu = menuRepository.save(menu);
+            Menu savedMenu = menuService.update(id, menuDto);
             return ResponseBuilder.ok(savedMenu, HttpStatus.OK);
         } catch (Exception errors) {
             return ResponseBuilder.found(new ApiError(errors));
@@ -130,11 +86,7 @@ public class MenuController {
     public ResponseEntity<ApiResult> delete(@PathVariable Integer id) {
         logger.info("delete menu id:{}", id);
         try {
-            Optional<Menu> optionalMenu = menuRepository.findById(id);
-            if (optionalMenu.isEmpty()) {
-                throw new EntityNotFoundException("Menu not found");
-            }
-            menuRepository.delete(optionalMenu.get());
+            menuService.delete(id);
             return ResponseBuilder.ok();
         } catch (Exception errors) {
             return ResponseBuilder.found(new ApiError(errors));

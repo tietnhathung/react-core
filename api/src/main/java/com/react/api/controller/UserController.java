@@ -2,9 +2,9 @@ package com.react.api.controller;
 
 import com.react.api.common.ResponseBuilder;
 import com.react.api.dto.use.UserCreateDto;
-import com.react.api.dto.use.UserDto;
 import com.react.api.dto.use.UserUpdateDto;
 
+import com.react.api.model.User;
 import com.react.api.service.UserService;
 import com.react.api.types.ApiResult;
 import com.react.api.types.ApiError;
@@ -33,14 +33,14 @@ public class UserController {
     @GetMapping
     public ResponseEntity<ApiResult> get(@RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "0") Integer perPage) {
         logger.info("get page:{}, perPage:{}", page, perPage);
-        Pagination<UserDto> users = userService.findAll(page, perPage);
+        Pagination<User> users = userService.findAll(page, perPage);
         return ResponseBuilder.page(users);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResult> find(@PathVariable Integer id) {
         logger.info("find id:{}", id);
-        UserDto user = userService.find(id);
+        User user = userService.find(id);
         return ResponseBuilder.ok(user);
     }
 
@@ -48,7 +48,7 @@ public class UserController {
     public ResponseEntity<ApiResult> create(@Valid @RequestBody UserCreateDto userDto) {
         logger.info("create UserCreateDto:{}", userDto);
         try {
-            UserDto user = userService.create(userDto);
+            User user = userService.create(userDto);
             return ResponseBuilder.ok(user, HttpStatus.CREATED);
         } catch (Exception errors) {
             return ResponseBuilder.found(new ApiError(errors));
@@ -59,7 +59,7 @@ public class UserController {
     public ResponseEntity<ApiResult> update(@PathVariable Integer id, @Valid @RequestBody UserUpdateDto userDto) {
         logger.info("update id:{}, userDto:{}", id, userDto);
         try {
-            UserDto user = userService.update(id, userDto);
+            User user = userService.update(id, userDto);
             return ResponseBuilder.ok(user);
         } catch (Exception errors) {
             return ResponseBuilder.found(new ApiError(errors));
