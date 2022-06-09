@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/test")
-public class Test {
+public class TestController {
     private final UserService userService;
 
-    public Test(UserService userService) {
+    public TestController(UserService userService) {
         this.userService = userService;
     }
 
