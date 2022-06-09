@@ -1,5 +1,6 @@
 package com.react.api.validation.validators;
 
+import com.react.api.dto.use.UserDto;
 import com.react.api.dto.use.UserUpdateDto;
 import com.react.api.model.User;
 import com.react.api.repository.UserRepository;
@@ -10,7 +11,7 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.Objects;
 import java.util.Optional;
 
-public class UserUniqueTypeValidator implements ConstraintValidator<UserUnique, UserUpdateDto> {
+public class UserUniqueTypeValidator implements ConstraintValidator<UserUnique, UserDto> {
     private final UserRepository userRepository;
 
     public UserUniqueTypeValidator(UserRepository userRepository) {
@@ -24,7 +25,7 @@ public class UserUniqueTypeValidator implements ConstraintValidator<UserUnique, 
     }
 
     @Override
-    public boolean isValid(UserUpdateDto userDto, ConstraintValidatorContext context) {
+    public boolean isValid(UserDto userDto, ConstraintValidatorContext context) {
         boolean valid = true;
         Optional<User> oUser = userRepository.findByUsername(userDto.getUsername());
         if (oUser.isPresent()) {

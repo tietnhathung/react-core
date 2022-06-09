@@ -6,6 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private static final String dateFormat = "yyyy-MM-dd";
     private static final String timeFormat = "HH:mm:ss.SSS";
     private static final String dateTimeFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder.build();

@@ -1,16 +1,14 @@
-package com.react.api.service;
+package com.react.api.service.impl;
 
 import com.react.api.model.Permission;
 import com.react.api.model.User;
 import com.react.api.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

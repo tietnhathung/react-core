@@ -17,6 +17,12 @@ public class ResponseBuilder {
         apiResult.setContent(pagination);
         return ResponseEntity.ok().body(apiResult);
     }
+    public static <T>ResponseEntity<ApiResult> page(Pagination<T> pageData){
+        ApiResult apiResult = new ApiResult();
+        apiResult.setHttpStatus(HttpStatus.OK);
+        apiResult.setContent(pageData);
+        return ResponseEntity.ok().body(apiResult);
+    }
     public static <T>ResponseEntity<ApiResult> page(Page<T> pageData){
         ApiResult apiResult = new ApiResult();
         apiResult.setHttpStatus(HttpStatus.OK);

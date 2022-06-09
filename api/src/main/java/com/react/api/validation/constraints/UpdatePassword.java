@@ -1,8 +1,7 @@
 package com.react.api.validation.constraints;
 
 import com.react.api.validation.validators.UpdatePasswordValidator;
-import com.react.api.validation.validators.UserUniqueFieldValidator;
-import com.react.api.validation.validators.UserUniqueTypeValidator;
+
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

@@ -6,8 +6,8 @@ import com.react.api.dto.auth.JwtDto;
 import com.react.api.dto.auth.LoginDto;
 import com.react.api.dto.auth.RefreshTokenDto;
 import com.react.api.dto.auth.googleLoginDto;
-import com.react.api.service.UserDetailsImpl;
-import com.react.api.service.UserDetailsServiceImpl;
+import com.react.api.service.impl.UserDetailsImpl;
+import com.react.api.service.impl.UserDetailsServiceImpl;
 import com.react.api.types.ApiResult;
 import com.react.api.types.ApiError;
 import com.react.api.types.GoogleProfile;
@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
-import java.net.http.HttpHeaders;
 
 @CrossOrigin(origins = "*", maxAge = 3600L)
 @RestController

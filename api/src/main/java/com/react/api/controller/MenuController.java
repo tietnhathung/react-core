@@ -8,7 +8,7 @@ import com.react.api.model.Permission;
 import com.react.api.repository.MenuRepository;
 import com.react.api.repository.PermissionRepository;
 import com.react.api.service.MenuService;
-import com.react.api.service.UserDetailsImpl;
+import com.react.api.service.impl.UserDetailsImpl;
 import com.react.api.types.ApiResult;
 import com.react.api.types.ApiError;
 import org.slf4j.Logger;

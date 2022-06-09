@@ -1,7 +1,6 @@
 package com.react.api.dto.auth;
 
-import com.react.api.model.User;
-import com.react.api.service.UserDetailsImpl;
+import com.react.api.service.impl.UserDetailsImpl;
 import lombok.Data;
 
 import java.io.IOException;

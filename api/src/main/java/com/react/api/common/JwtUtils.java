@@ -1,6 +1,6 @@
 package com.react.api.common;
 
-import com.react.api.service.UserDetailsImpl;
+import com.react.api.service.impl.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;

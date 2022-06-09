@@ -1,7 +1,8 @@
-package com.react.api.service;
+package com.react.api.service.impl;
 
 import com.react.api.model.Menu;
 import com.react.api.repository.MenuRepository;
+import com.react.api.service.MenuService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
