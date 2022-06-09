@@ -2,8 +2,6 @@ package com.react.api.model;
 
 import lombok.*;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,7 +11,6 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @Entity
 @Table(name = "user", indexes = @Index(name = "user_username_index", columnList = "username", unique = true))

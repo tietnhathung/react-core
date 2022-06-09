@@ -16,7 +16,7 @@ public class Permission {
     private String name;
 
     @ManyToMany(mappedBy = "permissions",fetch = FetchType.LAZY)
-    List<Rule> rules  = new ArrayList<>();;
+    List<Rule> rules  = new ArrayList<>();
 
     public Integer getId() {
         return id;

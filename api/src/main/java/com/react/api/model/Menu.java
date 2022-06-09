@@ -1,6 +1,5 @@
 package com.react.api.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.Hibernate;
 
