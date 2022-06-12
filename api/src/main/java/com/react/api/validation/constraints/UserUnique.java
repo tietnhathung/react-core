@@ -9,10 +9,12 @@ import java.lang.annotation.*;
 
 @Documented
 @Constraint(validatedBy = {UserUniqueTypeValidator.class, UserUniqueFieldValidator.class})
-@Target( {ElementType.FIELD, ElementType.TYPE})
+@Target({ElementType.FIELD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UserUnique {
     String message() default "must be unique";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

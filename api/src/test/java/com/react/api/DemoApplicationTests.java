@@ -70,7 +70,7 @@ class DemoApplicationTests {
     public void givenAbstractClass_whenDeserializing_thenException() throws IOException {
         String json = "{\"username\":\"anh1ok\",\"fullName\":\"fullName\",\"password\":\"password\"}";
         ObjectMapper mapper = new ObjectMapper();
-        UserCreateDto userCreateDto =  mapper.reader().forType(UserCreateDto.class).readValue(json);
+        UserCreateDto userCreateDto = mapper.reader().forType(UserCreateDto.class).readValue(json);
         System.out.print(userCreateDto);
         Assertions.assertThat(userCreateDto).isNotNull();
     }

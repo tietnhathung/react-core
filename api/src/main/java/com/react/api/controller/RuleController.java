@@ -63,7 +63,7 @@ public class RuleController {
     public ResponseEntity<ApiResult> update(@PathVariable Integer id, @Valid @RequestBody RuleDto ruleDto) {
         logger.info("update RuleDto:{}", ruleDto);
         try {
-            Rule savedRule = ruleService.update(id,ruleDto);
+            Rule savedRule = ruleService.update(id, ruleDto);
             return ResponseBuilder.ok(savedRule, HttpStatus.OK);
         } catch (Exception errors) {
             return ResponseBuilder.found(new ApiError(errors));

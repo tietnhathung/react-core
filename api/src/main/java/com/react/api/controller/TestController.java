@@ -25,8 +25,9 @@ public class TestController {
         Pagination<User> users = userService.findAll(page, perPage);
         return ResponseBuilder.page(users);
     }
+
     @GetMapping("test2")
-    public String test2(){
+    public String test2() {
         return "Tes2";
     }
 }

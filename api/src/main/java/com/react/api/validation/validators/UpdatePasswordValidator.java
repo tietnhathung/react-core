@@ -12,14 +12,14 @@ public class UpdatePasswordValidator implements ConstraintValidator<UpdatePasswo
 
     @Override
     public void initialize(UpdatePassword constraintAnnotation) {
-        this.min = constraintAnnotation.min();
-        this.max = constraintAnnotation.max();
+        min = constraintAnnotation.min();
+        max = constraintAnnotation.max();
         ConstraintValidator.super.initialize(constraintAnnotation);
     }
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return  !StringUtils.hasLength(value) || (value.length() >= this.min && value.length() <= this.max);
+        return !StringUtils.hasLength(value) || (value.length() >= this.min && value.length() <= this.max);
     }
 
 }
