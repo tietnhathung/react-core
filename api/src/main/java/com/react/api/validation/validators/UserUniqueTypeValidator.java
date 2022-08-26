@@ -32,7 +32,7 @@ public class UserUniqueTypeValidator implements ConstraintValidator<UserUnique, 
             User user = oUser.get();
             valid = Objects.equals(user.getId(), userDto.getId());
         }
-        if (!valid){
+        if (!valid) {
             context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
                     .addPropertyNode("username")
                     .addConstraintViolation()
