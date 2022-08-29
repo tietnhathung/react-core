@@ -63,13 +63,13 @@ public class UserServiceImpl implements UserService {
         user.setCreatedAt(LocalDateTime.now());
         user.setAccessTokenApp("");
         user.setCreatedBy(1);
-        List<Rule> rules = mappingUtils.mapList(userForm.getRules(),Rule.class);
+        List<Rule> rules = mappingUtils.mapList(userForm.getRules(), Rule.class);
         user.setRules(rules);
         return userRepository.save(user);
     }
 
     @Override
-    public User update(Integer id,UserUpdateDto userForm) {
+    public User update(Integer id, UserUpdateDto userForm) {
         Optional<User> oUser = userRepository.findById(id);
         if (oUser.isEmpty()) {
             throw new EntityNotFoundException("Entity not found");
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.hasLength(userForm.getPassword())) {
             user.setPassword(passwordEncoder.encode(userForm.getPassword()));
         }
-        List<Rule> rules = mappingUtils.mapList(userForm.getRules(),Rule.class);
+        List<Rule> rules = mappingUtils.mapList(userForm.getRules(), Rule.class);
         user.setRules(rules);
         return userRepository.save(user);
     }

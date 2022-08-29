@@ -33,33 +33,27 @@ class DemoApplicationTests {
 
     @Test
     void contextLoads() {
+        Assertions.assertThat(menuRepository).isNotNull();
     }
 
     @Test
-    public void whenParsingJsonStringIntoJsonNode_thenCorrect() throws Exception {
+    void whenParsingJsonStringIntoJsonNode_thenCorrect() throws Exception {
         String jsonString = "{\"k1\":\"v1\",\"k2\":\"v2\"}";
 
         ObjectMapper mapper = new ObjectMapper();
         JsonNode actualObj = mapper.readTree(jsonString);
 
-        System.out.print(actualObj);
-
         Assertions.assertThat(actualObj).isNotNull();
     }
 
     @Test
-    public void testCache() {
-        Optional<User> optUser = userRepository.findByUsername("admin");
-        Optional<User> optUser2 = userRepository.findByUsername("admin");
-        Optional<User> optUser3 = userRepository.findByUsername("admin2");
-
+    void testCache() {
+        Optional<User> optUser = userRepository.findByUsername("anh9ok");
         Assertions.assertThat(optUser.isPresent()).isTrue();
-        Assertions.assertThat(optUser2.isPresent()).isTrue();
-        Assertions.assertThat(optUser3.isEmpty()).isTrue();
     }
 
     @Test
-    public void menuServiceServiceTest() throws IOException {
+    void menuServiceServiceTest() {
         List<Menu> menus = menuService.buildMenuByUser(1);
 
         Assertions.assertThat(menus.isEmpty()).isFalse();
@@ -67,11 +61,10 @@ class DemoApplicationTests {
     }
 
     @Test
-    public void givenAbstractClass_whenDeserializing_thenException() throws IOException {
+    void givenAbstractClass_whenDeserializing_thenException() throws IOException {
         String json = "{\"username\":\"anh1ok\",\"fullName\":\"fullName\",\"password\":\"password\"}";
         ObjectMapper mapper = new ObjectMapper();
         UserCreateDto userCreateDto = mapper.reader().forType(UserCreateDto.class).readValue(json);
-        System.out.print(userCreateDto);
         Assertions.assertThat(userCreateDto).isNotNull();
     }
 

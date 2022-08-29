@@ -42,19 +42,19 @@ public class User {
     @Column(name = "createdBy")
     private Integer createdBy;
 
-    @ManyToMany()
+    @ManyToMany
     @JoinTable(
-        name = "user_rule",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "rule_id"))
+            name = "user_rule",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "rule_id"))
     private List<Rule> rules = new ArrayList<>();
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        User user = (User) o;
-        return id != null && Objects.equals(id, user.id);
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (null == obj || Hibernate.getClass(this) != Hibernate.getClass(obj)) return false;
+        User user = (User) obj;
+        return id.equals(user.getId());
     }
 
     @Override

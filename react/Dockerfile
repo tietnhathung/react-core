@@ -1,7 +1,11 @@
-FROM node:16.17.0
+FROM node:16.17.0 as build-stage
 WORKDIR /app
-COPY . .
+COPY package.json ./
 RUN npm install
+COPY . .
+COPY .env.docker .env
 RUN npm run build
 
-CMD ["npm", "start"]
+FROM nginx:1.17-alpine as production-stage
+COPY --from=build-stage /app/build /usr/share/nginx/html
+CMD ["nginx", "-g", "daemon off;"]

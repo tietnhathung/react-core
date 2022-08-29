@@ -16,12 +16,12 @@ import java.util.List;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class EntityGraphIntegrationTest {
+class EntityGraphIntegrationTest {
     @Autowired
     private MenuRepository menuRepository;
 
     @Test
-    void injectedComponentsAreNotNull()throws Exception{
+    void injectedComponentsAreNotNull() {
         Menu menu = menuRepository.findById(2).orElseThrow();
         Assertions.assertThat(menu).isNotNull();
     }
