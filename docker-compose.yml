@@ -39,5 +39,5 @@ services:
       - backend
       
 networks:
-    spring-cloud-network:
-        driver: bridge
+  spring-cloud-network:
+    driver: bridge
