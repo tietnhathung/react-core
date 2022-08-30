@@ -1,14 +1,43 @@
-version: "3.7"
+version: "3.3"
 
 services:
-  frontend:
-    image: learning-docker/vue:v1
-    ports:
-      - "5000:80"
-    restart: unless-stopped
-  backend:
-    image: awesome/database
-    volumes:
-      - db-data:/etc/data
+  mysqldb:
+    image: mysql:8
+    container_name: mysql
+    # ports:
+    #   - 3306:3306
     networks:
-      - back-tier
+      - spring-cloud-network
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: react-core
+  backend:
+    image: react-core/backend:latest
+    container_name: api
+    build:
+      context: api
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    networks:
+      - spring-cloud-network
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/react-core
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=admin
+    depends_on:
+      - mysqldb
+  fronend:
+    image: react-core/fronend:latest
+    container_name: client
+    build:
+      context: react
+      dockerfile: Dockerfile
+    ports:
+      - 3000:80
+    depends_on:
+      - backend
+      
+networks:
+    spring-cloud-network:
+        driver: bridge
