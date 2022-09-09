@@ -1,12 +1,12 @@
 package com.react.api.controller;
 
-import com.react.api.common.ResponseBuilder;
-import com.react.api.dto.rule.RuleDto;
-import com.react.api.model.Rule;
-import com.react.api.service.RuleService;
-import com.react.api.types.ApiResult;
-import com.react.api.types.ApiError;
-import com.react.api.types.Pagination;
+import com.react.common.helpers.ResponseBuilder;
+import com.react.common.dto.rule.RuleDto;
+import com.react.data.model.Rule;
+import com.react.service.RuleService;
+import com.react.common.types.ApiResult;
+import com.react.common.types.ApiError;
+import com.react.common.types.Pagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

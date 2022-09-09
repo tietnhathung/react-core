@@ -2,8 +2,8 @@ package com.react.api.configuration;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.react.api.types.ApiResult;
-import com.react.api.types.ApiError;
+import com.react.common.types.ApiResult;
+import com.react.common.types.ApiError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

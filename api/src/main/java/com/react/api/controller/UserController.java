@@ -1,14 +1,14 @@
 package com.react.api.controller;
 
-import com.react.api.common.ResponseBuilder;
-import com.react.api.dto.use.UserCreateDto;
-import com.react.api.dto.use.UserUpdateDto;
+import com.react.common.helpers.ResponseBuilder;
+import com.react.common.dto.use.UserCreateDto;
+import com.react.common.dto.use.UserUpdateDto;
 
-import com.react.api.model.User;
-import com.react.api.service.UserService;
-import com.react.api.types.ApiResult;
-import com.react.api.types.ApiError;
-import com.react.api.types.Pagination;
+import com.react.data.model.User;
+import com.react.service.UserService;
+import com.react.common.types.ApiResult;
+import com.react.common.types.ApiError;
+import com.react.common.types.Pagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

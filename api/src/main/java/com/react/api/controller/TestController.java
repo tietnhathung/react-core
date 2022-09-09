@@ -1,10 +1,10 @@
 package com.react.api.controller;
 
-import com.react.api.common.ResponseBuilder;
-import com.react.api.model.User;
-import com.react.api.service.UserService;
-import com.react.api.types.ApiResult;
-import com.react.api.types.Pagination;
+import com.react.common.helpers.ResponseBuilder;
+import com.react.data.model.User;
+import com.react.service.UserService;
+import com.react.common.types.ApiResult;
+import com.react.common.types.Pagination;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

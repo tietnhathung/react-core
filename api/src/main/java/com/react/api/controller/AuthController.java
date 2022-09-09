@@ -1,13 +1,13 @@
 package com.react.api.controller;
 
-import com.react.api.common.ResponseBuilder;
-import com.react.api.dto.auth.GoogleLoginDto;
-import com.react.api.dto.auth.JwtDto;
-import com.react.api.dto.auth.LoginDto;
-import com.react.api.dto.auth.RefreshTokenDto;
-import com.react.api.service.AuthService;
-import com.react.api.types.ApiError;
-import com.react.api.types.ApiResult;
+import com.react.common.helpers.ResponseBuilder;
+import com.react.common.dto.auth.GoogleLoginDto;
+import com.react.common.dto.auth.JwtDto;
+import com.react.common.dto.auth.LoginDto;
+import com.react.common.dto.auth.RefreshTokenDto;
+import com.react.service.AuthService;
+import com.react.common.types.ApiError;
+import com.react.common.types.ApiResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

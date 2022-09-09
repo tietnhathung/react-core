@@ -2,12 +2,12 @@ package com.react.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.react.api.dto.use.UserCreateDto;
-import com.react.api.model.Menu;
-import com.react.api.model.User;
-import com.react.api.repository.MenuRepository;
-import com.react.api.repository.UserRepository;
-import com.react.api.service.MenuService;
+import com.react.common.dto.use.UserCreateDto;
+import com.react.data.model.Menu;
+import com.react.data.model.User;
+import com.react.data.repository.MenuRepository;
+import com.react.data.repository.UserRepository;
+import com.react.service.MenuService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
