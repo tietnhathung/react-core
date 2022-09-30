@@ -31,6 +31,7 @@ public class AuthController {
     public ResponseEntity<ApiResult> login(@Valid @RequestBody LoginDto loginDto) {
         try {
             logger.info("Login username:{}, password:{}", loginDto.getUsername(), loginDto.getPassword());
+
             JwtDto jwtDto = authService.login(loginDto);
             return ResponseBuilder.ok(jwtDto);
         } catch (Exception ex) {

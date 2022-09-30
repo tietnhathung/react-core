@@ -2,6 +2,7 @@ package com.react.common.dto.use;
 
 import com.react.common.dto.rule.RuleDto;
 import com.react.common.validation.constraints.UserUnique;
+import com.react.data.model.User;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -11,6 +12,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @UserUnique
@@ -42,6 +44,15 @@ public class UserDto implements Serializable {
         this.status = status;
         this.createdAt = createdAt;
         this.rules = rules;
+    }
+
+    public UserDto(User user) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.fullName = user.getFullName();
+        this.status = user.getStatus();
+        this.createdAt = user.getCreatedAt();
+        this.rules = user.getRules().stream().map(RuleDto::new).collect(Collectors.toList());
     }
 
     public Integer getId() {

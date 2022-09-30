@@ -1,13 +1,14 @@
 package com.react.service.impl;
 
-import com.react.common.helpers.MappingUtils;
 import com.react.common.dto.use.UserCreateDto;
+import com.react.common.dto.use.UserDto;
 import com.react.common.dto.use.UserUpdateDto;
+import com.react.common.helpers.MappingUtils;
+import com.react.common.types.Pagination;
 import com.react.data.model.Rule;
 import com.react.data.model.User;
 import com.react.data.repository.UserRepository;
 import com.react.service.UserService;
-import com.react.common.types.Pagination;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -45,16 +46,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User find(Integer id) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isEmpty()) {
+    public UserDto find(Integer id) {
+        Optional<User> oUser = userRepository.findById(id);
+        if (oUser.isEmpty()) {
             throw new EntityNotFoundException("Entity not found");
         }
-        return user.get();
+        User user = oUser.get();
+        return new UserDto(user);
     }
 
     @Override
-    public User create(UserCreateDto userForm) {
+    public UserDto create(UserCreateDto userForm) {
         User user = new User();
         user.setFullName(userForm.getFullName());
         user.setUsername(userForm.getUsername());
@@ -65,11 +67,11 @@ public class UserServiceImpl implements UserService {
         user.setCreatedBy(1);
         List<Rule> rules = mappingUtils.mapList(userForm.getRules(), Rule.class);
         user.setRules(rules);
-        return userRepository.save(user);
+        return new UserDto(userRepository.save(user));
     }
 
     @Override
-    public User update(Integer id, UserUpdateDto userForm) {
+    public UserDto update(Integer id, UserUpdateDto userForm) {
         Optional<User> oUser = userRepository.findById(id);
         if (oUser.isEmpty()) {
             throw new EntityNotFoundException("Entity not found");
@@ -83,7 +85,7 @@ public class UserServiceImpl implements UserService {
         }
         List<Rule> rules = mappingUtils.mapList(userForm.getRules(), Rule.class);
         user.setRules(rules);
-        return userRepository.save(user);
+        return new UserDto(userRepository.save(user));
     }
 
     @Override

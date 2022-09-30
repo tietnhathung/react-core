@@ -1,5 +1,6 @@
 package com.react.api.controller;
 
+import com.react.common.dto.use.UserDto;
 import com.react.common.helpers.ResponseBuilder;
 import com.react.common.dto.use.UserCreateDto;
 import com.react.common.dto.use.UserUpdateDto;
@@ -40,7 +41,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<ApiResult> find(@PathVariable Integer id) {
         logger.info("find id:{}", id);
-        User user = userService.find(id);
+        UserDto user = userService.find(id);
         return ResponseBuilder.ok(user);
     }
 
@@ -48,7 +49,7 @@ public class UserController {
     public ResponseEntity<ApiResult> create(@Valid @RequestBody UserCreateDto userDto) {
         logger.info("create UserCreateDto:{}", userDto);
         try {
-            User user = userService.create(userDto);
+            UserDto user = userService.create(userDto);
             return ResponseBuilder.ok(user, HttpStatus.CREATED);
         } catch (Exception errors) {
             return ResponseBuilder.found(new ApiError(errors));
@@ -59,7 +60,7 @@ public class UserController {
     public ResponseEntity<ApiResult> update(@PathVariable Integer id, @Valid @RequestBody UserUpdateDto userDto) {
         logger.info("update id:{}, userDto:{}", id, userDto);
         try {
-            User user = userService.update(id, userDto);
+            UserDto user = userService.update(id, userDto);
             return ResponseBuilder.ok(user);
         } catch (Exception errors) {
             return ResponseBuilder.found(new ApiError(errors));
