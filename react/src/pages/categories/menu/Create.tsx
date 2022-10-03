@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import {TApiErrors} from "../../../types/TApiErrors";
@@ -7,7 +7,7 @@ import * as yup from "yup";
 import {IMenuForm} from "../../../types/entities/IMenu";
 import MenuFrom from "./components/MenuFrom";
 import {createMenu} from "../../../services/menuServices";
-import { FieldPath } from 'react-hook-form';
+import {FieldPath} from 'react-hook-form';
 
 const schema = yup.object({
     title: yup.string().min(4).max(12).required(),
@@ -18,7 +18,7 @@ const schema = yup.object({
 
 const Create = () => {
     let navigate = useNavigate();
-    const {handleSubmit, control,setError} = useForm<IMenuForm>({
+    const {handleSubmit, control, setError} = useForm<IMenuForm>({
         defaultValues: {
             icon: "",
             title: "",

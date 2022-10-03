@@ -7,6 +7,9 @@ const Login = React.lazy(() => import('../pages/core/login/Index'))
 const Callback = React.lazy(() => import('../pages/core/login/Callback'))
 const DefaultLayout = React.lazy(() => import('../layouts/DefaultLayout'))
 
+//test
+const TestPage = React.lazy(() => import('../pages/test'));
+
 const index: TRoutes[] = [
     {path: 'login', element: Login, title: 'Login', authentication: false},
     {path: 'callback', element: Callback, title: 'Login with google', authentication: false},
@@ -17,7 +20,8 @@ const index: TRoutes[] = [
         authentication: true,
         children: [
             ...coreRoutes,
-            ...categoryRoutes
+            ...categoryRoutes,
+            {path: 'test', element: TestPage, title: 'Test'},
         ]
     },
 ];

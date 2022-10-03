@@ -29,7 +29,7 @@ const MenuFrom = (props: TMenuFromProp) => {
     useEffect(() => {
         fetchPermissions().then(console.log);
         fetchMenus().then(console.log);
-    }, [])
+    }, []);
 
     const fetchPermissions = async (): Promise<string> => {
         let {data, status, error} = await getPermissions();
@@ -40,7 +40,7 @@ const MenuFrom = (props: TMenuFromProp) => {
             return "fetch permission errors!"
         }
         return "fetch permission done!"
-    }
+    };
     const fetchMenus = async (): Promise<string> => {
         let {status, data, error} = await getMenus();
         if (status && data) {
@@ -50,7 +50,7 @@ const MenuFrom = (props: TMenuFromProp) => {
             return "fetch menu errors!"
         }
         return "fetch menu done!"
-    }
+    };
 
     return (
         <Row>
@@ -70,13 +70,15 @@ const MenuFrom = (props: TMenuFromProp) => {
                                                 placeholder="Enter url"/>
                             <AppForm.GroupInput label="Icon" field="icon" control={control} type="text"
                                                 placeholder="Enter icon"/>
-                            <AppForm.GroupSelect isMulti={false} label="Parent" field="parentId" control={control} options={menus}
+                            <AppForm.GroupSelect isMulti={false} label="Parent" field="parentId" control={control}
+                                                 options={menus}
                                                  optionLabel="title"
                                                  optionValue="id"/>
                             <AppForm.GroupSelect isMulti={false} label="Permission" field="permission" control={control}
                                                  options={permissions}
                                                  optionLabel="name"/>
-                            <AppForm.GroupSelect isMulti={false} label="Target" field="target" control={control} options={targetOptions}
+                            <AppForm.GroupSelect isMulti={false} label="Target" field="target" control={control}
+                                                 options={targetOptions}
                                                  optionLabel="label" optionValue="id"/>
                             <Button variant="primary" type="submit">
                                 Submit

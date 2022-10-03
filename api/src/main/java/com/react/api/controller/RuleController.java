@@ -18,6 +18,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("api/rule")
+@PreAuthorize("hasAnyAuthority('RULE')")
 public class RuleController {
     private final Logger logger = LoggerFactory.getLogger(MenuController.class);
     private final RuleService ruleService;
@@ -27,7 +28,6 @@ public class RuleController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('RULE')")
     public ResponseEntity<ApiResult> get(@RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "0") Integer perPage) {
         logger.info("get rules page:{}, perPage:{}", page, perPage);
         Pagination<Rule> rules = ruleService.findAll(page, perPage);
@@ -35,7 +35,6 @@ public class RuleController {
     }
 
     @GetMapping("{id}")
-    @PreAuthorize("hasAnyAuthority('RULE')")
     public ResponseEntity<ApiResult> find(@PathVariable Integer id) {
         logger.info("find id:{}", id);
         try {
@@ -47,7 +46,6 @@ public class RuleController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('RULE')")
     public ResponseEntity<ApiResult> create(@Valid @RequestBody RuleDto ruleDto) {
         logger.info("create RuleDto:{}", ruleDto);
         try {
@@ -59,7 +57,6 @@ public class RuleController {
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasAnyAuthority('RULE')")
     public ResponseEntity<ApiResult> update(@PathVariable Integer id, @Valid @RequestBody RuleDto ruleDto) {
         logger.info("update RuleDto:{}", ruleDto);
         try {
@@ -71,7 +68,6 @@ public class RuleController {
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAnyAuthority('RULE')")
     public ResponseEntity<ApiResult> delete(@PathVariable Integer id) {
         logger.info("delete rule id:{}", id);
         try {
@@ -82,3 +78,4 @@ public class RuleController {
         }
     }
 }
+

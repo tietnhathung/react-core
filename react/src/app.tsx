@@ -34,7 +34,7 @@ const RouterBuilder = (routes: TRoutes[]) => {
             )
         })}
     </>
-}
+};
 
 function App() {
     return (

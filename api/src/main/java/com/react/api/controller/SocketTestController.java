@@ -6,9 +6,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class MessageController {
+public class SocketTestController {
     @MessageMapping("/message")
-    public void greeting(String message, Authentication authentication) {
+    public void test3(String message, Authentication authentication) {
         UserDetails userDetail = (UserDetails)authentication.getPrincipal();
         System.out.println("message: "+message+", principal: "+userDetail.getUsername());
     }

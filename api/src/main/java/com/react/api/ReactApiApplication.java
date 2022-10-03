@@ -25,8 +25,8 @@ public class ReactApiApplication {
         SpringApplication.run(ReactApiApplication.class, args);
     }
 
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 10000)
     public void scheduleFixedDelayTask() {
-        messagingTemplate.convertAndSend("/topic/server-time",System.currentTimeMillis() / 1000);
+        messagingTemplate.convertAndSend("/topic/server-time",System.currentTimeMillis());
     }
 }
