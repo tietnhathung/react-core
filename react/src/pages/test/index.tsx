@@ -1,4 +1,4 @@
-import React, {FormEvent, FormEventHandler, useEffect, useState} from "react";
+import React, {FormEvent, useEffect, useState} from "react";
 import Stomp, {Client} from "stompjs";
 import tokenService from "../../services/tokenService";
 import SockJS from "sockjs-client";
@@ -11,7 +11,7 @@ const Index = () => {
     const [message, setMessage] = useState<string>("");
     const headersSocket = {};
 
-    function connectWs() {
+    const connectWs = () => {
         let baseUrl = process.env.REACT_APP_SOCKET_BASE_URL;
         let accessToken = tokenService.getAccessToken();
 
@@ -23,20 +23,28 @@ const Index = () => {
             });
         });
         setStompClient(sc)
-    }
+    };
+
+    const disconnectWs = () => {
+        console.log("disconnect");
+        if (stompClient == null) {
+            console.log("stompClient == null");
+            return;
+        }
+        stompClient.disconnect(function () {
+            console.log("disconnect");
+            setStompClient(null);
+        });
+    };
 
     function sendMessage(event: FormEvent) {
         event.preventDefault();
         if (stompClient === null) {
-            console.log("sendMessage null")
+            console.log("stompClient === null");
             return;
         }
-        stompClient.send("/app/api/test/message", {}, message)
+        stompClient.send("/app/message", {}, message)
     }
-
-    useEffect(function () {
-        connectWs();
-    }, []);
 
     function bindTime(time: number | null): string {
         if (time == null) {
@@ -44,6 +52,15 @@ const Index = () => {
         }
         return new Date(time).toLocaleString()
     }
+
+    useEffect(function () {
+        connectWs();
+    }, []);
+    useEffect(function () {
+        return () => {
+            disconnectWs();
+        }
+    }, [stompClient]);
 
     return (
         <Row>

@@ -44,6 +44,9 @@ const Header = () => {
                     <li className="nav-item">
                         <Link className="nav-link" to="/menu">Menus</Link>
                     </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/test">Test</Link>
+                    </li>
                 </ul>
                 <ul className="header-nav ms-auto">
                     <li className="nav-item">
@@ -62,11 +65,13 @@ const Header = () => {
                             id="setting-dropdown"
                             className="pt-0"
                             title={<div className="avatar avatar-md">
-                                <img className="avatar-img" src={avatar} alt={auth?.fullName} />
+                                <img className="avatar-img" src={avatar} alt={auth?.fullName}/>
                             </div>}
                             menuVariant="light"
                         >
-                            <NavDropdown.Item onClick={()=>{navigate("/profile")}}>
+                            <NavDropdown.Item onClick={() => {
+                                navigate("/profile")
+                            }}>
                                 <i className="far fa-user"></i> Profile
                             </NavDropdown.Item>
                             <NavDropdown.Divider/>
