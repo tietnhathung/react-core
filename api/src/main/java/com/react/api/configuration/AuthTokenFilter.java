@@ -53,6 +53,10 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
             return headerAuth.substring(7);
         }
+        String queryAuth = request.getParameter("access_token");
+        if (StringUtils.hasText(queryAuth)){
+            return queryAuth;
+        }
         return null;
     }
 }

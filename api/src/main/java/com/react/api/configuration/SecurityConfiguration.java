@@ -52,7 +52,7 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((auth) -> auth.antMatchers("/api/auth/**", "/api/test/**","/ws/**").permitAll().anyRequest().authenticated())
+        http.authorizeHttpRequests((auth) -> auth.antMatchers("/api/auth/**", "/api/test/**").permitAll().anyRequest().authenticated())
                 .cors().and().csrf().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(unauthorizedHandler).and()
