@@ -9,7 +9,6 @@ import {TApiErrors} from "../../../types/TApiErrors";
 import {IRule} from "../../../types/entities/IRule";
 import {deleteRule, getRules} from "../../../services/ruleService";
 import alertify from "../../../instants/alertify";
-import {IPermission} from "../../../types/entities/IPermission";
 
 const Index = () => {
     let [rules, setRules] = useState<IRule[]>([]);
