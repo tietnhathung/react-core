@@ -1,15 +1,14 @@
 package com.react.service.impl;
 
-import com.react.common.helpers.MappingUtils;
 import com.react.common.dto.rule.RuleDto;
+import com.react.common.helpers.MappingUtils;
+import com.react.common.types.Pagination;
 import com.react.data.model.Permission;
 import com.react.data.model.Rule;
 import com.react.data.repository.RuleRepository;
 import com.react.service.RuleService;
-import com.react.common.types.Pagination;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -26,19 +25,13 @@ public class RuleServiceImpl implements RuleService {
     }
 
     @Override
-    public Pagination<Rule> findAll(Integer page, Integer perPage) {
-        Sort sort = Sort.by("name");
-        if (0 < perPage) {
-            PageRequest paging = PageRequest.of(page, perPage, sort);
-            Page<Rule> rules = ruleRepository.findAll(paging);
-            return new Pagination<>(rules);
-        }
-        List<Rule> rules = ruleRepository.findAll(sort);
+    public Pagination<Rule> get(Pageable page) {
+        Page<Rule> rules = ruleRepository.findAll(page);
         return new Pagination<>(rules);
     }
 
     @Override
-    public Rule find(Integer id) {
+    public Rule get(Integer id) {
         Optional<Rule> optionalRule = ruleRepository.findByIdWithPermissions(id);
         if (optionalRule.isEmpty()) {
             throw new EntityNotFoundException("Rule not found");
@@ -47,7 +40,7 @@ public class RuleServiceImpl implements RuleService {
     }
 
     @Override
-    public Rule create(RuleDto ruleDto) {
+    public Rule add(RuleDto ruleDto) {
         Rule rule = new Rule();
         rule.setName(ruleDto.getName());
         List<Permission> permissions = mappingUtils.mapList(ruleDto.getPermissions(),Permission.class);
@@ -56,7 +49,7 @@ public class RuleServiceImpl implements RuleService {
     }
 
     @Override
-    public Rule update(Integer id, RuleDto ruleDto) {
+    public Rule change(Integer id, RuleDto ruleDto) {
         Optional<Rule> optionalRule = ruleRepository.findById(id);
         if (optionalRule.isEmpty()) {
             throw new EntityNotFoundException("Rule not found");

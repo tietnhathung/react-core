@@ -9,6 +9,7 @@ import com.react.common.types.ApiError;
 import com.react.common.types.Pagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,9 +29,9 @@ public class RuleController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResult> get(@RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "0") Integer perPage) {
-        logger.info("get rules page:{}, perPage:{}", page, perPage);
-        Pagination<Rule> rules = ruleService.findAll(page, perPage);
+    public ResponseEntity<ApiResult> get(Pageable page) {
+        logger.info("get rules page:{}", page.toString());
+        Pagination<Rule> rules = ruleService.get(page);
         return ResponseBuilder.page(rules);
     }
 
@@ -38,7 +39,7 @@ public class RuleController {
     public ResponseEntity<ApiResult> find(@PathVariable Integer id) {
         logger.info("find id:{}", id);
         try {
-            Rule rule = ruleService.find(id);
+            Rule rule = ruleService.get(id);
             return ResponseBuilder.ok(rule, HttpStatus.OK);
         } catch (Exception errors) {
             return ResponseBuilder.found(new ApiError(errors));
@@ -49,7 +50,7 @@ public class RuleController {
     public ResponseEntity<ApiResult> create(@Valid @RequestBody RuleDto ruleDto) {
         logger.info("create RuleDto:{}", ruleDto);
         try {
-            Rule savedRule = ruleService.create(ruleDto);
+            Rule savedRule = ruleService.add(ruleDto);
             return ResponseBuilder.ok(savedRule, HttpStatus.CREATED);
         } catch (Exception errors) {
             return ResponseBuilder.found(new ApiError(errors));
@@ -60,7 +61,7 @@ public class RuleController {
     public ResponseEntity<ApiResult> update(@PathVariable Integer id, @Valid @RequestBody RuleDto ruleDto) {
         logger.info("update RuleDto:{}", ruleDto);
         try {
-            Rule savedRule = ruleService.update(id, ruleDto);
+            Rule savedRule = ruleService.change(id, ruleDto);
             return ResponseBuilder.ok(savedRule, HttpStatus.OK);
         } catch (Exception errors) {
             return ResponseBuilder.found(new ApiError(errors));

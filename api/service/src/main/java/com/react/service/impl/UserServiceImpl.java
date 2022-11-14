@@ -10,9 +10,7 @@ import com.react.data.model.User;
 import com.react.data.repository.UserRepository;
 import com.react.service.UserService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -35,25 +33,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Pagination<User> findAllTest(Pageable pageable) {
-        Page<User> users = userRepository.findAll(pageable);
+    public Pagination<User> get(Pageable page) {
+        Page<User> users = userRepository.findAll(page);
         return new Pagination<>(users);
     }
 
     @Override
-    public Pagination<User> findAll(Integer page, Integer perPage) {
-        Sort sort = Sort.by("id");
-        if (0 < perPage) {
-            PageRequest paging = PageRequest.of(page, perPage, sort);
-            Page<User> users = userRepository.findAll(paging);
-            return new Pagination<>(users);
-        }
-        List<User> users = userRepository.findAll(sort);
-        return new Pagination<>(users);
-    }
-
-    @Override
-    public UserDto find(Integer id) {
+    public UserDto get(Integer id) {
         Optional<User> oUser = userRepository.findById(id);
         if (oUser.isEmpty()) {
             throw new EntityNotFoundException("Entity not found");
@@ -63,7 +49,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto create(UserCreateDto userForm) {
+    public UserDto add(UserCreateDto userForm) {
         User user = new User();
         user.setFullName(userForm.getFullName());
         user.setUsername(userForm.getUsername());
@@ -78,7 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto update(Integer id, UserUpdateDto userForm) {
+    public UserDto change(Integer id, UserUpdateDto userForm) {
         Optional<User> oUser = userRepository.findById(id);
         if (oUser.isEmpty()) {
             throw new EntityNotFoundException("Entity not found");

@@ -9,14 +9,12 @@ import org.springframework.data.domain.Pageable;
 
 
 public interface UserService {
-    Pagination<User> findAllTest(Pageable pageable);
-    Pagination<User> findAll(Integer page, Integer perPage);
+    Pagination<User> get(Pageable page);
+    UserDto get(Integer id);
 
-    UserDto find(Integer id);
+    UserDto add(UserCreateDto userForm);
 
-    UserDto create(UserCreateDto userForm);
-
-    UserDto update(Integer id, UserUpdateDto userForm);
+    UserDto change(Integer id, UserUpdateDto userForm);
 
     void delete(Integer id);
 }

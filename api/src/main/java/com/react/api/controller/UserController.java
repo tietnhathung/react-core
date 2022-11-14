@@ -12,6 +12,7 @@ import com.react.common.types.ApiError;
 import com.react.common.types.Pagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,16 +33,16 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResult> get(@RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "0") Integer perPage) {
-        logger.info("get page:{}, perPage:{}", page, perPage);
-        Pagination<User> users = userService.findAll(page, perPage);
+    public ResponseEntity<ApiResult> get(Pageable page) {
+        logger.info("get User Pageable:{}", page.toString());
+        Pagination<User> users = userService.get(page);
         return ResponseBuilder.page(users);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResult> find(@PathVariable Integer id) {
         logger.info("find id:{}", id);
-        UserDto user = userService.find(id);
+        UserDto user = userService.get(id);
         return ResponseBuilder.ok(user);
     }
 
@@ -49,7 +50,7 @@ public class UserController {
     public ResponseEntity<ApiResult> create(@Valid @RequestBody UserCreateDto userDto) {
         logger.info("create UserCreateDto:{}", userDto);
         try {
-            UserDto user = userService.create(userDto);
+            UserDto user = userService.add(userDto);
             return ResponseBuilder.ok(user, HttpStatus.CREATED);
         } catch (Exception errors) {
             return ResponseBuilder.found(new ApiError(errors));
@@ -60,7 +61,7 @@ public class UserController {
     public ResponseEntity<ApiResult> update(@PathVariable Integer id, @Valid @RequestBody UserUpdateDto userDto) {
         logger.info("update id:{}, userDto:{}", id, userDto);
         try {
-            UserDto user = userService.update(id, userDto);
+            UserDto user = userService.change(id, userDto);
             return ResponseBuilder.ok(user);
         } catch (Exception errors) {
             return ResponseBuilder.found(new ApiError(errors));

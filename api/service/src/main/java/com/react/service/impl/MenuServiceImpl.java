@@ -1,15 +1,14 @@
 package com.react.service.impl;
 
 import com.react.common.dto.menu.MenuDto;
+import com.react.common.types.Pagination;
 import com.react.data.model.Menu;
 import com.react.data.model.Permission;
 import com.react.data.repository.MenuRepository;
 import com.react.data.repository.PermissionRepository;
 import com.react.service.MenuService;
-import com.react.common.types.Pagination;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -30,19 +29,13 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Pagination<Menu> findAll(Integer page, Integer perPage) {
-        Sort sort = Sort.by("id");
-        if (0 < perPage) {
-            PageRequest paging = PageRequest.of(page, perPage, sort);
-            Page<Menu> menus = menuRepository.findAll(paging);
-            return new Pagination<>(menus);
-        }
-        List<Menu> menus = menuRepository.findAll(sort);
+    public Pagination<Menu> get(Pageable page) {
+        Page<Menu> menus = menuRepository.findAll(page);
         return new Pagination<>(menus);
     }
 
     @Override
-    public Menu find(Integer id) {
+    public Menu get(Integer id) {
         Optional<Menu> optionalMenu = menuRepository.findById(id);
         if (optionalMenu.isEmpty()) {
             throw new EntityNotFoundException("Menu not found");
@@ -51,7 +44,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Menu create(MenuDto menuDto) {
+    public Menu add(MenuDto menuDto) {
         Menu menu = new Menu();
         menu.setTitle(menuDto.getTitle());
         menu.setUrl(menuDto.getUrl());
@@ -69,7 +62,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Menu update(Integer id, MenuDto menuDto) {
+    public Menu change(Integer id, MenuDto menuDto) {
         Optional<Menu> optionalMenu = menuRepository.findById(id);
         if (optionalMenu.isEmpty()) {
             throw new EntityNotFoundException("Menu not found");

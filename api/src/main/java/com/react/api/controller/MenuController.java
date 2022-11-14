@@ -11,6 +11,7 @@ import com.react.common.types.ApiError;
 import com.react.common.types.Pagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,9 +34,9 @@ public class MenuController {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('MENU')")
-    public ResponseEntity<ApiResult> get(@RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "0") Integer perPage) {
-        logger.info("get menus page:{}, perPage:{}", page, perPage);
-        Pagination<Menu> menus = menuService.findAll(page, perPage);
+    public ResponseEntity<ApiResult> get(Pageable page) {
+        logger.info("get menus page:{}", page.toString());
+        Pagination<Menu> menus = menuService.get(page);
         return ResponseBuilder.page(menus);
     }
 
@@ -43,7 +44,7 @@ public class MenuController {
     @PreAuthorize("hasAnyAuthority('MENU')")
     public ResponseEntity<ApiResult> getById(@PathVariable Integer id) {
         try {
-            Menu menu = menuService.find(id);
+            Menu menu = menuService.get(id);
             return ResponseBuilder.ok(menu);
         } catch (Exception errors) {
             return ResponseBuilder.found(new ApiError(errors));
@@ -55,7 +56,7 @@ public class MenuController {
     public ResponseEntity<ApiResult> create(@Valid @RequestBody MenuDto menuDto) {
         logger.info("create MenuDto:{}", menuDto);
         try {
-            Menu savedMenu = menuService.create(menuDto);
+            Menu savedMenu = menuService.add(menuDto);
             return ResponseBuilder.ok(savedMenu, HttpStatus.CREATED);
         } catch (Exception errors) {
             return ResponseBuilder.found(new ApiError(errors));
@@ -67,7 +68,7 @@ public class MenuController {
     public ResponseEntity<ApiResult> update(@PathVariable Integer id, @Valid @RequestBody MenuDto menuDto) {
         logger.info("update MenuDto id:{}, data:{}", id, menuDto);
         try {
-            Menu savedMenu = menuService.update(id, menuDto);
+            Menu savedMenu = menuService.change(id, menuDto);
             return ResponseBuilder.ok(savedMenu, HttpStatus.OK);
         } catch (Exception errors) {
             return ResponseBuilder.found(new ApiError(errors));
