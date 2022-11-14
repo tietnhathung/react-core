@@ -1,7 +1,6 @@
 package com.react.common.dto.use;
 
 import com.react.common.dto.rule.RuleDto;
-import com.react.common.validation.constraints.UserUnique;
 import com.react.data.model.User;
 
 import javax.validation.constraints.NotBlank;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-@UserUnique
 public class UserDto implements Serializable {
     private Integer id;
     @NotBlank
