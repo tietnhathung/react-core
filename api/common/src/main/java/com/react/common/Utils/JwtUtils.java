@@ -1,4 +1,4 @@
-package com.react.common.helpers;
+package com.react.common.Utils;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

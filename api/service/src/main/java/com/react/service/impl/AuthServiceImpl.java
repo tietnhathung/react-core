@@ -4,7 +4,7 @@ import com.react.data.dto.auth.GoogleLoginDto;
 import com.react.data.dto.auth.JwtDto;
 import com.react.data.dto.auth.LoginDto;
 import com.react.data.dto.auth.RefreshTokenDto;
-import com.react.common.helpers.JwtUtils;
+import com.react.common.Utils.JwtUtils;
 import com.react.data.types.GoogleProfile;
 import com.react.service.AuthService;
 import org.apache.tomcat.websocket.AuthenticationException;

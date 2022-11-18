@@ -1,7 +1,7 @@
 package com.react.api.controller;
 
 
-import com.react.common.helpers.ResponseBuilder;
+import com.react.api.hepers.ResponseBuilder;
 import com.react.data.model.Permission;
 import com.react.data.types.ApiResult;
 import com.react.service.PermissionService;

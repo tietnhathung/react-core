@@ -3,7 +3,7 @@ package com.react.service.impl;
 import com.react.data.dto.use.UserCreateDto;
 import com.react.data.dto.use.UserDto;
 import com.react.data.dto.use.UserUpdateDto;
-import com.react.common.helpers.MappingUtils;
+import com.react.common.Utils.MappingUtils;
 import com.react.data.model.Rule;
 import com.react.data.model.User;
 import com.react.data.repository.UserRepository;

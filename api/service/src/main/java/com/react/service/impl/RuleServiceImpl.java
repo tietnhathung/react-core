@@ -1,7 +1,7 @@
 package com.react.service.impl;
 
 import com.react.data.dto.rule.RuleDto;
-import com.react.common.helpers.MappingUtils;
+import com.react.common.Utils.MappingUtils;
 import com.react.data.model.Permission;
 import com.react.data.model.Rule;
 import com.react.data.repository.RuleRepository;

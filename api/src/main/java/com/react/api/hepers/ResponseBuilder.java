@@ -1,4 +1,4 @@
-package com.react.common.helpers;
+package com.react.api.hepers;
 
 import com.react.data.types.ApiError;
 import com.react.data.types.ApiResult;

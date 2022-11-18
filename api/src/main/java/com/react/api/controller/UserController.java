@@ -1,6 +1,6 @@
 package com.react.api.controller;
 
-import com.react.common.helpers.ResponseBuilder;
+import com.react.api.hepers.ResponseBuilder;
 import com.react.data.dto.use.UserCreateDto;
 import com.react.data.dto.use.UserDto;
 import com.react.data.dto.use.UserUpdateDto;

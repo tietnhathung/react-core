@@ -1,4 +1,4 @@
-package com.react.common.helpers;
+package com.react.common.Utils;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;

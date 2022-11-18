@@ -1,7 +1,7 @@
 package com.react.api.security;
 
 import com.react.service.impl.UserDetailsServiceImpl;
-import com.react.common.helpers.JwtUtils;
+import com.react.common.Utils.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

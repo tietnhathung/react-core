@@ -1,6 +1,6 @@
 package com.react.api.configuration;
 
-import com.react.common.helpers.ResponseBuilder;
+import com.react.api.hepers.ResponseBuilder;
 import com.react.data.types.ApiError;
 import com.react.data.types.ApiSubError;
 import com.react.data.types.ApiValidationError;

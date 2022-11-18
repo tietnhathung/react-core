@@ -1,6 +1,6 @@
 package com.react.api.controller;
 
-import com.react.common.helpers.ResponseBuilder;
+import com.react.api.hepers.ResponseBuilder;
 import com.react.data.dto.auth.GoogleLoginDto;
 import com.react.data.dto.auth.JwtDto;
 import com.react.data.dto.auth.LoginDto;

@@ -22,20 +22,7 @@ public class ApiError {
     public ApiError(Exception ex) {
         this();
         this.status = HttpStatus.FOUND;
-        this.message = ex.getMessage();
-        this.debugMessage = ex.getLocalizedMessage();
-    }
-    public ApiError(HttpStatus status, Throwable ex) {
-        this();
-        this.status = status;
-        this.message = "Unexpected error";
-        this.debugMessage = ex.getLocalizedMessage();
-    }
-
-    public ApiError(HttpStatus status, String message, Throwable ex) {
-        this();
-        this.status = status;
-        this.message = message;
-        this.debugMessage = ex.getLocalizedMessage();
+        this.message = "Found";
+        this.debugMessage = ex.getMessage();
     }
 }

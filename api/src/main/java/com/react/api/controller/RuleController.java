@@ -1,6 +1,6 @@
 package com.react.api.controller;
 
-import com.react.common.helpers.ResponseBuilder;
+import com.react.api.hepers.ResponseBuilder;
 import com.react.data.dto.rule.RuleDto;
 import com.react.data.model.Rule;
 import com.react.data.types.ApiError;
