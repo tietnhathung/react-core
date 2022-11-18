@@ -2,7 +2,7 @@ package com.react.api.controller;
 
 import com.react.api.hepers.ResponseBuilder;
 import com.react.data.model.User;
-import com.react.data.types.ApiResult;
+import com.react.data.type.ApiResult;
 import com.react.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

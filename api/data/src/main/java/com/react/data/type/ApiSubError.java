@@ -1,4 +1,4 @@
-package com.react.data.types;
+package com.react.data.type;
 
 abstract public class ApiSubError {
     private String message;

@@ -3,7 +3,7 @@ package com.react.api.controller;
 
 import com.react.api.hepers.ResponseBuilder;
 import com.react.data.model.Permission;
-import com.react.data.types.ApiResult;
+import com.react.data.type.ApiResult;
 import com.react.service.PermissionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

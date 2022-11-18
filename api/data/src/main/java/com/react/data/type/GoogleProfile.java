@@ -1,4 +1,4 @@
-package com.react.data.types;
+package com.react.data.type;
 
 import lombok.Data;
 

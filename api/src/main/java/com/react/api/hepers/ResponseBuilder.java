@@ -1,7 +1,7 @@
 package com.react.api.hepers;
 
-import com.react.data.types.ApiError;
-import com.react.data.types.ApiResult;
+import com.react.data.type.ApiError;
+import com.react.data.type.ApiResult;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
