@@ -1,7 +1,6 @@
 package com.react.service.impl;
 
-import com.react.common.dto.menu.MenuDto;
-import com.react.common.types.Pagination;
+import com.react.data.dto.menu.MenuDto;
 import com.react.data.model.Menu;
 import com.react.data.model.Permission;
 import com.react.data.repository.MenuRepository;
@@ -29,9 +28,8 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Pagination<Menu> get(Pageable page) {
-        Page<Menu> menus = menuRepository.findAll(page);
-        return new Pagination<>(menus);
+    public Page<Menu> get(Pageable page) {
+        return menuRepository.findAll(page);
     }
 
     @Override

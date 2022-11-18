@@ -1,9 +1,9 @@
 package com.react.service;
 
-import com.react.common.dto.auth.GoogleLoginDto;
-import com.react.common.dto.auth.JwtDto;
-import com.react.common.dto.auth.LoginDto;
-import com.react.common.dto.auth.RefreshTokenDto;
+import com.react.data.dto.auth.GoogleLoginDto;
+import com.react.data.dto.auth.JwtDto;
+import com.react.data.dto.auth.LoginDto;
+import com.react.data.dto.auth.RefreshTokenDto;
 
 public interface AuthService {
     JwtDto login(LoginDto loginDto);

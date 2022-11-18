@@ -1,10 +1,9 @@
 package com.react.service.impl;
 
-import com.react.common.dto.use.UserCreateDto;
-import com.react.common.dto.use.UserDto;
-import com.react.common.dto.use.UserUpdateDto;
+import com.react.data.dto.use.UserCreateDto;
+import com.react.data.dto.use.UserDto;
+import com.react.data.dto.use.UserUpdateDto;
 import com.react.common.helpers.MappingUtils;
-import com.react.common.types.Pagination;
 import com.react.data.model.Rule;
 import com.react.data.model.User;
 import com.react.data.repository.UserRepository;
@@ -33,9 +32,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Pagination<User> get(Pageable page) {
-        Page<User> users = userRepository.findAll(page);
-        return new Pagination<>(users);
+    public Page<User> get(Pageable page) {
+        return userRepository.findAll(page);
     }
 
     @Override

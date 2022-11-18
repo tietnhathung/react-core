@@ -1,12 +1,12 @@
 package com.react.service.impl;
 
+import com.react.data.dto.auth.GoogleLoginDto;
+import com.react.data.dto.auth.JwtDto;
+import com.react.data.dto.auth.LoginDto;
+import com.react.data.dto.auth.RefreshTokenDto;
 import com.react.common.helpers.JwtUtils;
-import com.react.common.dto.auth.GoogleLoginDto;
-import com.react.common.dto.auth.JwtDto;
-import com.react.common.dto.auth.LoginDto;
-import com.react.common.dto.auth.RefreshTokenDto;
+import com.react.data.types.GoogleProfile;
 import com.react.service.AuthService;
-import com.react.common.types.GoogleProfile;
 import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;

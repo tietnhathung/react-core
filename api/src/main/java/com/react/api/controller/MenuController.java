@@ -2,15 +2,15 @@ package com.react.api.controller;
 
 
 import com.react.common.helpers.ResponseBuilder;
-import com.react.common.dto.menu.MenuDto;
+import com.react.data.dto.menu.MenuDto;
 import com.react.data.model.Menu;
+import com.react.data.types.ApiError;
+import com.react.data.types.ApiResult;
 import com.react.service.MenuService;
 import com.react.service.impl.UserDetailsImpl;
-import com.react.common.types.ApiResult;
-import com.react.common.types.ApiError;
-import com.react.common.types.Pagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +36,7 @@ public class MenuController {
     @PreAuthorize("hasAnyAuthority('MENU')")
     public ResponseEntity<ApiResult> get(Pageable page) {
         logger.info("get menus page:{}", page.toString());
-        Pagination<Menu> menus = menuService.get(page);
+        Page<Menu> menus = menuService.get(page);
         return ResponseBuilder.page(menus);
     }
 

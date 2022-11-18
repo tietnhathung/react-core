@@ -1,14 +1,14 @@
 package com.react.api.controller;
 
 import com.react.common.helpers.ResponseBuilder;
-import com.react.common.dto.rule.RuleDto;
+import com.react.data.dto.rule.RuleDto;
 import com.react.data.model.Rule;
+import com.react.data.types.ApiError;
+import com.react.data.types.ApiResult;
 import com.react.service.RuleService;
-import com.react.common.types.ApiResult;
-import com.react.common.types.ApiError;
-import com.react.common.types.Pagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +31,7 @@ public class RuleController {
     @GetMapping
     public ResponseEntity<ApiResult> get(Pageable page) {
         logger.info("get rules page:{}", page.toString());
-        Pagination<Rule> rules = ruleService.get(page);
+        Page<Rule> rules = ruleService.get(page);
         return ResponseBuilder.page(rules);
     }
 

@@ -1,14 +1,14 @@
 package com.react.service;
 
-import com.react.common.dto.menu.MenuDto;
+import com.react.data.dto.menu.MenuDto;
 import com.react.data.model.Menu;
-import com.react.common.types.Pagination;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface MenuService {
-    Pagination<Menu> get(Pageable page);
+    Page<Menu> get(Pageable page);
 
     Menu get(Integer id);
 

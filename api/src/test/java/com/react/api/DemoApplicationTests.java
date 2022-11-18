@@ -2,7 +2,7 @@ package com.react.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.react.common.dto.use.UserCreateDto;
+import com.react.data.dto.use.UserCreateDto;
 import com.react.data.model.Menu;
 import com.react.data.model.User;
 import com.react.data.repository.MenuRepository;

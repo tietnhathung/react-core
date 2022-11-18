@@ -1,7 +1,6 @@
 package com.react.service.impl;
 
-import com.react.common.dto.permission.PermissionDto;
-import com.react.common.types.Pagination;
+import com.react.data.dto.permission.PermissionDto;
 import com.react.data.model.Permission;
 import com.react.data.repository.PermissionRepository;
 import com.react.service.PermissionService;
@@ -18,9 +17,8 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public Pagination<Permission> get(Pageable page) {
-        Page<Permission> users = permissionRepository.findAll(page);
-        return new Pagination<>(users);
+    public Page<Permission> get(Pageable page) {
+        return permissionRepository.findAll(page);
     }
 
     @Override

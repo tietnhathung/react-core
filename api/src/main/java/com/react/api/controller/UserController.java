@@ -1,17 +1,16 @@
 package com.react.api.controller;
 
-import com.react.common.dto.use.UserDto;
 import com.react.common.helpers.ResponseBuilder;
-import com.react.common.dto.use.UserCreateDto;
-import com.react.common.dto.use.UserUpdateDto;
-
+import com.react.data.dto.use.UserCreateDto;
+import com.react.data.dto.use.UserDto;
+import com.react.data.dto.use.UserUpdateDto;
 import com.react.data.model.User;
+import com.react.data.types.ApiError;
+import com.react.data.types.ApiResult;
 import com.react.service.UserService;
-import com.react.common.types.ApiResult;
-import com.react.common.types.ApiError;
-import com.react.common.types.Pagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +34,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<ApiResult> get(Pageable page) {
         logger.info("get User Pageable:{}", page.toString());
-        Pagination<User> users = userService.get(page);
+        Page<User> users = userService.get(page);
         return ResponseBuilder.page(users);
     }
 

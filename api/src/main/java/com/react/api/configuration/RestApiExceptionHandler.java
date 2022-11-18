@@ -1,9 +1,9 @@
 package com.react.api.configuration;
 
 import com.react.common.helpers.ResponseBuilder;
-import com.react.common.types.ApiError;
-import com.react.common.types.ApiSubError;
-import com.react.common.types.ApiValidationError;
+import com.react.data.types.ApiError;
+import com.react.data.types.ApiSubError;
+import com.react.data.types.ApiValidationError;
 import org.hibernate.exception.GenericJDBCException;
 import org.modelmapper.MappingException;
 import org.slf4j.Logger;

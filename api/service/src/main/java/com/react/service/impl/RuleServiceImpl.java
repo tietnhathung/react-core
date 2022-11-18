@@ -1,8 +1,7 @@
 package com.react.service.impl;
 
-import com.react.common.dto.rule.RuleDto;
+import com.react.data.dto.rule.RuleDto;
 import com.react.common.helpers.MappingUtils;
-import com.react.common.types.Pagination;
 import com.react.data.model.Permission;
 import com.react.data.model.Rule;
 import com.react.data.repository.RuleRepository;
@@ -25,9 +24,8 @@ public class RuleServiceImpl implements RuleService {
     }
 
     @Override
-    public Pagination<Rule> get(Pageable page) {
-        Page<Rule> rules = ruleRepository.findAll(page);
-        return new Pagination<>(rules);
+    public Page<Rule> get(Pageable page) {
+        return ruleRepository.findAll(page);
     }
 
     @Override
