@@ -1,6 +1,6 @@
 package com.react.service;
 
-import com.react.data.dto.permission.PermissionDto;
+import com.react.data.dto.PermissionDto;
 import com.react.data.model.Permission;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

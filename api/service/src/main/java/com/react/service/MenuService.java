@@ -1,6 +1,6 @@
 package com.react.service;
 
-import com.react.data.dto.menu.MenuDto;
+import com.react.data.dto.MenuDto;
 import com.react.data.model.Menu;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

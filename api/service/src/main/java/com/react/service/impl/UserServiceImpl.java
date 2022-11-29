@@ -1,9 +1,10 @@
 package com.react.service.impl;
 
+import com.react.common.Utils.MappingUtils;
 import com.react.data.dto.use.UserCreateDto;
 import com.react.data.dto.use.UserDto;
 import com.react.data.dto.use.UserUpdateDto;
-import com.react.common.Utils.MappingUtils;
+import com.react.data.mapper.UserMapper;
 import com.react.data.model.Rule;
 import com.react.data.model.User;
 import com.react.data.repository.UserRepository;
@@ -21,11 +22,13 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
+    private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final MappingUtils mappingUtils;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, MappingUtils mappingUtils, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserMapper userMapper, UserRepository userRepository, MappingUtils mappingUtils, PasswordEncoder passwordEncoder) {
+        this.userMapper = userMapper;
         this.userRepository = userRepository;
         this.mappingUtils = mappingUtils;
         this.passwordEncoder = passwordEncoder;
@@ -33,7 +36,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<User> get(Pageable page) {
-        return userRepository.findAll(page);
+        Page<User> Users = userRepository.findAll(page);
+
+        return Users;
     }
 
     @Override
@@ -43,7 +48,7 @@ public class UserServiceImpl implements UserService {
             throw new EntityNotFoundException("Entity not found");
         }
         User user = oUser.get();
-        return new UserDto(user);
+        return userMapper.toDto(user,UserDto.class);
     }
 
     @Override
@@ -56,9 +61,9 @@ public class UserServiceImpl implements UserService {
         user.setCreatedAt(LocalDateTime.now());
         user.setAccessTokenApp("");
         user.setCreatedBy(1);
-        List<Rule> rules = mappingUtils.mapList(userForm.getRules(), Rule.class);
+        List<Rule> rules = mappingUtils.map(userForm.getRules(), Rule.class);
         user.setRules(rules);
-        return new UserDto(userRepository.save(user));
+        return null;
     }
 
     @Override
@@ -74,9 +79,11 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.hasLength(userForm.getPassword())) {
             user.setPassword(passwordEncoder.encode(userForm.getPassword()));
         }
-        List<Rule> rules = mappingUtils.mapList(userForm.getRules(), Rule.class);
+        List<Rule> rules = mappingUtils.map(userForm.getRules(), Rule.class);
         user.setRules(rules);
-        return new UserDto(userRepository.save(user));
+
+        UserDto userDto = mappingUtils.map(user, UserDto.class);
+        return null;
     }
 
     @Override

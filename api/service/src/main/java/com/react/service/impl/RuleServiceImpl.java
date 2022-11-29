@@ -1,6 +1,6 @@
 package com.react.service.impl;
 
-import com.react.data.dto.rule.RuleDto;
+import com.react.data.dto.RuleDto;
 import com.react.common.Utils.MappingUtils;
 import com.react.data.model.Permission;
 import com.react.data.model.Rule;
@@ -41,7 +41,7 @@ public class RuleServiceImpl implements RuleService {
     public Rule add(RuleDto ruleDto) {
         Rule rule = new Rule();
         rule.setName(ruleDto.getName());
-        List<Permission> permissions = mappingUtils.mapList(ruleDto.getPermissions(),Permission.class);
+        List<Permission> permissions = mappingUtils.map(ruleDto.getPermissions(),Permission.class);
         rule.setPermissions(permissions);
         return ruleRepository.save(rule);
     }
@@ -54,7 +54,7 @@ public class RuleServiceImpl implements RuleService {
         }
         Rule rule = optionalRule.get();
         rule.setName(ruleDto.getName());
-        List<Permission> permissions = mappingUtils.mapList(ruleDto.getPermissions(),Permission.class);
+        List<Permission> permissions = mappingUtils.map(ruleDto.getPermissions(),Permission.class);
         rule.setPermissions(permissions);
         return ruleRepository.save(rule);
     }

@@ -1,6 +1,6 @@
 package com.react.service.impl;
 
-import com.react.data.dto.permission.PermissionDto;
+import com.react.data.dto.PermissionDto;
 import com.react.data.model.Permission;
 import com.react.data.repository.PermissionRepository;
 import com.react.service.PermissionService;

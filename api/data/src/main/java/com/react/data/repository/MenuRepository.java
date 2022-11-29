@@ -3,14 +3,13 @@ package com.react.data.repository;
 import com.react.data.model.Menu;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.HashSet;
 import java.util.Optional;
 
-public interface MenuRepository extends JpaRepository<Menu, Integer>, JpaSpecificationExecutor<Menu> {
+public interface MenuRepository extends JpaRepository<Menu, Integer> {
 
     @Override
     @EntityGraph(attributePaths = "permission")

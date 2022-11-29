@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 @SpringBootApplication
 @EntityScan("com.react.data")
 @EnableJpaRepositories("com.react.data")
-@ComponentScan({"com.react.common","com.react.service", "com.react.api"})
+@ComponentScan({"com.react.common","com.react.data.mapper","com.react.service", "com.react.api"})
 public class ReactApiApplication {
     private final SimpMessageSendingOperations messagingTemplate;
 

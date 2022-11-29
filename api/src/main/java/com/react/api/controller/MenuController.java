@@ -2,7 +2,7 @@ package com.react.api.controller;
 
 
 import com.react.api.hepers.ResponseBuilder;
-import com.react.data.dto.menu.MenuDto;
+import com.react.data.dto.MenuDto;
 import com.react.data.model.Menu;
 import com.react.data.type.ApiError;
 import com.react.data.type.ApiResult;

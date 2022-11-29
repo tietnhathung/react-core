@@ -1,6 +1,6 @@
 package com.react.service.impl;
 
-import com.react.data.dto.menu.MenuDto;
+import com.react.data.dto.MenuDto;
 import com.react.data.model.Menu;
 import com.react.data.model.Permission;
 import com.react.data.repository.MenuRepository;

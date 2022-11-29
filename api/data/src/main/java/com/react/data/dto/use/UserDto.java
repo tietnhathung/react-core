@@ -1,7 +1,6 @@
 package com.react.data.dto.use;
 
-import com.react.data.dto.rule.RuleDto;
-import com.react.data.model.User;
+import com.react.data.dto.RuleDto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -9,10 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 public class UserDto implements Serializable {
     private Integer id;
@@ -32,9 +28,11 @@ public class UserDto implements Serializable {
     private LocalDateTime createdAt;
 
     @NotNull
-    private List<RuleDto> rules = new ArrayList<>();
+    private List<RuleDto> rules;
 
-    public UserDto(){}
+    public UserDto() {
+    }
+
     public UserDto(Integer id, String username, String fullName, Boolean status, LocalDateTime createdAt, List<RuleDto> rules) {
         this.id = id;
         this.username = username;
@@ -42,15 +40,6 @@ public class UserDto implements Serializable {
         this.status = status;
         this.createdAt = createdAt;
         this.rules = rules;
-    }
-
-    public UserDto(User user) {
-        this.id = user.getId();
-        this.username = user.getUsername();
-        this.fullName = user.getFullName();
-        this.status = user.getStatus();
-        this.createdAt = user.getCreatedAt();
-        this.rules = user.getRules().stream().map(RuleDto::new).collect(Collectors.toList());
     }
 
     public Integer getId() {
@@ -99,20 +88,5 @@ public class UserDto implements Serializable {
 
     public void setRules(List<RuleDto> rules) {
         this.rules = rules;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof UserDto)) return false;
-
-        UserDto userDto = (UserDto) o;
-
-        return getId().equals(userDto.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return getId().hashCode();
     }
 }

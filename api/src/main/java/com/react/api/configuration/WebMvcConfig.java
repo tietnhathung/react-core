@@ -31,7 +31,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
     public ModelMapper modelMapper() {
-        return new ModelMapper();
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
+        return modelMapper;
     }
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {

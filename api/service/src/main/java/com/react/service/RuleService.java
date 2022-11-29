@@ -1,6 +1,6 @@
 package com.react.service;
 
-import com.react.data.dto.rule.RuleDto;
+import com.react.data.dto.RuleDto;
 import com.react.data.model.Rule;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
